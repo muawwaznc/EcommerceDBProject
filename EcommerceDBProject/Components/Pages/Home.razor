@@ -1,0 +1,124 @@
+﻿@page "/"
+
+@if (isSignInActive)
+{
+    <PageTitle>SignIn</PageTitle>
+}
+else
+{
+    <PageTitle>SignUp</PageTitle>
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <button type="button" class="@($"{CssForSignInNav} {("nav-link")}")" @onclick="() => OnSignInTabClick()">
+                    SignIn
+                </button>
+
+
+
+            </li>
+            <li class="nav-item">
+                <button type="button" class="@($"{CssForSignUpNav} {("nav-link")}")" @onclick="(() => OnSignUpTabClick())">
+                    SignUp
+                </button>
+            </li>
+
+        </ul>
+    </div>
+    <div class="card-body">
+        @if (isSignInActive)
+        {
+            <form class="row g-3">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <label for="inputEmail4" class="form-label">Email</label>
+                    <input required type="email" class="form-control" id="inputEmail4" @bind-value="@SignInModel.Email">
+                </div>
+                <div class="col-md-3"></div>
+
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <label for="inputPassword4" class="form-label">Password</label>
+                    <input required type="password" class="form-control" id="inputPassword4" @bind-value="@SignInModel.Password">
+                </div>
+                <div class="col-md-3"></div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" @onclick="() => SignIn()">Sign in</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <form class="row g-3">
+                <div class="col-md-6">
+                    <label for="inputFirstName" class="form-label">First Name</label>
+                    <input required type="text" class="form-control" id="inputFirstName" @bind-value="@SignUpModel.FirstName">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputLastName" class="form-label">LastName</label>
+                    <input required type="text" class="form-control" id="inputLastName" @bind-value="@SignUpModel.LastName">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputEmail4" class="form-label">Email</label>
+                    <input required type="email" class="form-control" id="inputEmail4" @bind-value="@SignUpModel.Email">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPhoneNumber" class="form-label">Phone Number</label>
+                    <input required type="tel" class="form-control" id="inputPhoneNumber" @bind-value="@SignUpModel.PhoneNumber">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputPassword4" class="form-label">Password</label>
+                    <input required type="password" class="form-control" id="inputPassword4" @bind-value="@SignUpModel.Password">
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-check form-check-inline">
+                        <input required class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioSeller" value="seller" @onchange='() => HandleUserRoleRadioChange("seller")'>
+                        <label class="form-check-label" for="inlineRadioSeller">Seller</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input required class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioCustomer" value="customer" @onchange='() => HandleUserRoleRadioChange("customer")'>
+                        <label class="form-check-label" for="inlineRadioCustomer">Customer</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputAddress" class="form-label">House #</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="House # 2, Block D" @bind-value="@AddressModel.HouseNumber">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputAddress2" class="form-label">Street</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="G.T. Road" @bind-value="@AddressModel.Street">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputCity" class="form-label">City</label>
+                    <input type="text" class="form-control" id="inputCity" @bind-value="@AddressModel.City">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputCountry" class="form-label">Country</label>
+                    <input type="text" class="form-control" id="inputCountry" @bind-value="@AddressModel.Country">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputRegion" class="form-label">Region</label>
+                    <input type="text" class="form-control" id="inputRegion" @bind-value="@AddressModel.Region">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputZip" class="form-label">Postal Code</label>
+                    <input type="text" class="form-control" id="inputZip" @bind-value="@AddressModel.PostalCode">
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" @onclick="() => SignUp()">Sign Up</button>
+                </div>
+            </form>
+        }
+    </div>
+</div>
