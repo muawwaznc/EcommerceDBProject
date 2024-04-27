@@ -1,16 +1,17 @@
 ﻿@page "/customer-dashboard/{UserDetailId}"
+@layout CustomerLayout
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.DropDowns;
 
 <style>
-    .sidebar {
+    /* .sidebar {
         float: left;
         width: 300px;
         height: 100vh;
         background-color: #f5f5f5;
         padding: 16px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+    } */
 
     .content {
         float: left;
@@ -61,7 +62,7 @@
     }
 
     .product-card {
-        width: 300px;
+        width: 100%;
         border: 1px solid #ddd;
         border-radius: 5px;
         padding: 16px;
@@ -137,9 +138,9 @@
         color: #4CAF50;
     }
 </style>
-<div class="sidebar">
+@* <div class="sidebar">
     <NavMenu PreviousUrl="@($"/customer-dashboard/{UserDetailId}")" />
-</div>
+</div> *@
 
 <div class="content">
     <div class="dropdown">
@@ -152,7 +153,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row col-12">
         @foreach (var inventoryItem in InventoryItemsList)
         {
             inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
