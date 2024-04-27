@@ -1,13 +1,16 @@
+using Blazored.Toast;
 using EcommerceDBProject.Components;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.Services.Service;
-using Microsoft.AspNetCore.Authentication;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddBlazoredToast();
+
 
 builder.Services.AddScoped<IUserInterface, UserService>();
 

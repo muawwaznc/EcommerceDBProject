@@ -1,8 +1,7 @@
 ﻿using EcommerceDBProject.NewF;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
+using EcommerceDBProject.Enum;
 
 namespace EcommerceDBProject.Services.Service
 {
@@ -96,6 +95,22 @@ namespace EcommerceDBProject.Services.Service
                 return false;
             }
             return true;
+        }
+
+        public UserRole GetUserRoleByUserDetailId(string userDetailId)
+        {
+            var db = new EcommerceDbprojectContext();
+            var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+            if(seller == null)
+            {
+                var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                if (customer != null) 
+                {
+                    return UserRole.Customer;
+                }
+                return UserRole.UserNotFound;
+            }
+            return UserRole.Seller;
         }
     }
 }

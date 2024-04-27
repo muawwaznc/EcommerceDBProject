@@ -2,6 +2,8 @@
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Blazored.Toast.Services;
+using EcommerceDBProject.Enum;
 
 namespace EcommerceDBProject.Components.Pages
 {
@@ -9,7 +11,9 @@ namespace EcommerceDBProject.Components.Pages
     {
         #region Injection
 
-        IUserInterface UserService { get; set; }
+        [Inject] IUserInterface UserService { get; set; }
+        [Inject] NavigationManager NavigationManager { get; set; }
+        [Inject] IToastService ToastService { get; set; }
 
         #endregion
 
@@ -75,12 +79,25 @@ namespace EcommerceDBProject.Components.Pages
                     var isAuthenicatedUser = UserService.IsAuthenicated(SignInModel.Email, SignInModel.Password);
                     if (isAuthenicatedUser == null)
                     {
-
+                        ToastService.ShowError("You entered an invalid email password");
+                        return;
                     }
+                    var userRole = UserService.GetUserRoleByUserDetailId(isAuthenicatedUser.UserDetailId);
+                    if(userRole == UserRole.Customer)
+                    {
+                        NavigationManager.NavigateTo("/customer-dashboard/" + isAuthenicatedUser.UserDetailId);
+                        return;
+                    }
+                    else if(userRole == UserRole.Seller)
+                    {
+                        NavigationManager.NavigateTo("/seller-dashboard/" + isAuthenicatedUser.UserDetailId);
+                        return;
+                    }
+                    NavigationManager.NavigateTo("/Error");
                 }
                 catch (Exception ex)
                 {
-
+                    NavigationManager.NavigateTo("/Error");
                 }
             }            
         }
@@ -94,6 +111,7 @@ namespace EcommerceDBProject.Components.Pages
                 {
 
                 }
+
             }
         }
 
