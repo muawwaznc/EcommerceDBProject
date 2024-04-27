@@ -1,6 +1,8 @@
 ﻿using EcommerceDBProject.NewF;
 using EcommerceDBProject.Services.Interface;
+using EcommerceDBProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace EcommerceDBProject.Services.Service
 {
@@ -27,6 +29,73 @@ namespace EcommerceDBProject.Services.Service
                 }
             }
             return null;
+        }
+    
+        public UserDetail SignUp(SignUpModel signUpModel)
+        {
+            try
+            {
+                var db = new EcommerceDbprojectContext();
+                var address = signUpModel.Address;
+                if (IsAddressCorrect(address))
+                {
+                    db.Addresses.Add(address);
+                    db.SaveChanges();
+                }
+                var userDetail = new UserDetail
+                {
+                    AddressId = address.AddressId,
+                    Email = signUpModel.Email,
+                    PhoneNumber = signUpModel.PhoneNumber,
+                    Picture = "DefaultPicture"
+                };
+                db.UserDetails.Add(userDetail);
+                db.SaveChanges();
+                if(signUpModel.UserRole == "seller")
+                {
+                    var seller = new Seller
+                    {
+                        UserDetailId = userDetail.UserDetailId,
+                        FirstName = signUpModel.FirstName,
+                        LastName = signUpModel.LastName,
+                        RegistrationDate = DateTime.Now,
+                        Password = signUpModel.Password
+                    };
+                    db.Sellers.Add(seller);
+                    db.SaveChanges();
+                }
+                else if(signUpModel.UserRole == "customer")
+                {
+                    var customer = new Customer
+                    {
+                        UserDetailId = userDetail.UserDetailId,
+                        FirstName = signUpModel.FirstName,
+                        LastName = signUpModel.LastName,
+                        RegistrationDate = DateTime.Now,
+                        LastLoginDate = DateTime.Now,
+                        DateOfBirth = signUpModel.DateOfBirth,
+                        Password = signUpModel.Password
+                    };
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
+                }
+                return userDetail;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        private bool IsAddressCorrect(Address address)
+        {
+            if(address.HouseNumber == null || address.Street == null ||
+               address.City == null || address.Country == null ||
+               address.Region == null || address.ZipCode == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

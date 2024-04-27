@@ -1,4 +1,6 @@
-﻿namespace EcommerceDBProject.ViewModels
+﻿using EcommerceDBProject.NewF;
+
+namespace EcommerceDBProject.ViewModels
 {
     public class InitialPageDataForHomePage
     {
@@ -20,17 +22,7 @@
         public string? PhoneNumber { get; set; }
         public string? Password { get; set; }
         public string? UserRole { get; set; }
-        public AddressModel? Address { get; set; } = new();
-    }
-
-    public class AddressModel
-    {
-        public string? HouseNumber { get; set; }
-        public string? Street { get; set; }
-        public string? City { get; set; }
-        public string? Country { get; set; }
-        public string? Region { get; set; }
-        public string? PostalCode { get; set; }
-
+        public DateOnly DateOfBirth { get; set; }
+        public Address? Address { get; set; } = new();
     }
 }

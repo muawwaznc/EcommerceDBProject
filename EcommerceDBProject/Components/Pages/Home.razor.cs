@@ -1,4 +1,5 @@
-﻿using EcommerceDBProject.Services.Interface;
+﻿using EcommerceDBProject.NewF;
+using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
 
@@ -24,7 +25,7 @@ namespace EcommerceDBProject.Components.Pages
         protected InitialPageDataForHomePage InitialPageData { get; set; } = new();
         protected SignInModel? SignInModel { get; set; } = new();
         protected SignUpModel? SignUpModel { get; set; } = new();
-        protected AddressModel? AddressModel { get; set; } = new();
+        protected Address? Address { get; set; } = new();
         protected bool isSignInActive { get; set; } = false;
         protected bool isSignUpActive { get; set; } = false;
 
@@ -38,7 +39,7 @@ namespace EcommerceDBProject.Components.Pages
             CssForSignInNav = "active";
             SignInModel = InitialPageData.SignInModel;
             SignUpModel = InitialPageData.SignUpModel;
-            AddressModel = SignUpModel.Address;
+            Address = SignUpModel.Address;
         }
 
         #endregion
@@ -67,16 +68,33 @@ namespace EcommerceDBProject.Components.Pages
 
         public void SignIn()
         {
-            var isAuthenicatedUser = UserService.IsAuthenicated(SignInModel.Email, SignInModel.Password);
-            if (isAuthenicatedUser == null)
+            if (SignInValidation())
             {
+                try
+                {
+                    var isAuthenicatedUser = UserService.IsAuthenicated(SignInModel.Email, SignInModel.Password);
+                    if (isAuthenicatedUser == null)
+                    {
 
-            }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }            
         }
 
         public void SignUp()
         {
+            if (SignUpValidation())
+            {
+                var isAuthenicatedUser = UserService.SignUp(SignUpModel);
+                if (isAuthenicatedUser == null)
+                {
 
+                }
+            }
         }
 
         #endregion
@@ -86,6 +104,34 @@ namespace EcommerceDBProject.Components.Pages
         private void HandleUserRoleRadioChange(string value)
         {
             SignUpModel.UserRole = value;
+        }
+
+        #endregion
+
+        #region Validation Functions
+
+        public bool SignInValidation()
+        {
+            if (SignInModel.Email == null || SignInModel.Password == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool SignUpValidation()
+        {
+            if (SignUpModel.FirstName == null || SignUpModel.LastName == null ||
+                SignUpModel.Email == null || SignUpModel.PhoneNumber == null ||
+                SignUpModel.Password == null || SignUpModel.UserRole == null)
+            {
+                if(SignUpModel.UserRole == "customer" && SignUpModel.DateOfBirth == null)
+                {
+                    return false;
+                }
+                return false;
+            }
+            return true;
         }
 
         #endregion
