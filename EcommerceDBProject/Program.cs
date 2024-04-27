@@ -12,7 +12,11 @@ builder.Services.AddRazorComponents()
 builder.Services.AddBlazoredToast();
 
 
+builder.Services.AddScoped<ICommonInterface, CommonService>();
 builder.Services.AddScoped<IUserInterface, UserService>();
+builder.Services.AddScoped<IInventoryItemInterface, InventoryItemService>();
+builder.Services.AddScoped<IProductInterface, ProductService>();
+builder.Services.AddScoped<ISellerInterface, SellerService>();
 
 var app = builder.Build();
 

@@ -1,6 +1,178 @@
 ﻿@page "/customer-dashboard/{UserDetailId}"
 @using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.DropDowns;
 
+<style>
+    .sidebar {
+        float: left;
+        width: 300px;
+        height: 100vh;
+        background-color: #f5f5f5;
+        padding: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .content {
+        float: left;
+        width: calc(100% - 300px);
+        padding: 16px;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1
+            }
+
+    .dropdown:hover.dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover.dropdown-button {
+        background-color: #3e8e41;
+    }
+
+    .product-card {
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative;
+        background-color: #f5f5f5;
+        transition: transform 0.2s;
+    }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .product-card-checkbox {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        appearance: none;
+        cursor: pointer;
+        background-color: #fff;
+        transition: background-color 0.2s;
+    }
+
+        .product-card-checkbox:checked {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+    .product-card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card-name {
+        margin: 0;
+        margin-bottom: 8px;
+        font-size: 24px;
+        color: #333;
+        text-shadow: 1px 1px 1px #ccc;
+    }
+
+    .product-card-description {
+        margin: 0;
+        margin-bottom: 16px;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .product-card-quantity-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .product-card-quantity-price label {
+            margin-right: 8px;
+            font-size: 18px;
+            color: #333;
+        }
+
+    .product-card-price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+</style>
 <div class="sidebar">
     <NavMenu PreviousUrl="@($"/customer-dashboard/{UserDetailId}")" />
+</div>
+
+<div class="content">
+    <div class="dropdown">
+        <div class="dropdown-content">
+            <div @onclick="() => OnProductCategoryChanged(null)">Select Category</div>
+            @foreach (var productCategory in ProductCategories)
+            {
+                <div @onclick="() => OnProductCategoryChanged(productCategory)">@productCategory.CategoryName</div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var inventoryItem in InventoryItemsList)
+        {
+            inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
+            inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId);
+            var sellerName = SellerService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
+            <div class="col-4">
+                <div class="product-card">
+                    <input type="checkbox" class="product-card-checkbox">
+                    <img src="" alt="Product image" class="product-card-image">
+                    <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2>
+                    <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
+                    <p class="product-card-description">Stock Ammount: @inventoryItem.StockAmount</p>
+                    <p class="product-card-description">Seller: @sellerName</p>
+                    <div class="product-card-quantity-price">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" min="1" value="1">
+                        <span class="product-card-price">$@inventoryItem.SalePrice</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
