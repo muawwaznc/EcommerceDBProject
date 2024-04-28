@@ -6,12 +6,6 @@
 <PageTitle>Home Page</PageTitle>
 <style>
 
-    .content {
-        float: left;
-        width: calc(100% - 300px);
-        padding: 16px;
-    }
-
     .dropdown {
         position: relative;
         display: inline-block;
@@ -132,39 +126,36 @@
     }
 </style>
 
-
-<div class="content">
-    <div class="dropdown">
-        <div class="dropdown-content">
-            <div @onclick="() => OnProductCategoryChanged(null)">Select Category</div>
-            @foreach (var productCategory in ProductCategories)
-            {
-                <div @onclick="() => OnProductCategoryChanged(productCategory)">@productCategory.CategoryName</div>
-            }
-        </div>
-    </div>
-
-    <div class="row col-12">
-        @foreach (var inventoryItem in InventoryItemsList)
+<div class="dropdown">
+    <div class="dropdown-content">
+        <div @onclick="() => OnProductCategoryChanged(null)">Select Category</div>
+        @foreach (var productCategory in ProductCategories)
         {
-            inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
-            inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId);
-            var sellerName = SellerService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
-            <div class="col-4">
-                <div class="product-card">
-                    <input type="checkbox" class="product-card-checkbox">
-                    <img src="" alt="Product image" class="product-card-image">
-                    <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2>
-                    <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
-                    <p class="product-card-description">Stock Ammount: @inventoryItem.StockAmount</p>
-                    <p class="product-card-description">Seller: @sellerName</p>
-                    <div class="product-card-quantity-price">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" min="1" value="1">
-                        <span class="product-card-price">$@inventoryItem.SalePrice</span>
-                    </div>
-                </div>
-            </div>
+            <div @onclick="() => OnProductCategoryChanged(productCategory)">@productCategory.CategoryName</div>
         }
     </div>
+</div>
+
+<div class="row col-12">
+    @foreach (var inventoryItem in InventoryItemsList)
+    {
+        inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
+        inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId);
+        var sellerName = SellerService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
+        <div class="col-4">
+            <div class="product-card">
+                <input type="checkbox" class="product-card-checkbox">
+                <img src="" alt="Product image" class="product-card-image">
+                <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2>
+                <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
+                <p class="product-card-description">Stock Ammount: @inventoryItem.StockAmount</p>
+                <p class="product-card-description">Seller: @sellerName</p>
+                <div class="product-card-quantity-price">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                    <span class="product-card-price">$@inventoryItem.SalePrice</span>
+                </div>
+            </div>
+        </div>
+    }
 </div>
