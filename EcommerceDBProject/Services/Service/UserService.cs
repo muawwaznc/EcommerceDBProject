@@ -127,5 +127,19 @@ namespace EcommerceDBProject.Services.Service
                 return customer;
             }
         }
+
+        public Address GetAddressByUserDetailId(string userDetailId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var addressId = db.UserDetails.FirstOrDefault(x => x.UserDetailId == userDetailId).AddressId;
+                if(addressId != null)
+                {
+                    var address = db.Addresses.FirstOrDefault(x => x.AddressId == addressId);
+                    return address;
+                }
+                return null;
+            }
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace EcommerceDBProject.Components.Pages
         [Inject] IInventoryItemInterface InventoryItemService { get; set; }
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] ISellerInterface SellerService { get; set; }
+        [Inject] IOrderInterface OrderService { get; set; }
 
         #endregion
 
@@ -25,6 +26,8 @@ namespace EcommerceDBProject.Components.Pages
         List<InventoryItem> InventoryItemsList { get; set; } = new();
         List<BuyInventoryItemViewModel> BuyInventoryItemList { get; set; } = new();
         List<ProductCategory> ProductCategories { get; set; } = new();
+        CustomerDetailViewModel CustomerDetailViewModel { get; set; } = new();
+        Address Address { get; set; } = new();
 
         #endregion
 
@@ -32,10 +35,12 @@ namespace EcommerceDBProject.Components.Pages
 
         protected override void OnInitialized()
         {
-            InitialPageData = CommonService.GetInitialPageDataForCustomerDashboard();
+            InitialPageData = CommonService.GetInitialPageDataForCustomerDashboard(UserDetailId);
             InventoryItemsList = InitialPageData.AllInventoryItems;
             BuyInventoryItemList = InitialPageData.BuyInventoryItemList;
             ProductCategories = InitialPageData.ProductCategories;
+            CustomerDetailViewModel = InitialPageData.CustomerDetailViewModel;
+            Address = CustomerDetailViewModel.ShippingAddress;
         }
 
         #endregion
@@ -96,6 +101,25 @@ namespace EcommerceDBProject.Components.Pages
             }
             return false;
         }
+ 
+        protected void OnShippingMethodChanged(ChangeEventArgs e)
+        {
+            CustomerDetailViewModel.ShippingMethod = e.Value.ToString();
+        }
+
+        protected void OnPaymentMethodChanged(ChangeEventArgs e)
+        {
+            CustomerDetailViewModel.PaymentMethod = e.Value.ToString();
+        }
+
+        #endregion
+
+        #region Dialogue Box Functions
+
+        protected void OpenConfirmOrderModel()
+        {
+            InitialPageData.IsOrderModelShow = true;
+        }
 
         #endregion
 
@@ -103,7 +127,10 @@ namespace EcommerceDBProject.Components.Pages
 
         protected void ConfirmOrder()
         {
-
+            InitialPageData.IsOrderProcessing = true;
+            OrderService.PlaceOrder(BuyInventoryItemList, CustomerDetailViewModel);
+            InitialPageData.IsOrderModelShow = false;
+            InitialPageData.IsOrderProcessing = false;
         }
 
         #endregion

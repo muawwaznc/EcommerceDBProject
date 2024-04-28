@@ -1,7 +1,7 @@
-﻿@page "/customer-dashboard/{UserDetailId}" 
-@layout CustomerLayout 
+﻿@page "/customer-dashboard/{UserDetailId}"
+@layout CustomerLayout
 @rendermode InteractiveServer
-@using EcommerceDBProject.Components.Layout 
+@using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.DropDowns;
 
 <PageTitle>Home Page</PageTitle>
@@ -117,7 +117,7 @@
     }
 </style>
 
-<div class="row"> 
+<div class="row">
     <div class="col-8">
         <label class="category-label" for="category">Select Category:</label>
         <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
@@ -134,37 +134,114 @@
     <div class="col-2"></div>
 
     <div class="col-2">
-        <button @onclick="ConfirmOrder">Order</button>
+        <button @onclick="OpenConfirmOrderModel">Order</button>
     </div>
 </div>
 
 
-<div class="row col-12"> 
+<div class="row col-12">
     @foreach (var inventoryItem in InventoryItemsList)
     {
-        inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId); 
-        inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId); 
+        inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
+        inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId);
         var sellerName = SellerService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
-        <div class="col-4"> 
+        <div class="col-4">
             <div class="product-card">
                 <input @onchange="(e) => OnInventoryItemSelect(inventoryItem, e)" type="checkbox" class="product-card-checkbox">
-                <img src="" alt="Product image" class="product-card-image"> 
-                <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2> 
-                <p class="product-card-description">@inventoryItem.Product.ProductDescription</p> 
-                <p class="product-card-description">Stock Amount: @inventoryItem.StockAmount</p> 
+                <img src="" alt="Product image" class="product-card-image">
+                <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2>
+                <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
+                <p class="product-card-description">Stock Amount: @inventoryItem.StockAmount</p>
                 <p class="product-card-description">Seller: @sellerName</p>
                 <div class="product-card-quantity-price">
                     <span class="product-card-price">$@inventoryItem.SalePrice</span>
                 </div>
-                <div class="product-card-quantity-price"> 
+                <div class="product-card-quantity-price">
                     <label for="quantity">Quantity:</label>
-                    <input 
-                        readonly="@(!IsInventoryItemCheckboxChecked(inventoryItem))"
-                        @onchange="(e) => OnSelectedInventoryItemQuantityChange(inventoryItem, e)" 
-                        type="number" id="quantity" name="quantity" min="1" 
-                        max="@inventoryItem.StockAmount" value="1">
-                </div> 
-            </div> 
+                    <input readonly="@(!IsInventoryItemCheckboxChecked(inventoryItem))"
+                           @onchange="(e) => OnSelectedInventoryItemQuantityChange(inventoryItem, e)"
+                           type="number" id="quantity" name="quantity" min="1"
+                           max="@inventoryItem.StockAmount" value="1">
+                </div>
+            </div>
         </div>
-    } 
+    }
 </div>
+
+@if (InitialPageData.IsOrderModelShow)
+{
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="row g-3">
+                    <div class="modal-body">
+
+                        <h3>Shipping Address</h3>
+                        <div class="col-md-6">
+                            <label for="inputAddress" class="form-label">House #</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="House # 2, Block D" @bind-value="@Address.HouseNumber">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputAddress2" class="form-label">Street</label>
+                            <input type="text" class="form-control" id="inputAddress2" placeholder="G.T. Road" @bind-value="@Address.Street">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">City</label>
+                            <input type="text" class="form-control" id="inputCity" @bind-value="@Address.City">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputCountry" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="inputCountry" @bind-value="@Address.Country">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputRegion" class="form-label">Region</label>
+                            <input type="text" class="form-control" id="inputRegion" @bind-value="@Address.Region">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputZip" class="form-label">Postal Code</label>
+                            <input type="text" class="form-control" id="inputZip" @bind-value="@Address.ZipCode">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="paymentMethod" class="form-label">Payment Method:</label>
+                            <select class="form-control" id="paymentMethod" @onchange="OnPaymentMethodChanged">
+                                <option value="Credit Card">Credit Card</option>
+                                <option value="Cash On Delivery">Cash On Delivery</option>
+                                <option value="PayPal">PayPal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="paymentMethod" class="form-label">Shipping Method:</label>
+                            <select class="form-control" id="paymentMethod" @onchange="OnShippingMethodChanged">
+                                <option value="Express">Express</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Dhl">Dhl</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @if (InitialPageData.IsOrderProcessing)
+                        {
+                            <button type="button" class="btn btn-success" @onclick="() => ConfirmOrder()">Confirm Order</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-success" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

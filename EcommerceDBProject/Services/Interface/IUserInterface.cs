@@ -10,5 +10,6 @@ namespace EcommerceDBProject.Services.Interface
         UserDetail SignUp(SignUpModel signUpModel);
         UserRole GetUserRoleByUserDetailId(string userDetailId);
         Customer GetCustomerFromUserDetailId(string userDetailId);
+        Address GetAddressByUserDetailId(string userDetailId);
     }
 }
