@@ -9,76 +9,80 @@ namespace EcommerceDBProject.Services.Service
     {
         public UserDetail IsAuthenicated(string email, string password)
         {
-            var db = new EcommerceDbprojectContext();
-            var userDetail = db.UserDetails.FirstOrDefault(x => x.Email == email);
-            if(userDetail != null)
+            using (var db = new EcommerceDbprojectContext())
             {
-                var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetail.UserDetailId);
-                if(seller != null && seller.Password == password)
+                var userDetail = db.UserDetails.FirstOrDefault(x => x.Email == email);
+                if (userDetail != null)
                 {
-                    return userDetail;
-                }
-                else
-                {
-                    var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetail.UserDetailId);
-                    if (customer != null && customer.Password == password)
+                    var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetail.UserDetailId);
+                    if (seller != null && seller.Password == password)
                     {
                         return userDetail;
                     }
+                    else
+                    {
+                        var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetail.UserDetailId);
+                        if (customer != null && customer.Password == password)
+                        {
+                            return userDetail;
+                        }
+                    }
                 }
+                return null;
             }
-            return null;
         }
     
         public UserDetail SignUp(SignUpModel signUpModel)
         {
             try
             {
-                var db = new EcommerceDbprojectContext();
-                var address = signUpModel.Address;
-                if (IsAddressCorrect(address))
+                using (var db = new EcommerceDbprojectContext())
                 {
-                    db.Addresses.Add(address);
-                    db.SaveChanges();
-                }
-                var userDetail = new UserDetail
-                {
-                    AddressId = address.AddressId,
-                    Email = signUpModel.Email,
-                    PhoneNumber = signUpModel.PhoneNumber,
-                    Picture = "DefaultPicture"
-                };
-                db.UserDetails.Add(userDetail);
-                db.SaveChanges();
-                if(signUpModel.UserRole == "seller")
-                {
-                    var seller = new Seller
+                    var address = signUpModel.Address;
+                    if (IsAddressCorrect(address))
                     {
-                        UserDetailId = userDetail.UserDetailId,
-                        FirstName = signUpModel.FirstName,
-                        LastName = signUpModel.LastName,
-                        RegistrationDate = DateTime.Now,
-                        Password = signUpModel.Password
-                    };
-                    db.Sellers.Add(seller);
-                    db.SaveChanges();
-                }
-                else if(signUpModel.UserRole == "customer")
-                {
-                    var customer = new Customer
+                        db.Addresses.Add(address);
+                        db.SaveChanges();
+                    }
+                    var userDetail = new UserDetail
                     {
-                        UserDetailId = userDetail.UserDetailId,
-                        FirstName = signUpModel.FirstName,
-                        LastName = signUpModel.LastName,
-                        RegistrationDate = DateTime.Now,
-                        LastLoginDate = DateTime.Now,
-                        DateOfBirth = signUpModel.DateOfBirth,
-                        Password = signUpModel.Password
+                        AddressId = address.AddressId,
+                        Email = signUpModel.Email,
+                        PhoneNumber = signUpModel.PhoneNumber,
+                        Picture = "DefaultPicture"
                     };
-                    db.Customers.Add(customer);
+                    db.UserDetails.Add(userDetail);
                     db.SaveChanges();
+                    if (signUpModel.UserRole == "seller")
+                    {
+                        var seller = new Seller
+                        {
+                            UserDetailId = userDetail.UserDetailId,
+                            FirstName = signUpModel.FirstName,
+                            LastName = signUpModel.LastName,
+                            RegistrationDate = DateTime.Now,
+                            Password = signUpModel.Password
+                        };
+                        db.Sellers.Add(seller);
+                        db.SaveChanges();
+                    }
+                    else if (signUpModel.UserRole == "customer")
+                    {
+                        var customer = new Customer
+                        {
+                            UserDetailId = userDetail.UserDetailId,
+                            FirstName = signUpModel.FirstName,
+                            LastName = signUpModel.LastName,
+                            RegistrationDate = DateTime.Now,
+                            LastLoginDate = DateTime.Now,
+                            DateOfBirth = signUpModel.DateOfBirth,
+                            Password = signUpModel.Password
+                        };
+                        db.Customers.Add(customer);
+                        db.SaveChanges();
+                    }
+                    return userDetail;
                 }
-                return userDetail;
             }
             catch (Exception)
             {
@@ -99,18 +103,29 @@ namespace EcommerceDBProject.Services.Service
 
         public UserRole GetUserRoleByUserDetailId(string userDetailId)
         {
-            var db = new EcommerceDbprojectContext();
-            var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
-            if(seller == null)
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                if (seller == null)
+                {
+                    var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                    if (customer != null)
+                    {
+                        return UserRole.Customer;
+                    }
+                    return UserRole.UserNotFound;
+                }
+                return UserRole.Seller;
+            }
+        }
+
+        public Customer GetCustomerFromUserDetailId(string userDetailId)
+        {
+            using(var db = new EcommerceDbprojectContext())
             {
                 var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
-                if (customer != null) 
-                {
-                    return UserRole.Customer;
-                }
-                return UserRole.UserNotFound;
+                return customer;
             }
-            return UserRole.Seller;
         }
     }
 }

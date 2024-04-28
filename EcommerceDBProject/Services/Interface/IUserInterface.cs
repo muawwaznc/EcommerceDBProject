@@ -9,5 +9,6 @@ namespace EcommerceDBProject.Services.Interface
         UserDetail IsAuthenicated(string email, string password);
         UserDetail SignUp(SignUpModel signUpModel);
         UserRole GetUserRoleByUserDetailId(string userDetailId);
+        Customer GetCustomerFromUserDetailId(string userDetailId);
     }
 }
