@@ -1,51 +1,41 @@
-﻿@page "/customer-dashboard/{UserDetailId}"
-@layout CustomerLayout
-@using EcommerceDBProject.Components.Layout
+﻿@page "/customer-dashboard/{UserDetailId}" 
+@layout CustomerLayout 
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout 
 @using Syncfusion.Blazor.DropDowns;
 
 <PageTitle>Home Page</PageTitle>
+
 <style>
-
-    .dropdown {
-        position: relative;
-        display: inline-block;
+    .category-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 18px;
+        color: #333;
     }
 
-    .dropdown-button {
-        background-color: #4CAF50;
-        color: white;
+    .category-select {
+        width: 100%;
         padding: 16px;
-        font-size: 16px;
         border: none;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
         cursor: pointer;
+        font-size: 16px;
+        color: #333;
     }
 
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+        .category-select:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-            .dropdown-content a:hover {
-                background-color: #f1f1f1
-            }
-
-    .dropdown:hover.dropdown-content {
-        display: block;
-    }
-
-    .dropdown:hover.dropdown-button {
-        background-color: #3e8e41;
+    .category-option {
+        padding: 12px 16px;
+        font-size: 16px;
+        color: #333;
     }
 
     .product-card {
@@ -57,6 +47,7 @@
         position: relative;
         background-color: #f5f5f5;
         transition: transform 0.2s;
+        margin-bottom: 16px;
     }
 
         .product-card:hover {
@@ -126,36 +117,40 @@
     }
 </style>
 
-<div class="dropdown">
-    <div class="dropdown-content">
-        <div @onclick="() => OnProductCategoryChanged(null)">Select Category</div>
-        @foreach (var productCategory in ProductCategories)
-        {
-            <div @onclick="() => OnProductCategoryChanged(productCategory)">@productCategory.CategoryName</div>
-        }
-    </div>
-</div>
+<label class="category-label" for="category">Select Category:</label>
+<select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
+    @foreach (var productCategory in ProductCategories)
+    {
+        <option class="category-option"
+                value="@productCategory.CategoryId">
+            @productCategory.CategoryName
+        </option>
+    }
+</select>
 
-<div class="row col-12">
+
+<div class="row col-12"> 
     @foreach (var inventoryItem in InventoryItemsList)
     {
-        inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
-        inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId);
+        inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId); 
+        inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId); 
         var sellerName = SellerService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
-        <div class="col-4">
-            <div class="product-card">
-                <input type="checkbox" class="product-card-checkbox">
-                <img src="" alt="Product image" class="product-card-image">
-                <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2>
-                <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
-                <p class="product-card-description">Stock Ammount: @inventoryItem.StockAmount</p>
+        <div class="col-4"> 
+            <div class="product-card"> 
+                <input type="checkbox" class="product-card-checkbox"> 
+                <img src="" alt="Product image" class="product-card-image"> 
+                <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2> 
+                <p class="product-card-description">@inventoryItem.Product.ProductDescription</p> 
+                <p class="product-card-description">Stock Amount: @inventoryItem.StockAmount</p> 
                 <p class="product-card-description">Seller: @sellerName</p>
                 <div class="product-card-quantity-price">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1">
                     <span class="product-card-price">$@inventoryItem.SalePrice</span>
                 </div>
-            </div>
+                <div class="product-card-quantity-price"> 
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" max="@inventoryItem.StockAmount" value="1">
+                </div> 
+            </div> 
         </div>
-    }
+    } 
 </div>

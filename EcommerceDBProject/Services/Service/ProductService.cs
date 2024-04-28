@@ -37,5 +37,14 @@ namespace EcommerceDBProject.Services.Service
                 return product;
             }
         }
+
+        public ProductCategory GetProductCategoryFromProductCategoryId(string categoryId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var productCategory = db.ProductCategories.FirstOrDefault(x => x.CategoryId == categoryId);
+                return productCategory;
+            }
+        }
     }
 }

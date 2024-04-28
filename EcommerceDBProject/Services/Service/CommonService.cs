@@ -20,7 +20,6 @@ namespace EcommerceDBProject.Services.Service
             InitialPageDataForCustomerDashboard initialPageData = new InitialPageDataForCustomerDashboard
             {
                 AllInventoryItems = _inventoryItemService.GetAllInventoryItemsList(),
-                SelectedCetagory = "",
                 ProductCategories = _productService.GetAllProductCategories()
             };
             return initialPageData;

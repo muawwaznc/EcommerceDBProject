@@ -8,5 +8,6 @@ namespace EcommerceDBProject.Services.Interface
         List<ComboBoxItemsViewModel> GetAllCategoriesForDropDown();
         List<ProductCategory> GetAllProductCategories();
         Product GetProductFromProductId(string productId);
+        ProductCategory GetProductCategoryFromProductCategoryId(string categoryId);
     }
 }

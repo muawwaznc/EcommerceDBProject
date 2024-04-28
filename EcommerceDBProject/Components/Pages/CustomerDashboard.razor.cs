@@ -41,8 +41,12 @@ namespace EcommerceDBProject.Components.Pages
 
         #region OnChange Functions
 
-        protected void OnProductCategoryChanged(ProductCategory productCategory)
+        
+
+        protected void OnProductCategoryChanged(ChangeEventArgs e)
         {
+            var productCategory = ProductService.GetProductCategoryFromProductCategoryId(e.Value.ToString());
+
             if (productCategory == null)
             {
                 InventoryItemsList = InventoryItemService.GetAllInventoryItemsList();
