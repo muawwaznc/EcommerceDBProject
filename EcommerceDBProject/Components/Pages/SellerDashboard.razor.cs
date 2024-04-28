@@ -12,6 +12,7 @@ namespace EcommerceDBProject.Components.Pages
         #region Properties
 
         [Parameter] public string UserDetailId { get; set; }
+        public string UserName { get; set; } = "WARDA MIRZA";
 
         #endregion
     }

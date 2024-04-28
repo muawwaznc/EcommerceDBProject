@@ -1,6 +1,133 @@
 ﻿@page "/seller-dashboard/{UserDetailId}"
 @using EcommerceDBProject.Components.Layout
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f4f7;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+   
+    .main-content {
+        padding: 20px;
+        background-color: #fff;
+        color: #333;
+        border-radius: 10px;
+        margin: 20px auto;
+        max-width: 1000px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-<div class="sidebar">
-    <NavMenu />
+        .main-content h1 {
+            color: #007bff;
+            margin-top: 0;
+            text-align : center;
+        }
+
+        .main-content label {
+            color:black;
+            font-family:'Franklin Gothic Medium';
+            font-size:30px;
+            text-align:left;
+            margin:10px;
+            
+        }
+
+    .profile-picture {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border-color:black;
+        background-color: #c6b4b4;
+        margin: 0 auto 20px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .profile-picture img {
+            width: 80%;
+            height: auto;
+            border-radius: 50%;
+        }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+            ul li strong {
+                font-weight: bold;
+            }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    .row {
+        margin-bottom: 20px;
+    }
+
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+</style>
+<div class="col-12 m-2 p-2 row">
+    <div class="col-2 sidebar">
+        <NavSellerMenu PreviousUrl="@($"seller-dashboard/{UserDetailId}")" />
+    </div>
+    <div class="col-10 main-content row">
+        <h1>Seller Dashboard</h1>
+        <div class="col-12 m-2 p-2">
+            <div class="col-4 m-2 p-2">
+                <div class="profile-picture">
+                    <img src="seller-profile-picture.jpg" alt="Seller Profile Picture" />
+                </div>
+            </div>
+            <div class="col-8">
+                <div>
+                    <label>HELLO WARDA MIRZA</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Personal Details</h3>
+                <ul>
+                    <li><strong>Date of Birth:</strong> @UserName</li>
+                    <li><strong>Email:</strong> @UserName</li>
+                    <li><strong>Phone Number:</strong> @UserName</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h3>Account Details</h3>
+                <ul>
+                    <li><strong>Password:</strong> ********** <a href="#">(change)</a></li>
+                    <li><strong>Registration Date:</strong> @UserName</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Address</h3>
+                <ul>
+                    <li><strong>City:</strong> @UserName</li>
+                    <li><strong>Country:</strong> @UserName</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

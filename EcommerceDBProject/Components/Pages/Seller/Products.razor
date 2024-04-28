@@ -1,0 +1,73 @@
+﻿@page "/seller-dashboard/{UserDetailId}/products/"
+@using EcommerceDBProject.Components.Layout
+<style>
+    .col-12 {
+        padding: 20px;
+        background-color: #1a1a2e;
+        color: #ddd;
+    }
+
+        .col-12 h2 {
+            margin-top: 0;
+            color: #9cdcfe;
+        }
+
+    .product-card {
+        height: 100%;
+    }
+
+        .product-card .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-card .card-text {
+            color: #ddd;
+        }
+
+    .form-check-input {
+        accent-color: #9cdcfe;
+    }
+</style>
+
+<div class="col-12 m-2 p-2 ">
+    <div class="row">
+        <div class="col-md-3">
+            <h5>Filter by Category</h5>
+            <ul class="list-unstyled">
+               
+                    <li>
+                        <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="true" id="@UserName" @(category.IsSelected ? "checked" : "" )>
+                        <label class="form-check-label" for="@UserName">
+                            @UserName
+                            </label>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <h2>Seller Products</h2>
+            <div class="row">
+               
+                    <div class="col-md-4">
+                        <div class="card product-card">
+                            <img src="@UserName" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@UserName</h5>
+                                <p class="card-text">
+                                    <strong>Quantity:</strong> @UserName<br>
+                                    <strong>Price:</strong> @UserName<br>
+                                    <strong>Rating:</strong> @UserName
+                                </p>
+                                <a  class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
