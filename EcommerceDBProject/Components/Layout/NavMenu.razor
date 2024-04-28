@@ -4,11 +4,13 @@
     private NavigationManager NavigationManager { get; set; }
 
     private string CurrentUrl { get; set; }
+    private string UserDetailId { get; set; }
 
     protected override void OnInitialized()
     {
         // Get the current URL
         CurrentUrl = NavigationManager.Uri;
+        UserDetailId = CurrentUrl.Split('/')[4];
     }
 }
 
@@ -23,25 +25,25 @@
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}")" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="@($"customer-dashboard/{UserDetailId}")" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Dashboard
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}/orders")">
+            <NavLink class="nav-link" href="@($"customer-dashboard/{UserDetailId}/orders")">
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> My Orders
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}/returns")">
+            <NavLink class="nav-link" href="@($"customer-dashboard/{UserDetailId}/returns")">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> My Returns
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}/weather")">
+            <NavLink class="nav-link" href="@($"customer-dashboard/{UserDetailId}/weather")">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> My Reviews
             </NavLink>
         </div>
