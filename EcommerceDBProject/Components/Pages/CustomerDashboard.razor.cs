@@ -118,7 +118,14 @@ namespace EcommerceDBProject.Components.Pages
 
         protected void OpenConfirmOrderModel()
         {
-            InitialPageData.IsOrderModelShow = true;
+            if(BuyInventoryItemList.Count > 0)
+            {
+                InitialPageData.IsOrderModelShow = true;
+            }
+            else
+            {
+                //ToastMessage.Show("Select Product First!");
+            }            
         }
 
         protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
@@ -136,6 +143,7 @@ namespace EcommerceDBProject.Components.Pages
             OrderService.PlaceOrder(BuyInventoryItemList, CustomerDetailViewModel);
             InitialPageData.IsOrderModelShow = false;
             InitialPageData.IsOrderProcessing = false;
+            BuyInventoryItemList.Clear();
         }
 
         #endregion

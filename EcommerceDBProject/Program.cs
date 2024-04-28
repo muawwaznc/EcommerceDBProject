@@ -1,4 +1,3 @@
-using Blazored.Toast;
 using EcommerceDBProject.Components;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.Services.Service;
@@ -10,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-builder.Services.AddBlazoredToast();
 builder.Services.AddSyncfusionBlazor();
 
 

@@ -55,9 +55,37 @@ namespace EcommerceDBProject.Services.Service
         {
             using(var db = new EcommerceDbprojectContext())
             {
-                db.Addresses.Add(address);
+                if (address.AddressId != null)
+                {
+                    var dbAddress = db.Addresses.FirstOrDefault(x => x.AddressId == address.AddressId);
+                    bool isDifferent = false;
+                    if(dbAddress.HouseNumber != address.HouseNumber ||
+                        dbAddress.Street != address.Street ||
+                        dbAddress.City != address.City ||
+                        dbAddress.Country != address.Country ||
+                        dbAddress.Region != address.Region ||
+                        dbAddress.ZipCode != address.ZipCode)
+                    {
+                        isDifferent = true;
+                    }
+                    else
+                    {
+                        return address;
+                    }
+                    
+                }
+                var newAddress = new Address
+                {
+                    HouseNumber = address.HouseNumber,
+                    Street = address.Street,
+                    City = address.City,
+                    Country = address.Country,
+                    Region = address.Region,
+                    ZipCode = address.ZipCode
+                };
+                db.Addresses.Add(newAddress);
                 db.SaveChanges();
-                return address;
+                return newAddress;
             }
         }
 

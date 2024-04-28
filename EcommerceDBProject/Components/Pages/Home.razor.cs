@@ -2,8 +2,8 @@
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
-using Blazored.Toast.Services;
 using EcommerceDBProject.Enum;
+using Syncfusion.Blazor.Notifications;
 
 namespace EcommerceDBProject.Components.Pages
 {
@@ -13,7 +13,6 @@ namespace EcommerceDBProject.Components.Pages
 
         [Inject] IUserInterface UserService { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
-        [Inject] IToastService ToastService { get; set; }
 
         #endregion
 
@@ -26,6 +25,7 @@ namespace EcommerceDBProject.Components.Pages
 
         #region Properties
 
+        protected SfToast SfToast { get; set; }
         protected InitialPageDataForHomePage InitialPageData { get; set; } = new();
         protected SignInModel? SignInModel { get; set; } = new();
         protected SignUpModel? SignUpModel { get; set; } = new();
@@ -79,7 +79,8 @@ namespace EcommerceDBProject.Components.Pages
                     var isAuthenicatedUser = UserService.IsAuthenicated(SignInModel.Email, SignInModel.Password);
                     if (isAuthenicatedUser == null)
                     {
-                        ToastService.ShowError("You entered an invalid email password");
+                        //SfToast.Title = "You entered an invalid email password";
+                        //SfToast.ShowAsync();
                         return;
                     }
                     var userRole = UserService.GetUserRoleByUserDetailId(isAuthenicatedUser.UserDetailId);

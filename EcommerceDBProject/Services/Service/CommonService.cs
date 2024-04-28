@@ -32,7 +32,9 @@ namespace EcommerceDBProject.Services.Service
                 CustomerDetailViewModel = new CustomerDetailViewModel
                 {
                     UserDetailId = userDetailId,
-                    ShippingAddress = shippingAddress
+                    ShippingAddress = shippingAddress,
+                    ShippingMethod = "Express",
+                    PaymentMethod = "Cash On Delivery"
                 }
             };
             return initialPageData;
