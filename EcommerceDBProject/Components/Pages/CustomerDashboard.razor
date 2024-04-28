@@ -117,16 +117,26 @@
     }
 </style>
 
-<label class="category-label" for="category">Select Category:</label>
-<select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
-    @foreach (var productCategory in ProductCategories)
-    {
-        <option class="category-option"
-                value="@productCategory.CategoryId">
-            @productCategory.CategoryName
-        </option>
-    }
-</select>
+<div class="row"> 
+    <div class="col-8">
+        <label class="category-label" for="category">Select Category:</label>
+        <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
+            @foreach (var productCategory in ProductCategories)
+            {
+                <option class="category-option"
+                        value="@productCategory.CategoryId">
+                    @productCategory.CategoryName
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-2"></div>
+
+    <div class="col-2">
+        <button @onclick="ConfirmOrder">Order</button>
+    </div>
+</div>
 
 
 <div class="row col-12"> 
@@ -136,8 +146,8 @@
         inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId); 
         var sellerName = SellerService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
         <div class="col-4"> 
-            <div class="product-card"> 
-                <input type="checkbox" class="product-card-checkbox"> 
+            <div class="product-card">
+                <input @onchange="(e) => OnInventoryItemSelect(inventoryItem, e)" type="checkbox" class="product-card-checkbox">
                 <img src="" alt="Product image" class="product-card-image"> 
                 <h2 class="product-card-name">@inventoryItem.Product.ProductName</h2> 
                 <p class="product-card-description">@inventoryItem.Product.ProductDescription</p> 
@@ -148,7 +158,11 @@
                 </div>
                 <div class="product-card-quantity-price"> 
                     <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" min="1" max="@inventoryItem.StockAmount" value="1">
+                    <input 
+                        readonly="@(!IsInventoryItemCheckboxChecked(inventoryItem))"
+                        @onchange="(e) => OnSelectedInventoryItemQuantityChange(inventoryItem, e)" 
+                        type="number" id="quantity" name="quantity" min="1" 
+                        max="@inventoryItem.StockAmount" value="1">
                 </div> 
             </div> 
         </div>

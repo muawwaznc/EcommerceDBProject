@@ -3,6 +3,7 @@ using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.DropDowns;
+using System.Linq;
 
 namespace EcommerceDBProject.Components.Pages
 {
@@ -41,8 +42,6 @@ namespace EcommerceDBProject.Components.Pages
 
         #region OnChange Functions
 
-        
-
         protected void OnProductCategoryChanged(ChangeEventArgs e)
         {
             var productCategory = ProductService.GetProductCategoryFromProductCategoryId(e.Value.ToString());
@@ -55,6 +54,56 @@ namespace EcommerceDBProject.Components.Pages
             {
                 InventoryItemsList = InventoryItemService.GetAllInventoryItemsOfSpecifcCetagory(productCategory.CategoryId);
             }
+        }
+
+        protected void OnSelectedInventoryItemQuantityChange(InventoryItem inventoryItem, ChangeEventArgs e)
+        {
+            var buyInventoryItemViewModel = BuyInventoryItemList.FirstOrDefault(item => item.InventoryItem == inventoryItem);
+            var quantityToBuy = Convert.ToInt32(e.Value);
+            if (buyInventoryItemViewModel != null && quantityToBuy <= inventoryItem.StockAmount)
+            {
+                buyInventoryItemViewModel.QuantityToBuy = quantityToBuy;
+            }
+        }
+
+        protected void OnInventoryItemSelect(InventoryItem inventoryItem, ChangeEventArgs e)
+        {
+            if ((bool)e.Value)
+            {
+                var buyInventoryItemViewModel = new BuyInventoryItemViewModel
+                {
+                    InventoryItem = inventoryItem,
+                    QuantityToBuy = 1 
+                };
+                BuyInventoryItemList.Add(buyInventoryItemViewModel);
+            }
+            else
+            {
+                var itemToRemove = BuyInventoryItemList.FirstOrDefault(item => item.InventoryItem == inventoryItem);
+                if (itemToRemove != null)
+                {
+                    BuyInventoryItemList.Remove(itemToRemove);
+                }
+            }
+        }
+
+        protected bool IsInventoryItemCheckboxChecked(InventoryItem inventoryItem)
+        {
+            var buyInventoryItemViewModel = BuyInventoryItemList.FirstOrDefault(item => item.InventoryItem == inventoryItem);
+            if (buyInventoryItemViewModel != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Confirm Order Functions
+
+        protected void ConfirmOrder()
+        {
+
         }
 
         #endregion

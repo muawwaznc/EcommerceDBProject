@@ -13,5 +13,6 @@ namespace EcommerceDBProject.ViewModels
     {
         public InventoryItem InventoryItem { get; set; }
         public int QuantityToBuy { get; set; }
+        public bool IsSelected { get; set; } = false;
     }
 }
