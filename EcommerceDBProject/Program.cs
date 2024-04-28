@@ -2,6 +2,7 @@ using Blazored.Toast;
 using EcommerceDBProject.Components;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.Services.Service;
+using Syncfusion.Blazor;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddBlazoredToast();
+builder.Services.AddSyncfusionBlazor();
 
 
 builder.Services.AddScoped<ICommonInterface, CommonService>();
@@ -38,3 +40,5 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
+                "NzE3NDUyQDMyMzAyZTMyMmUzMFNuelhLb0dOVlgxMSsxMUdZMTJlaWdKTjJFV3ZvV2FvRHpGdmR6MjZ6Mms9");

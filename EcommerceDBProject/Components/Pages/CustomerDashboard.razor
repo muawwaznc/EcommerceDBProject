@@ -2,11 +2,23 @@
 @layout CustomerLayout
 @rendermode InteractiveServer
 @using EcommerceDBProject.Components.Layout
-@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
 
 <PageTitle>Home Page</PageTitle>
 
 <style>
+    .dialog-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid black;
+        z-index: 1000;
+    }
+
     .category-label {
         display: block;
         margin-bottom: 8px;
@@ -130,14 +142,13 @@
             }
         </select>
     </div>
-
     <div class="col-2"></div>
-
     <div class="col-2">
-        <button @onclick="OpenConfirmOrderModel">Order</button>
+        <button type="button" class="btn btn-primary" @onclick="OpenConfirmOrderModel">
+            Order
+        </button>
     </div>
 </div>
-
 
 <div class="row col-12">
     @foreach (var inventoryItem in InventoryItemsList)
@@ -168,80 +179,72 @@
     }
 </div>
 
-@if (InitialPageData.IsOrderModelShow)
-{
-    <div class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm Order</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form class="row g-3">
-                    <div class="modal-body">
 
-                        <h3>Shipping Address</h3>
-                        <div class="col-md-6">
-                            <label for="inputAddress" class="form-label">House #</label>
-                            <input type="text" class="form-control" id="inputAddress" placeholder="House # 2, Block D" @bind-value="@Address.HouseNumber">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="inputAddress2" class="form-label">Street</label>
-                            <input type="text" class="form-control" id="inputAddress2" placeholder="G.T. Road" @bind-value="@Address.Street">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="inputCity" class="form-label">City</label>
-                            <input type="text" class="form-control" id="inputCity" @bind-value="@Address.City">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="inputCountry" class="form-label">Country</label>
-                            <input type="text" class="form-control" id="inputCountry" @bind-value="@Address.Country">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="inputRegion" class="form-label">Region</label>
-                            <input type="text" class="form-control" id="inputRegion" @bind-value="@Address.Region">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="inputZip" class="form-label">Postal Code</label>
-                            <input type="text" class="form-control" id="inputZip" @bind-value="@Address.ZipCode">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="paymentMethod" class="form-label">Payment Method:</label>
-                            <select class="form-control" id="paymentMethod" @onchange="OnPaymentMethodChanged">
-                                <option value="Credit Card">Credit Card</option>
-                                <option value="Cash On Delivery">Cash On Delivery</option>
-                                <option value="PayPal">PayPal</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="paymentMethod" class="form-label">Shipping Method:</label>
-                            <select class="form-control" id="paymentMethod" @onchange="OnShippingMethodChanged">
-                                <option value="Express">Express</option>
-                                <option value="Standard">Standard</option>
-                                <option value="Dhl">Dhl</option>
-                            </select>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        @if (InitialPageData.IsOrderProcessing)
-                        {
-                            <button type="button" class="btn btn-success" @onclick="() => ConfirmOrder()">Confirm Order</button>
-                        }
-                        else
-                        {
-                            <button class="btn btn-success" type="button" disabled>
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...
-                            </button>
-                        }
-                    </div>
-                </form>
+<SfDialog Width="90%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsOrderModelShow">
+    <DialogTemplates>
+        <Header>Confirm Order</Header>
+        <Content>
+            <h3>Shipping Address</h3>
+            <div class="col-md-6">
+                <label for="inputAddress" class="form-label">House #</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="House # 2, Block D" @bind-value="@Address.HouseNumber">
             </div>
-        </div>
-    </div>
-}
+            <div class="col-md-6">
+                <label for="inputAddress2" class="form-label">Street</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="G.T. Road" @bind-value="@Address.Street">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="inputCity" @bind-value="@Address.City">
+            </div>
+            <div class="col-md-6">
+                <label for="inputCountry" class="form-label">Country</label>
+                <input type="text" class="form-control" id="inputCountry" @bind-value="@Address.Country">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputRegion" class="form-label">Region</label>
+                <input type="text" class="form-control" id="inputRegion" @bind-value="@Address.Region">
+            </div>
+            <div class="col-md-6">
+                <label for="inputZip" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="inputZip" @bind-value="@Address.ZipCode">
+            </div>
+
+            <div class="col-md-6">
+                <label for="paymentMethod" class="form-label">Payment Method:</label>
+                <select class="form-control" id="paymentMethod" @onchange="OnPaymentMethodChanged">
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Cash On Delivery">Cash On Delivery</option>
+                    <option value="PayPal">PayPal</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="paymentMethod" class="form-label">Shipping Method:</label>
+                <select class="form-control" id="paymentMethod" @onchange="OnShippingMethodChanged">
+                    <option value="Express">Express</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Dhl">Dhl</option>
+                </select>
+            </div>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <SfButton type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</SfButton>
+        @if (InitialPageData.IsOrderProcessing)
+        {
+            <button type="button" class="btn btn-success" @onclick="() => ConfirmOrder()">Confirm Order</button>
+            @* <DialogButton title="Confirm Order" Content="Confirm Order" OnClick="() => ConfirmOrder()" /> *@
+        }
+        else
+        {
+            <button class="btn btn-success" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        }
+    </DialogButtons>
+    <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+</SfDialog>

@@ -121,6 +121,11 @@ namespace EcommerceDBProject.Components.Pages
             InitialPageData.IsOrderModelShow = true;
         }
 
+        protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
+        {
+            args.MaxHeight = null;
+        }
+
         #endregion
 
         #region Confirm Order Functions
