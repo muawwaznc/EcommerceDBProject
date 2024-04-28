@@ -6,6 +6,7 @@ namespace EcommerceDBProject.ViewModels
     {
         public SignInModel? SignInModel { get; set; } = new();
         public SignUpModel? SignUpModel { get; set; } = new();
+        public bool IsLoading { get; set; } = false;
     }
 
     public class SignInModel

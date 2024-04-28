@@ -26,5 +26,14 @@ namespace EcommerceDBProject.Services.Service
                 return inventoryItems;
             }
         }
+    
+        public InventoryItem GetInventoryItemFromInventoryItemId(string inventoryItemId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == inventoryItemId);
+                return inventoryItem;
+            }
+        }
     }
 }

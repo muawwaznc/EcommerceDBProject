@@ -3,7 +3,6 @@ using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
 using EcommerceDBProject.Enum;
-using Syncfusion.Blazor.Notifications;
 
 namespace EcommerceDBProject.Components.Pages
 {
@@ -25,7 +24,6 @@ namespace EcommerceDBProject.Components.Pages
 
         #region Properties
 
-        protected SfToast SfToast { get; set; }
         protected InitialPageDataForHomePage InitialPageData { get; set; } = new();
         protected SignInModel? SignInModel { get; set; } = new();
         protected SignUpModel? SignUpModel { get; set; } = new();
@@ -72,6 +70,7 @@ namespace EcommerceDBProject.Components.Pages
 
         public void SignIn()
         {
+            InitialPageData.IsLoading = true;
             if (SignInValidation())
             {
                 try
@@ -81,23 +80,28 @@ namespace EcommerceDBProject.Components.Pages
                     {
                         //SfToast.Title = "You entered an invalid email password";
                         //SfToast.ShowAsync();
+                        InitialPageData.IsLoading = false;
                         return;
                     }
                     var userRole = UserService.GetUserRoleByUserDetailId(isAuthenicatedUser.UserDetailId);
                     if(userRole == UserRole.Customer)
                     {
                         NavigationManager.NavigateTo("/customer-dashboard/" + isAuthenicatedUser.UserDetailId);
+                        InitialPageData.IsLoading = false;
                         return;
                     }
                     else if(userRole == UserRole.Seller)
                     {
                         NavigationManager.NavigateTo("/seller-dashboard/" + isAuthenicatedUser.UserDetailId);
+                        InitialPageData.IsLoading = false;
                         return;
                     }
+                    InitialPageData.IsLoading = false;
                     NavigationManager.NavigateTo("/Error");
                 }
                 catch (Exception ex)
                 {
+                    InitialPageData.IsLoading = false;
                     NavigationManager.NavigateTo("/Error");
                 }
             }            

@@ -7,9 +7,17 @@ namespace EcommerceDBProject.Services.Service
     public class OrderService: IOrderInterface
     {
         IUserInterface _userService;
-        public OrderService(IUserInterface userService)
+        IProductInterface _productService;
+        IInventoryItemInterface _inventoryItemService;
+        IOrderReturnReviewInterface _orderReturnReviewService;
+        public OrderService(IUserInterface userService, IProductInterface productService,
+            IInventoryItemInterface inventoryItemService,
+            IOrderReturnReviewInterface orderReturnReviewService)
         {
             _userService = userService;
+            _productService = productService;
+            _inventoryItemService = inventoryItemService;
+            _orderReturnReviewService = orderReturnReviewService;
         }
 
         public void PlaceOrder(List<BuyInventoryItemViewModel> buyInventoryItemViewModelList, CustomerDetailViewModel customerDetail)
@@ -105,6 +113,47 @@ namespace EcommerceDBProject.Services.Service
             {
                 db.OrderItems.Add(orderItem);
                 db.SaveChanges();
+            }
+        }
+
+        public List<CustomerOrdersViewModel> GetCustomerOrdersViewModelList(string userDetailId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                var customersOrdersList = db.Orders.Where(x => x.CustomerId == customer.CustomerId);
+                var orderItemsList = new List<OrderItem>();
+                foreach(var order in customersOrdersList)
+                {
+                    var orderItemsOfOrder = db.OrderItems.Where(x => x.OrderId == order.OrderId);
+                    orderItemsList.Concat(orderItemsOfOrder);
+                }
+                var customerOrdersViewModelList = new List<CustomerOrdersViewModel>();
+                foreach (var orderItem in orderItemsList)
+                {
+                    var customerOrdersViewModel = new CustomerOrdersViewModel
+                    {
+                        OrderId = orderItem.OrderId,
+                        InventoryItemName = _productService.GetProductFromInventoryItemId(orderItem.InventoryItemId).ProductName,
+                        OrderQuantity = orderItem.Quantity,
+                        TotalPrice = orderItem.Quantity * _inventoryItemService.GetInventoryItemFromInventoryItemId(orderItem.InventoryItemId).SalePrice,
+                        OrderStatus = orderItem.OrderStatus,
+                        OrderDate = customersOrdersList.FirstOrDefault(x => x.OrderId == orderItem.OrderId).OrderDate,
+                    };
+                    if(orderItem.ShippingDate != null)
+                    {
+                        if (!orderItem.IsReturned)
+                        {
+                            customerOrdersViewModel.IsReturnButtonDisabled = false;
+                        }
+                        if (_orderReturnReviewService.IsReviewAvailable(orderItem.OrderItemId))
+                        {
+                            customerOrdersViewModel.IsReviewButtonDisabled = false;
+                        }                        
+                    }
+                    customerOrdersViewModelList.Add(customerOrdersViewModel);
+                }
+                return customerOrdersViewModelList;
             }
         }
     }

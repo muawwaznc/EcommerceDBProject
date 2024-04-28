@@ -9,13 +9,16 @@ namespace EcommerceDBProject.Services.Service
         private IInventoryItemInterface _inventoryItemService;
         private IProductInterface _productService;
         private IUserInterface _userService;
+        private IOrderInterface _orderService;
 
         public CommonService(IInventoryItemInterface inventoryItemService,
-            IProductInterface productService, IUserInterface userService)
+            IProductInterface productService, IUserInterface userService,
+            IOrderInterface orderService)
         {
             _inventoryItemService = inventoryItemService;
             _productService = productService;
             _userService = userService;
+            _orderService = orderService;
         }
 
         public InitialPageDataForCustomerDashboard GetInitialPageDataForCustomerDashboard(string userDetailId)
@@ -36,6 +39,15 @@ namespace EcommerceDBProject.Services.Service
                     ShippingMethod = "Express",
                     PaymentMethod = "Cash On Delivery"
                 }
+            };
+            return initialPageData;
+        }
+
+        public InitialPageDataForCustomerOrders GetInitialPageDataForCustomerOrders(string userDetailId)
+        {
+            var initialPageData = new InitialPageDataForCustomerOrders
+            {
+                CustomerOrdersViewModelList = _orderService.GetCustomerOrdersViewModelList(userDetailId)
             };
             return initialPageData;
         }

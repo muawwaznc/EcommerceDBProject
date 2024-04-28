@@ -21,6 +21,8 @@ builder.Services.AddScoped<IInventoryItemInterface, InventoryItemService>();
 builder.Services.AddScoped<IProductInterface, ProductService>();
 builder.Services.AddScoped<ISellerInterface, SellerService>();
 builder.Services.AddScoped<IOrderInterface, OrderService>();
+builder.Services.AddScoped<IOrderInterface, OrderService>();
+builder.Services.AddScoped<IOrderReturnReviewInterface, OrderReturnReviewService>();
 
 var app = builder.Build();
 
