@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.NewF;
+namespace EcommerceDBProject.DBContext;
 
 public partial class Address
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.NewF;
+namespace EcommerceDBProject.DBContext;
 
 public partial class Order
 {
@@ -10,10 +10,6 @@ public partial class Order
     public string CustomerId { get; set; } = null!;
 
     public DateTime? OrderDate { get; set; }
-
-    public DateTime RequiredShippingDate { get; set; }
-
-    public DateTime? ShippingDate { get; set; }
 
     public double TotalPrice { get; set; }
 

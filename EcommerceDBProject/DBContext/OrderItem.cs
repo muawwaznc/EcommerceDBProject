@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.NewF;
+namespace EcommerceDBProject.DBContext;
 
 public partial class OrderItem
 {
@@ -18,6 +18,10 @@ public partial class OrderItem
     public bool IsReturned { get; set; }
 
     public string OrderStatus { get; set; } = null!;
+
+    public DateTime RequiredShippingDate { get; set; }
+
+    public DateTime? ShippingDate { get; set; }
 
     public virtual InventoryItem InventoryItem { get; set; } = null!;
 
