@@ -209,11 +209,7 @@
         color: #4CAF50;
     }
 </style>
-<div class="col-12 m-0 p-0 container-fluid">
-   <div class="col-12 m-2">
-       <h1 style="font-family:'Franklin Gothic';text-align:center;color:black;font-weight:bold">Place an Order</h1>
-   </div>
-</div>
+
 <div class="col-12 m-2 p-2 row">
     <div class="col-8 m-0 p-0 row">
         <div class="col-3 mt-3">
@@ -221,6 +217,9 @@
         </div>
         <div class="col-7 mt-2">
                 <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
+                <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
+                    Select Category
+                </option>
                     @foreach (var productCategory in ProductCategories)
                     {
                         <option class="category-option" style="border:1px solid lightgrey;"

@@ -9,12 +9,14 @@ namespace EcommerceDBProject.Services.Service
         IUserInterface _userService;
         IOrderInterface _orderService;
         IProductInterface _productService;
+        ISellerInterface _sellerService;
         public OrderReturnReviewService(IUserInterface userService, IOrderInterface orderService,
-            IProductInterface productService)
+            IProductInterface productService, ISellerInterface sellerService)
         {
             _userService = userService;
             _orderService = orderService;
             _productService = productService;
+            _sellerService = sellerService;
         }
         public bool IsReturnAvailable(string orderItemId)
         {
@@ -55,7 +57,7 @@ namespace EcommerceDBProject.Services.Service
                     foreach(var orderItem in orderItemsList)
                     {
                         var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == orderItem.InventoryItemId);
-                        var seller = _userService.GetSellerFromSellerId(inventoryItem.SellerId);
+                        var seller = _sellerService.GetSellerFromSellerId(inventoryItem.SellerId);
                         var review = db.ProductReviews.FirstOrDefault(x => x.OrderItemId == orderItem.OrderItemId);
                         if(review != null)
                         {
@@ -89,7 +91,7 @@ namespace EcommerceDBProject.Services.Service
                     foreach (var orderItem in orderItemsList)
                     {
                         var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == orderItem.InventoryItemId);
-                        var seller = _userService.GetSellerFromSellerId(inventoryItem.SellerId);
+                        var seller = _sellerService.GetSellerFromSellerId(inventoryItem.SellerId);
                         var returns = db.ProductReturns.FirstOrDefault(x => x.OrderItemId == orderItem.OrderItemId);
                         if (returns != null)
                         {
