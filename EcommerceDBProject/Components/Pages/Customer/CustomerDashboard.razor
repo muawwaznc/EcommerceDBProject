@@ -168,7 +168,7 @@
         }
 
     .product-card-image {
-        width: 93%;
+        width: 90%;
         height: 200px;
         object-fit: cover;
         border-radius: 5px;
@@ -248,8 +248,8 @@
             inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
             inventoryItem.Seller = SellerService.GetSellerFromSellerId(inventoryItem.SellerId);
             var sellerName = SellerService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
-            <div class="col-4">
-                <div class="product-card" style="border:2px solid grey">
+            <div class="col-3">
+                <div class="product-card" style="border:1px solid grey">
                     <div class="col-12">
                         <input style="border:2px solid black;" @onchange="(e) => OnInventoryItemSelect(inventoryItem, e)" type="checkbox" class="product-card-checkbox">
                     </div>
