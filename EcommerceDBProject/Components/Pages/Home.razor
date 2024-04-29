@@ -9,37 +9,152 @@ else
 {
     <PageTitle>SignUp</PageTitle>
 }
+<style>
+    .heading {
+        font-size: 25px;
+        font-family:'Franklin Gothic';
+        font-weight: bold;
+        color: midnightblue;
+        text-align: center;
+        margin: 3px;
+        padding: 3px;
+    }
 
-<div class="card text-center">
-    <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-                <button type="button" class="@($"{CssForSignInNav} {("nav-link")}")" @onclick="() => OnSignInTabClick()">
-                    SignIn
-                </button>
-            </li>
-            <li class="nav-item">
-                <button type="button" class="@($"{CssForSignUpNav} {("nav-link")}")" @onclick="(() => OnSignUpTabClick())">
-                    SignUp
-                </button>
-            </li>
+    * {
+        margin: 0px;
+        padding: 0px;
+        ;
+    }
 
-        </ul>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        background-color: red;
+        background: linear-gradient(to bottom, #51a5be, #042658);
+        margin: 10% auto;
+        height:600px;
+        width:1200px;
+        border-radius: 5px;
+    }
+    .label-style{
+        font-size:18px;
+        color:black;
+        font-family:Calibri;
+    }
+    .content-holder {
+        text-align: center;
+        color: white;
+        font-size: 14px;
+        font-weight: lighter;
+        letter-spacing: 2px;
+        margin-top: 15%;
+        padding: 50px;
+    }
+
+        .content-holder h2 {
+            font-size: 34px;
+            margin: 20px auto;
+        }
+
+        .content-holder p {
+            margin: 30px auto;
+        }
+
+        .content-holder button {
+            border: none;
+            font-size: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: white;
+            width: 150px;
+            margin: 20px auto;
+        }
+
+
+    .box-2 {
+        background-color: white;
+        margin: 5px;
+    }
+
+    .login-form-container {
+        text-align: center;
+        margin-top: 10%;
+    }
+
+        .login-form-container h1 {
+            color: black;
+            font-size: 24px;
+            padding: 20px;
+        }
+
+    .input-field {
+        box-sizing: border-box;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 7px;
+        border: 1px solid rgb(168, 168, 168);
+        width: 250px;
+        outline: none;
+    }
+
+
+
+
+    .button-2 {
+        display: none;
+    }
+
+    .button {
+        box-sizing: border-box;
+        color: white;
+        font-size: 14px;
+        padding: 13px;
+        border-radius: 7px;
+        border: none;
+        width: 250px;
+        outline: none;
+        background-color: rgb(56, 189, 149);
+    }
+</style>
+<div class="card text-center container">
+    <div class="card-header d-flex flex-column justify-content-center align-items-center">
+        <div class="text-center">
+            <label style="font-size: 3em; color: white;">HELLO !</label>
+        </div>
+        <div class="text-center">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <button type="button" class="@($"{CssForSignInNav} {("nav-link")}")" @onclick="() => OnSignInTabClick()">
+                        SignIn
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="@($"{CssForSignUpNav} {("nav-link")}")" @onclick="(() => OnSignUpTabClick())">
+                        SignUp
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="card-body">
+
+    <div class="card-body box-2 d-flex flex-column justify-content-center align-items-center">
         @if (isSignInActive)
         {
             <form class="row g-3">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label text-right">Email</label>
+                    <label for="inputEmail4" class="form-label  label-style">Email</label>
                     <input required type="email" class="form-control" id="inputEmail4" @bind-value="@SignInModel.Email">
                 </div>
                 <div class="col-md-3"></div>
 
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label text-right">Password</label>
+                    <label for="inputPassword4" class="form-label label-style">Password</label>
                     <input required type="password" class="form-control" id="inputPassword4" @bind-value="@SignInModel.Password">
                 </div>
                 <div class="col-md-3"></div>
@@ -53,73 +168,73 @@ else
         {
             <form class="row g-3">
                 <div class="col-md-6">
-                    <label for="inputFirstName" class="form-label">First Name</label>
+                    <label for="inputFirstName" class="form-label label-style">First Name</label>
                     <input required type="text" class="form-control" id="inputFirstName" @bind-value="@SignUpModel.FirstName">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputLastName" class="form-label">LastName</label>
+                    <label for="inputLastName" class="form-label label-style">LastName</label>
                     <input required type="text" class="form-control" id="inputLastName" @bind-value="@SignUpModel.LastName">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Email</label>
+                    <label for="inputEmail4" class="form-label label-style">Email</label>
                     <input required type="email" class="form-control" id="inputEmail4" @bind-value="@SignUpModel.Email">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputPhoneNumber" class="form-label">Phone Number</label>
+                    <label for="inputPhoneNumber" class="form-label label-style">Phone Number</label>
                     <input required type="tel" class="form-control" id="inputPhoneNumber" @bind-value="@SignUpModel.PhoneNumber">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">Password</label>
+                    <label for="inputPassword4" class="form-label label-style">Password</label>
                     <input required type="password" class="form-control" id="inputPassword4" @bind-value="@SignUpModel.Password">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">User Role</label>
+                    <label for="inputPassword4" class="form-label label-style">User Role</label>
                     <br/>
                     <div class="form-check form-check-inline">
                         <input required class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioSeller" value="seller" @onchange='() => HandleUserRoleRadioChange("seller")'>
-                        <label class="form-check-label" for="inlineRadioSeller">Seller</label>
+                        <label class="form-check-label label-style" for="inlineRadioSeller">Seller</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input required class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioCustomer" value="customer" @onchange='() => HandleUserRoleRadioChange("customer")'>
-                        <label class="form-check-label" for="inlineRadioCustomer">Customer</label>
+                        <label class="form-check-label label-style" for="inlineRadioCustomer">Customer</label>
                     </div>
                 </div>
 
                 @if(SignUpModel.UserRole == "customer")
                 {
                     <div class="col-md-6">
-                        <label for="inputdateofbirth" class="form-label">Date of Birth</label>
+                        <label for="inputdateofbirth" class="form-label label-style">Date of Birth</label>
                         <input required type="date" class="form-control" id="inputdateofbirth" @bind-value="@SignUpModel.DateOfBirth">
                     </div>
                 }
 
                 <div class="col-md-6">
-                    <label for="inputAddress" class="form-label">House #</label>
+                    <label for="inputAddress" class="form-label label-style">House #</label>
                     <input type="text" class="form-control" id="inputAddress" placeholder="House # 2, Block D" @bind-value="@Address.HouseNumber">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputAddress2" class="form-label">Street</label>
+                    <label for="inputAddress2" class="form-label label-style">Street</label>
                     <input type="text" class="form-control" id="inputAddress2" placeholder="G.T. Road" @bind-value="@Address.Street">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="inputCity" class="form-label">City</label>
+                    <label for="inputCity" class="form-label label-style">City</label>
                     <input type="text" class="form-control" id="inputCity" @bind-value="@Address.City">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputCountry" class="form-label">Country</label>
+                    <label for="inputCountry" class="form-label label-style">Country</label>
                     <input type="text" class="form-control" id="inputCountry" @bind-value="@Address.Country">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="inputRegion" class="form-label">Region</label>
+                    <label for="inputRegion" class="form-label label-style">Region</label>
                     <input type="text" class="form-control" id="inputRegion" @bind-value="@Address.Region">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputZip" class="form-label">Postal Code</label>
+                    <label for="inputZip" class="form-label label-style">Postal Code</label>
                     <input type="text" class="form-control" id="inputZip" @bind-value="@Address.ZipCode">
                 </div>
 
