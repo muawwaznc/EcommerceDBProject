@@ -186,5 +186,39 @@ namespace EcommerceDBProject.Services.Service
                 return userDetail;
             }
         }
+
+        public void UpdateSellerDetails(InitialPageDataForSellerProfile sellerData)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var existingSeller = db.Sellers.FirstOrDefault(s => s.SellerId == sellerData.Seller.SellerId);
+                if (existingSeller != null)
+                {
+                    existingSeller.FirstName = sellerData.Seller.FirstName;
+                    existingSeller.LastName = sellerData.Seller.LastName;
+                    existingSeller.SellerRating = sellerData.Seller.SellerRating;
+                    existingSeller.RegistrationDate = sellerData.Seller.RegistrationDate;
+                    existingSeller.Password = sellerData.Seller.Password;
+
+                    db.Sellers.Update(existingSeller);
+                }
+
+                var existingAddress = db.Addresses.FirstOrDefault(a => a.AddressId == sellerData.Address.AddressId);
+                if (existingAddress != null)
+                {
+                    existingAddress.HouseNumber = sellerData.Address.HouseNumber;
+                    existingAddress.Street = sellerData.Address.Street;
+                    existingAddress.City = sellerData.Address.City;
+                    existingAddress.Country = sellerData.Address.Country;
+                    existingAddress.Region = sellerData.Address.Region;
+                    existingAddress.ZipCode = sellerData.Address.ZipCode;
+
+                    db.Addresses.Update(existingAddress);
+                }
+
+                db.SaveChanges();
+            }
+        }
+
     }
 }

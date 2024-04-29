@@ -10,6 +10,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
         #region Injection
 
         [Inject] ICommonInterface CommonService { get; set; }
+        [Inject] IUserInterface UserService { get; set; }
 
         #endregion
 
@@ -17,9 +18,9 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         [Parameter] public string UserDetailId { get; set; }
         InitialPageDataForSellerProfile InitialPageData { get; set; } = new();
-        Address SellerAddress { get; set; } = new();
+        AddressViewModel SellerAddress { get; set; } = new();
         UserDetail SellerDetail { get; set; } = new();
-        EcommerceDBProject.DBContext.Seller Seller { get; set; } = new();
+        SellerViewModel Seller { get; set; } = new();
 
         #endregion
 
@@ -35,11 +36,11 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         #endregion
 
-        #region Dialogue Box Functions
+        #region OnClick Functions
 
-        protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
+        protected void OnSaveProfileClick()
         {
-            args.MaxHeight = null;
+            UserService.UpdateSellerDetails(InitialPageData);
         }
 
         #endregion

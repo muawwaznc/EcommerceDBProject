@@ -121,9 +121,27 @@ namespace EcommerceDBProject.Services.Service
             var userDetail = _userService.GetUserDetailFromUserDetailId(userDetailId);
             var initialPageData = new InitialPageDataForSellerProfile
             {
-                Seller = seller,
+                Seller = new SellerViewModel
+                {
+                    SellerId = seller.SellerId,
+                    UserDetailId = seller.UserDetailId,
+                    FirstName = seller.FirstName,
+                    LastName = seller.LastName,
+                    SellerRating = seller.SellerRating,
+                    RegistrationDate = seller.RegistrationDate,
+                    Password = seller.Password
+                },
                 UserDetail = userDetail,
-                Address = address
+                Address = new AddressViewModel
+                {
+                    AddressId = address.AddressId,
+                    HouseNumber = address.HouseNumber,
+                    Street = address.Street,
+                    City = address.City,
+                    Country = address.Country,
+                    Region = address.Region,
+                    ZipCode = address.ZipCode
+                }
             };
             return initialPageData;
         }
