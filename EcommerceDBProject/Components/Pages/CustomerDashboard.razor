@@ -19,6 +19,14 @@
         z-index: 1000;
     }
 
+    .label-style {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: right;
+        margin: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
     .category-label {
         display: block;
         margin-bottom: 8px;
@@ -180,72 +188,116 @@
 </div>
 
 
-<SfDialog Width="90%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsOrderModelShow">
+<SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsOrderModelShow">
     <DialogTemplates>
-        <Header>Confirm Order</Header>
+        <Header>
+            <div class="text-center">
+                <label class="text-center" style="font-size:22px;text-align:center;font-family:sans-serif;font-weight:bold">Confirm Order</label>
+</div>
+        </Header>
         <Content>
-            <form class="row g-3">
-                <div class="col-md-6">
-                    <label for="inputAddress" class="form-label">House #</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="House # 2, Block D" @bind-value="@Address.HouseNumber">
+            <form class="row g-3 m-3">
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="inputAddress" class="form-label label-style">House #</label>
+                    </div>
+                    <div class="col-8">
+                        <input style="border:2px solid darkgrey ;margin:3px" type="text" class="form-control" id="inputAddress" placeholder="House # 2, Block D" @bind-value="@Address.HouseNumber">
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="inputAddress2" class="form-label">Street</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="G.T. Road" @bind-value="@Address.Street">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="inputCity" class="form-label">City</label>
-                    <input type="text" class="form-control" id="inputCity" @bind-value="@Address.City">
-                </div>
-                <div class="col-md-6">
-                    <label for="inputCountry" class="form-label">Country</label>
-                    <input type="text" class="form-control" id="inputCountry" @bind-value="@Address.Country">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="inputRegion" class="form-label">Region</label>
-                    <input type="text" class="form-control" id="inputRegion" @bind-value="@Address.Region">
-                </div>
-                <div class="col-md-6">
-                    <label for="inputZip" class="form-label">Postal Code</label>
-                    <input type="text" class="form-control" id="inputZip" @bind-value="@Address.ZipCode">
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="inputAddress2" class="form-label label-style">Street</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" style="border:2px solid darkgrey;margin:3px" class="form-control" id="inputAddress2" placeholder="G.T. Road" @bind-value="@Address.Street">
+                    </div>
                 </div>
 
-                <div class="col-md-6">
-                    <label for="paymentMethod" class="form-label">Payment Method:</label>
-                    <select class="form-control" id="paymentMethod" @onchange="OnPaymentMethodChanged">
-                        <option value="Credit Card">Credit Card</option>
-                        <option value="Cash On Delivery">Cash On Delivery</option>
-                        <option value="PayPal">PayPal</option>
-                    </select>
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="inputCity" class="form-label label-style">City</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" style="border:2px solid darkgrey;margin:3px" class="form-control" id="inputCity" @bind-value="@Address.City">
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="shippingMethod" class="form-label">Shipping Method:</label>
-                    <select class="form-control" id="shippingMethod" @onchange="OnShippingMethodChanged">
-                        <option value="Express">Express</option>
-                        <option value="Standard">Standard</option>
-                        <option value="Dhl">Dhl</option>
-                    </select>
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="inputCountry" class="form-label label-style">Country</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" style="border:2px solid darkgrey;margin:3px" class="form-control" id="inputCountry" @bind-value="@Address.Country">
+                    </div>
                 </div>
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                @if (!InitialPageData.IsOrderProcessing)
-                {
-                    <button type="button" class="btn btn-success" @onclick="() => ConfirmOrder()">Confirm Order</button>
-                }
-                else
-                {
-                    <button class="btn btn-success" type="button" disabled>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Loading...
-                    </button>
-                }
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="inputRegion" class="form-label label-style">Region</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" style="border:2px solid darkgrey;margin:3px" class="form-control" id="inputRegion" @bind-value="@Address.Region">
+                    </div>
+                </div>
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="inputZip" class="form-label label-style">Postal Code</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" style="border:2px solid darkgrey;margin:3px" class="form-control" id="inputZip" @bind-value="@Address.ZipCode">
+                    </div>
+                </div>
+
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="paymentMethod" class="form-label label-style">Payment Method:</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-control" style="border:2px solid darkgrey;margin:3px" id="paymentMethod" @onchange="OnPaymentMethodChanged">
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Cash On Delivery">Cash On Delivery</option>
+                            <option value="PayPal">PayPal</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="col-md-6 row">
+                    <div class="col-4">
+                        <label for="shippingMethod" class="form-label label-style">Shipping Method:</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-control" style="border:2px solid darkgrey;margin:3px" id="shippingMethod" @onchange="OnShippingMethodChanged">
+                            <option value="Express">Express</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Dhl">Dhl</option>
+                        </select>
+                    </div>
+               </div>
+                    
+                <div class="col-12 mt-3 text-center">
+                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:35px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
+                        Close
+                    </button>                                          
+                    @if (!InitialPageData.IsOrderProcessing)
+                    {
+                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:35px;margin:3px;" class="btn btn-success p-1" @onclick="() => ConfirmOrder()">
+                            Confirm Order
+                        </button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-success" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </button>
+                    }
+
+                </div>
             </form>
         </Content>
     </DialogTemplates>
     <DialogButtons>
-        
+
     </DialogButtons>
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
