@@ -1,5 +1,8 @@
 ﻿@page "/seller-dashboard/{UserDetailId}"
+@layout SellerLayout
+@rendermode InteractiveServer
 @using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.DropDowns;
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -87,9 +90,8 @@
     }
 </style>
 <div class="col-12 m-2 p-2 row">
-    <div class="col-2 sidebar">
-        <NavSellerMenu PreviousUrl="@($"seller-dashboard/{UserDetailId}")" />
-    </div>
+    <div class="col-2">
+        </div>
     <div class="col-10 main-content row">
         <h3>Seller Dashboard</h3>
         <div class="col-12 m-2 p-2 row">
