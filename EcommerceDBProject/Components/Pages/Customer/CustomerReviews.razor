@@ -1,9 +1,10 @@
-﻿@page "/customer-dashboard/{UserDetailId}/orders/"
+﻿@page "/customer-dashboard/{UserDetailId}/reviews"
 @layout CustomerLayout
 @rendermode InteractiveServer
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
+
 <style>
     ody {
         margin: 0;
@@ -74,33 +75,23 @@
                 <tr>
                     <th scope="col">Order ID</th>
                     <th scope="col">Product Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total Price</th>
-                    <th scope="col">Order Status</th>
+                    <th scope="col">Seller Name</th>
+                    <th scope="col">Order Date</th>
                     <th scope="col">Review</th>
-                    <th scope="col">Return</th>
+                    <th scope="col">Comment</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var orderItem in OrdersList)
+                @foreach (var review in CustomerReviewsList)
                 {
-                    <tr>
-                        <th scope="row">@orderItem.OrderId</th>
-                        <td>@orderItem.InventoryItemName</td>
-                        <td>@orderItem.OrderQuantity</td>
-                        <td>@orderItem.TotalPrice</td>
-                        <td>@orderItem.OrderStatus</td>
-                        <td>
-                            <SfButton Disabled="@orderItem.IsReviewButtonDisabled">
-                                Review
-                            </SfButton>
-                        </td>
-                        <td>
-                            <SfButton Disabled="@orderItem.IsReviewButtonDisabled">
-                                Return
-                            </SfButton>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row">@review.OrderId</th>
+                            <td>@review.InventoryItemName</td>
+                            <td>@review.SellerName</td>
+                            <td>@review.OrderDate</td>
+                            <td>@review.ReviewStars</td>
+                            <td>@review.ReviewText</td>
+                        </tr>
                 }
 
             </tbody>

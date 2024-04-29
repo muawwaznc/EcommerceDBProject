@@ -11,5 +11,6 @@ namespace EcommerceDBProject.Services.Interface
         UserRole GetUserRoleByUserDetailId(string userDetailId);
         Customer GetCustomerFromUserDetailId(string userDetailId);
         Address GetAddressByUserDetailId(string userDetailId);
+        Seller GetSellerFromSellerId(string sellerId);
     }
 }

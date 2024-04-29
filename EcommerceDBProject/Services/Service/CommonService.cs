@@ -10,15 +10,17 @@ namespace EcommerceDBProject.Services.Service
         private IProductInterface _productService;
         private IUserInterface _userService;
         private IOrderInterface _orderService;
+        private IOrderReturnReviewInterface _orderReturnReviewService;
 
         public CommonService(IInventoryItemInterface inventoryItemService,
             IProductInterface productService, IUserInterface userService,
-            IOrderInterface orderService)
+            IOrderInterface orderService, IOrderReturnReviewInterface orderReturnReviewService)
         {
             _inventoryItemService = inventoryItemService;
             _productService = productService;
             _userService = userService;
             _orderService = orderService;
+            _orderReturnReviewService = orderReturnReviewService;
         }
 
         public InitialPageDataForCustomerDashboard GetInitialPageDataForCustomerDashboard(string userDetailId)
@@ -48,6 +50,26 @@ namespace EcommerceDBProject.Services.Service
             var initialPageData = new InitialPageDataForCustomerOrders
             {
                 CustomerOrdersViewModelList = _orderService.GetCustomerOrdersViewModelList(userDetailId)
+            };
+            return initialPageData;
+        }
+
+        public InitialPageDataForCustomerReturns GetInitialPageDataForCustomerReturns(string userDetailId)
+        {
+            var initialPageData = new InitialPageDataForCustomerReturns
+            {
+                CustomerReturnsViewModel = _orderReturnReviewService.GetCustomerReturnsViewModelListFromUserDetailId(userDetailId)
+            };
+            return initialPageData;
+        }
+
+        public InitialPageDataForCustomerReviews GetInitialPageDataForCustomerReviews(string userDetailId)
+        {
+            var initialPageData = new InitialPageDataForCustomerReviews
+            {
+                CustomerId = _userService.GetCustomerFromUserDetailId(userDetailId).CustomerId,
+                CustomerReviewsViewModel = _orderReturnReviewService.GetCustomerReviewsViewModelListFromUserDetailId(userDetailId)
+
             };
             return initialPageData;
         }

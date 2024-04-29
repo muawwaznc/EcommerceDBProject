@@ -121,12 +121,12 @@ namespace EcommerceDBProject.Services.Service
             using(var db = new EcommerceDbprojectContext())
             {
                 var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
-                var customersOrdersList = db.Orders.Where(x => x.CustomerId == customer.CustomerId);
+                var customersOrdersList = db.Orders.Where(x => x.CustomerId == customer.CustomerId).ToList();
                 var orderItemsList = new List<OrderItem>();
                 foreach(var order in customersOrdersList)
                 {
-                    var orderItemsOfOrder = db.OrderItems.Where(x => x.OrderId == order.OrderId);
-                    orderItemsList.Concat(orderItemsOfOrder);
+                    var orderItemsOfOrder = db.OrderItems.Where(x => x.OrderId == order.OrderId).ToList();
+                    orderItemsList.AddRange(orderItemsOfOrder);
                 }
                 var customerOrdersViewModelList = new List<CustomerOrdersViewModel>();
                 foreach (var orderItem in orderItemsList)
@@ -154,6 +154,24 @@ namespace EcommerceDBProject.Services.Service
                     customerOrdersViewModelList.Add(customerOrdersViewModel);
                 }
                 return customerOrdersViewModelList;
+            }
+        }
+    
+        public List<Order> GetOrdersListFromCustomerId(string customerId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var orders = db.Orders.Where(x => x.CustomerId == customerId).ToList();
+                return orders;
+            }
+        }
+
+        public List<OrderItem> GetOrderItemsListFromOrderId(string orderId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var orderItems = db.OrderItems.Where(x => x.OrderId == orderId).ToList();
+                return orderItems;
             }
         }
     }

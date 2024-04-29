@@ -1,4 +1,5 @@
-﻿using EcommerceDBProject.ViewModels;
+﻿using EcommerceDBProject.DBContext;
+using EcommerceDBProject.ViewModels;
 
 namespace EcommerceDBProject.Services.Interface
 {
@@ -6,5 +7,7 @@ namespace EcommerceDBProject.Services.Interface
     {
         void PlaceOrder(List<BuyInventoryItemViewModel> buyInventoryItemViewModelList, CustomerDetailViewModel customerDetail);
         List<CustomerOrdersViewModel> GetCustomerOrdersViewModelList(string userDetailId);
+        List<Order> GetOrdersListFromCustomerId(string customerId);
+        List<OrderItem> GetOrderItemsListFromOrderId(string orderId);
     }
 }
