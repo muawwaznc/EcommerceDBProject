@@ -174,5 +174,49 @@ namespace EcommerceDBProject.Services.Service
                 return orderItems;
             }
         }
+
+        public List<SellerOrdersViewModel> GetSellerOrdersViewModelList(string userDetailId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                var sellerInventoryItems = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
+                var sellerOrdersViewModelList = new List<SellerOrdersViewModel>();
+                foreach (var invenoryItem in sellerInventoryItems)
+                {
+                    var orderItemsList = db.OrderItems.Where(x => x.InventoryItemId == invenoryItem.InventoryItemId).ToList();
+                    foreach(var orderItem in orderItemsList)
+                    {
+                        var order = db.Orders.FirstOrDefault(x => x.OrderId == orderItem.OrderId);
+                        var customer = _userService.GetCustomerFromCustomerId(order.CustomerId);
+                        sellerOrdersViewModelList.Add(new SellerOrdersViewModel
+                        {
+                            OrderId = order.OrderId,
+                            OrderItemId = orderItem.OrderItemId,
+                            CustomerName = customer.LastName + ", " + customer.FirstName,
+                            InventoryItemName = _productService.GetProductFromInventoryItemId(orderItem.InventoryItemId).ProductName,
+                            OrderQuantity = orderItem.Quantity,
+                            TotalPrice = orderItem.Quantity * _inventoryItemService.GetInventoryItemFromInventoryItemId(orderItem.InventoryItemId).SalePrice,
+                            OrderStatus = orderItem.OrderStatus,
+                            OrderDate = order.OrderDate,
+                            IsCompleteOrderButtonDisabled = orderItem.ShippingDate != null
+                        });
+                    }
+                }
+                return sellerOrdersViewModelList;
+            }
+        }
+        
+        public void ShipOrder(string orderItemId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var orderItem = db.OrderItems.FirstOrDefault(x => x.OrderItemId == orderItemId);
+                orderItem.ShippingDate = DateTime.Now;
+                orderItem.OrderStatus = "Completed";
+                db.OrderItems.Update(orderItem);
+                db.SaveChanges();
+            }
+        }
     }
 }

@@ -1,0 +1,83 @@
+﻿@page "/seller-dashboard/{UserDetailId}/orders/"
+@layout SellerLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+<style>
+    ody {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #0a192f; /* Navy blue background */
+    }
+
+    .container {
+        width: 90%;
+        margin: 30px 20px 20px 30px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(223,214,214);
+    }
+    
+    .SfButton {
+        background-color: #1a2939; /* Dark navy blue button background */
+        color: #fff; /* White text color */
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .SfButton:hover {
+            background-color: #30475e; /* Medium navy blue button background on hover */
+        }
+
+        .SfButton:disabled {
+            background-color: #30475e; /* Medium navy blue for disabled button */
+            cursor: not-allowed;
+        }
+</style>
+<div class="container">
+    <div class="col-12 text-center">
+        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Your Orders</h1>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    @* class="table-light" *@
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Order Status</th>
+                        <th scope="col">Ship Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderItem in OrdersList)
+                    {
+                        <tr>
+                            <th scope="row">@orderItem.OrderId</th>
+                            <td>@orderItem.InventoryItemName</td>
+                            <td>@orderItem.CustomerName</td>
+                            <td>@orderItem.OrderQuantity</td>
+                            <td>$@System.Math.Round(orderItem.TotalPrice, 2)</td>
+                            <td>@orderItem.OrderStatus</td>
+                            <td>
+                                <SfButton OnClick="() => ShipOrder(orderItem)" Disabled="@orderItem.IsCompleteOrderButtonDisabled">
+                                    Ship Order
+                                </SfButton>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

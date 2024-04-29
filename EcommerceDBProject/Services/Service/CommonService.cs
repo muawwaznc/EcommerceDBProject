@@ -85,5 +85,14 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
         }
+
+        public InitialPageDataForSellerOrders GetInitialPageDataForSellerOrders(string userDetailId)
+        {
+            var initialPageData = new InitialPageDataForSellerOrders 
+            {
+                SellerOrdersViewModelList = _orderService.GetSellerOrdersViewModelList(userDetailId)
+            };
+            return initialPageData;
+        }
     }
 }

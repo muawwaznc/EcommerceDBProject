@@ -168,5 +168,14 @@ namespace EcommerceDBProject.Services.Service
                 return seller;
             }
         }
+
+        public Customer GetCustomerFromCustomerId(string customerId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var customer = db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
+                return customer;
+            }
+        }
     }
 }

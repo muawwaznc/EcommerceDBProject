@@ -1,7 +1,7 @@
 ﻿using EcommerceDBProject.DBContext;
 using Microsoft.AspNetCore.Components;
 
-namespace EcommerceDBProject.Components.Pages
+namespace EcommerceDBProject.Components.Pages.Seller
 {
     public partial class SellerDashboard : ComponentBase
     {
@@ -12,6 +12,7 @@ namespace EcommerceDBProject.Components.Pages
         #region Properties
 
         [Parameter] public string UserDetailId { get; set; }
+        
         public string UserName { get; set; } = "WARDA MIRZA";
 
         #endregion

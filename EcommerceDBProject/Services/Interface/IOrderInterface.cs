@@ -9,5 +9,7 @@ namespace EcommerceDBProject.Services.Interface
         List<CustomerOrdersViewModel> GetCustomerOrdersViewModelList(string userDetailId);
         List<Order> GetOrdersListFromCustomerId(string customerId);
         List<OrderItem> GetOrderItemsListFromOrderId(string orderId);
+        List<SellerOrdersViewModel> GetSellerOrdersViewModelList(string userDetailId);
+        void ShipOrder(string orderItemId);
     }
 }
