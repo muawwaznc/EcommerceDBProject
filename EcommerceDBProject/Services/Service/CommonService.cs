@@ -1,6 +1,7 @@
 ﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
+using System.Runtime.CompilerServices;
 
 namespace EcommerceDBProject.Services.Service
 {
@@ -91,6 +92,38 @@ namespace EcommerceDBProject.Services.Service
             var initialPageData = new InitialPageDataForSellerOrders 
             {
                 SellerOrdersViewModelList = _orderService.GetSellerOrdersViewModelList(userDetailId)
+            };
+            return initialPageData;
+        }
+
+        public InitialPageDataForSellerDashboard GetInitialPageDataForSellerDashboard(string userDetailId)
+        {
+            var address = _userService.GetAddressByUserDetailId(userDetailId);
+            var seller = _userService.GetSellerFromUserDetailId(userDetailId);
+            var userDetail = _userService.GetUserDetailFromUserDetailId(userDetailId);
+            var initialPageData = new InitialPageDataForSellerDashboard
+            {
+                SellerName = _userService.GetSellerFullNameFromSellerId(seller.SellerId),
+                Email = userDetail.Email,
+                PhoneNumber = userDetail.PhoneNumber,
+                City = address.City,
+                Country = address.Country,
+                RegistrationDate = seller.RegistrationDate.Value.Date,
+                SellerRating = seller.SellerRating
+            };
+            return initialPageData;
+        }
+
+        public InitialPageDataForSellerProfile GetInitialPageDataForSellerProfile(string userDetailId)
+        {
+            var address = _userService.GetAddressByUserDetailId(userDetailId);
+            var seller = _userService.GetSellerFromUserDetailId(userDetailId);
+            var userDetail = _userService.GetUserDetailFromUserDetailId(userDetailId);
+            var initialPageData = new InitialPageDataForSellerProfile
+            {
+                Seller = seller,
+                UserDetail = userDetail,
+                Address = address
             };
             return initialPageData;
         }

@@ -177,5 +177,14 @@ namespace EcommerceDBProject.Services.Service
                 return customer;
             }
         }
+
+        public UserDetail GetUserDetailFromUserDetailId(string userDetailId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var userDetail = db.UserDetails.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                return userDetail;
+            }
+        }
     }
 }
