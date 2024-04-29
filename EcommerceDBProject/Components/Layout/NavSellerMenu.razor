@@ -23,25 +23,25 @@
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}/profile")" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Profile
+            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}")" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Dashboard
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}")">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Products
+            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}/products")">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> All Products
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}/reviews/")">
+            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}/seller-orders")">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Orders
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}/products")">
+            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}/seller-revenu")">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Revenue
             </NavLink>
         </div>
