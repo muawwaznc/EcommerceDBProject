@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.NewF;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 
@@ -19,7 +19,6 @@ namespace EcommerceDBProject.Services.Service
             {
                 CustomerId = _userService.GetCustomerFromUserDetailId(customerDetail.UserDetailId).CustomerId,
                 OrderDate = DateTime.Now,
-                RequiredShippingDate = DateTime.Now.AddDays(7),
                 TotalPrice = CalculateTotalPriceForOrder(buyInventoryItemViewModelList),
                 ShippingAddressId = shippingAddress.AddressId,
                 PaymentMethod = customerDetail.PaymentMethod,
@@ -34,6 +33,7 @@ namespace EcommerceDBProject.Services.Service
                     InventoryItemId = buyInventoryItemViewModel.InventoryItem.InventoryItemId,
                     Quantity = buyInventoryItemViewModel.QuantityToBuy,
                     UnitPrice = buyInventoryItemViewModel.InventoryItem.SalePrice,//minus the promotion percentage in future
+                    RequiredShippingDate = DateTime.Now.AddDays(7),
                     IsReturned = false,
                     OrderStatus = "Processing",
                 };

@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.NewF;
+﻿using EcommerceDBProject.DBContext;
 
 namespace EcommerceDBProject.ViewModels
 {
