@@ -1,14 +1,14 @@
 ﻿@code {
-    // Inject the NavigationManager to access the URL
     [Inject]
     private NavigationManager NavigationManager { get; set; }
 
     private string CurrentUrl { get; set; }
+    private string UserDetailId { get; set; }
 
     protected override void OnInitialized()
     {
-        // Get the current URL
         CurrentUrl = NavigationManager.Uri;
+        UserDetailId = CurrentUrl.Split('/')[4];
     }
 }
 
@@ -23,13 +23,13 @@
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}")" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Dashboard
+            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}/profile")" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Profile
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"{CurrentUrl}/products")">
+            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}")">
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Products
             </NavLink>
         </div>

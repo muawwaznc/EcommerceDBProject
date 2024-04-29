@@ -7,11 +7,11 @@ namespace EcommerceDBProject.Services.Service
     public class OrderReturnReviewService : IOrderReturnReviewInterface
     {
         IProductInterface _productService;
-        ISellerInterface _sellerService;
-        public OrderReturnReviewService(IProductInterface productService, ISellerInterface sellerService)
+        IUserInterface _userService;
+        public OrderReturnReviewService(IProductInterface productService, IUserInterface userService)
         {
             _productService = productService;
-            _sellerService = sellerService;
+            _userService = userService;
         }
         public bool IsReturnAvailable(string orderItemId)
         {
@@ -52,7 +52,7 @@ namespace EcommerceDBProject.Services.Service
                     foreach (var orderItem in orderItemsList)
                     {
                         var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == orderItem.InventoryItemId);
-                        var seller = _sellerService.GetSellerFromSellerId(inventoryItem.SellerId);
+                        var seller = _userService.GetSellerFromSellerId(inventoryItem.SellerId);
                         var review = db.ProductReviews.FirstOrDefault(x => x.OrderItemId == orderItem.OrderItemId);
                         if (review != null)
                         {
@@ -87,7 +87,7 @@ namespace EcommerceDBProject.Services.Service
                     foreach (var orderItem in orderItemsList)
                     {
                         var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == orderItem.InventoryItemId);
-                        var seller = _sellerService.GetSellerFromSellerId(inventoryItem.SellerId);
+                        var seller = _userService.GetSellerFromSellerId(inventoryItem.SellerId);
                         var returns = db.ProductReturns.FirstOrDefault(x => x.OrderItemId == orderItem.OrderItemId);
                         if (returns != null)
                         {

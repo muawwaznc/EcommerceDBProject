@@ -35,5 +35,14 @@ namespace EcommerceDBProject.Services.Service
                 return inventoryItem;
             }
         }
+
+        public List<InventoryItem> GetSellerInventoryItemsListFromSellerId(string sellerId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var inventoryItemsList = db.InventoryItems.Where(x => x.SellerId == sellerId).ToList();
+                return inventoryItemsList;
+            }
+        }
     }
 }

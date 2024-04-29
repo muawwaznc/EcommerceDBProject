@@ -73,5 +73,17 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
         }
+
+        public InitialPageDataForSellerInventoryItems GetInitialPageDataForSellerInventoryItems(string userDetailId)
+        {
+            var seller = _userService.GetSellerFromUserDetailId(userDetailId);
+            var initialPageData = new InitialPageDataForSellerInventoryItems
+            {
+                Seller = seller,
+                SellerInventoryItems = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId),
+                ProductCategories = _productService.GetAllProductCategories()
+            };
+            return initialPageData;
+        }
     }
 }

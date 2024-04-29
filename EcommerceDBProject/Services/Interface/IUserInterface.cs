@@ -12,5 +12,7 @@ namespace EcommerceDBProject.Services.Interface
         Customer GetCustomerFromUserDetailId(string userDetailId);
         Address GetAddressByUserDetailId(string userDetailId);
         Seller GetSellerFromSellerId(string sellerId);
+        string GetSellerFullNameFromSellerId(string sellerId);
+        Seller GetSellerFromUserDetailId(string userDetailId);
     }
 }

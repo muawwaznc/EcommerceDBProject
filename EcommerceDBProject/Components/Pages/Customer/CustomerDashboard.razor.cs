@@ -15,6 +15,7 @@ namespace EcommerceDBProject.Components.Pages.Customer
         [Inject] IInventoryItemInterface InventoryItemService { get; set; }
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] ISellerInterface SellerService { get; set; }
+        [Inject] IUserInterface UserService { get; set; }
         [Inject] IOrderInterface OrderService { get; set; }
         [Inject] IToastService toastService { get; set; }
         #endregion

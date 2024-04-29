@@ -146,7 +146,25 @@ namespace EcommerceDBProject.Services.Service
         {
             using (var db = new EcommerceDbprojectContext())
             {
-                var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == sellerId);
+                var seller = db.Sellers.FirstOrDefault(x => x.SellerId == sellerId);
+                return seller;
+            }
+        }
+
+        public string GetSellerFullNameFromSellerId(string sellerId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var seller = db.Sellers.FirstOrDefault(x => x.SellerId == sellerId);
+                return seller.LastName + ", " + seller.FirstName;
+            }
+        }
+
+        public Seller GetSellerFromUserDetailId(string userDetailId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 return seller;
             }
         }
