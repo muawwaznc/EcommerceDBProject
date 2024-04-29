@@ -1,11 +1,83 @@
 ﻿@page "/customer-dashboard/{UserDetailId}"
 @layout CustomerLayout
 @rendermode InteractiveServer
+@using Blazored.Toast
+@using Blazored.Toast.Configuration
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
 
 <PageTitle>Home Page</PageTitle>
+<style>
+    .blazored-toast-container {
+        z-index: 99999;
+    }
+
+    .blazored-toast-container toast {
+        display: none;
+        padding: 1.5rem;
+        color: #fff;
+        z-index: 1;
+        position: absolute;
+        width: 25rem;
+        top: 2rem;
+        border-radius: 1rem;
+        left: 50%;
+    }
+
+    .blazored-toast-container toast-icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 1rem;
+        font-size: 2.5rem;
+    }
+
+    .blazored-toast-container toast-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding-left: 1rem;
+    }
+
+        .blazored-toast-container toast-body p {
+            margin-bottom: 0;
+        }
+
+    .blazored-toast-container toast-visible {
+        display: flex;
+        flex-direction: row;
+        animation: fadein 1s;
+    }
+    .sidebar .sidebar-override {
+        background-color: rgb(50,50,50);
+        background-image: none;
+        height: 100vh;
+    }
+
+    .format-style {
+        font-family: Consolas;
+        font-size: 12px;
+        font-weight: bold;
+        word-spacing: 3px;
+    }
+
+    .footer {
+        height: 30px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: white;
+        text-align: center;
+    }
+
+
+    .e-return-icon::before {
+        content: '\e752';
+    }
+
+</style>
 
 <style>
     .dialog-box {
@@ -302,3 +374,10 @@
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
 </SfDialog>
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

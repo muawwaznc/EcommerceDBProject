@@ -1,4 +1,5 @@
-﻿using EcommerceDBProject.NewF;
+﻿using Blazored.Toast.Services;
+using EcommerceDBProject.NewF;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
@@ -16,7 +17,7 @@ namespace EcommerceDBProject.Components.Pages
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] ISellerInterface SellerService { get; set; }
         [Inject] IOrderInterface OrderService { get; set; }
-
+        [Inject] IToastService toastService { get; set; }
         #endregion
 
         #region Properties
@@ -124,7 +125,7 @@ namespace EcommerceDBProject.Components.Pages
             }
             else
             {
-                //ToastMessage.Show("Select Product First!");
+                toastService.ShowError("Please Select Product First");
             }            
         }
 
