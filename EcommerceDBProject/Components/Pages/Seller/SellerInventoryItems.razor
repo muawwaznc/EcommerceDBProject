@@ -253,7 +253,7 @@
                     <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
                     <p class="product-card-description m-0 p-0" style="font-size:18px;color:black;font-family:sans-serif">Stock Amount: @inventoryItem.StockAmount</p>
                     <div class="product-card-quantity-price">
-                        <span class="product-card-price">$@inventoryItem.SalePrice</span>
+                        <span class="product-card-price">$@System.Math.Round(inventoryItem.SalePrice, 2)</span>
                     </div>
                 </div>
             </div>

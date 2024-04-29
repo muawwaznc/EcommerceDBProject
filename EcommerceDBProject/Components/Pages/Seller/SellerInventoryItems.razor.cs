@@ -14,8 +14,6 @@ namespace EcommerceDBProject.Components.Pages.Seller
         [Inject] IInventoryItemInterface InventoryItemService { get; set; }
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] IUserInterface UserService { get; set; }
-        [Inject] IOrderInterface OrderService { get; set; }
-        [Inject] IToastService toastService { get; set; }
 
         #endregion
 
@@ -47,11 +45,11 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
             if (productCategory == null)
             {
-                InventoryItemsList = InventoryItemService.GetAllInventoryItemsList();
+                InventoryItemsList = InventoryItemService.GetSellerInventoryItemsListFromSellerId(InitialPageData.Seller.SellerId);
             }
             else
             {
-                InventoryItemsList = InventoryItemService.GetAllInventoryItemsOfSpecifcCetagory(productCategory.CategoryId);
+                InventoryItemsList = InventoryItemService.GetSellerInventoryItemsOfSpecifcCetagory(productCategory.CategoryId, InitialPageData.Seller.SellerId);
             }
         }
 

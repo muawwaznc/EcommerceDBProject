@@ -8,5 +8,6 @@ namespace EcommerceDBProject.Services.Interface
         List<InventoryItem> GetAllInventoryItemsOfSpecifcCetagory(string categoryId);
         InventoryItem GetInventoryItemFromInventoryItemId(string inventoryItemId);
         List<InventoryItem> GetSellerInventoryItemsListFromSellerId(string sellerId);
+        List<InventoryItem> GetSellerInventoryItemsOfSpecifcCetagory(string categoryId, string sellerId);
     }
 }
