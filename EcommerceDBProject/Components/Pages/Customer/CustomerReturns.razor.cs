@@ -1,11 +1,10 @@
-﻿using EcommerceDBProject.DBContext;
-using EcommerceDBProject.Services.Interface;
+﻿using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
 
-namespace EcommerceDBProject.Components.Pages
+namespace EcommerceDBProject.Components.Pages.Customer
 {
-    public partial class CustomerOrders : ComponentBase
+    public partial class CustomerReturns : ComponentBase
     {
         #region Injection
 
@@ -39,7 +38,7 @@ namespace EcommerceDBProject.Components.Pages
 
         protected void OpenConfirmOrderModel()
         {
-            
+
         }
 
         protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)

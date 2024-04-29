@@ -3,10 +3,9 @@ using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.DropDowns;
 using System.Linq;
 
-namespace EcommerceDBProject.Components.Pages
+namespace EcommerceDBProject.Components.Pages.Customer
 {
     public partial class CustomerDashboard : ComponentBase
     {

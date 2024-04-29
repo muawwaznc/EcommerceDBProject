@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Components\Pages\CustomerOrders.razor" />
+    <None Include="Components\Pages\Customer\CustomerOrders.razor" />
   </ItemGroup>
 
 </Project>

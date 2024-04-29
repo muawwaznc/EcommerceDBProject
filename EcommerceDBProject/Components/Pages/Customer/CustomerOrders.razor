@@ -1,0 +1,45 @@
+﻿@page "/orders/{UserDetailId}"
+@layout CustomerLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+
+<PageTitle>Customer Orders</PageTitle>
+
+<table class="table">
+    <thead class="table-light">
+        <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+            <th scope="col">Order Status</th>
+            <th scope="col">Review</th>
+            <th scope="col">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderItem in OrdersList)
+        {
+            <tr>
+                <th scope="row">@orderItem.OrderId</th>
+                <td>@orderItem.InventoryItemName</td>
+                <td>@orderItem.OrderQuantity</td>
+                <td>@orderItem.TotalPrice</td>
+                <td>@orderItem.OrderStatus</td>
+                <td>
+                    <SfButton Disabled="@orderItem.IsReviewButtonDisabled">
+                        Review
+                    </SfButton>
+                </td>
+                <td>
+                    <SfButton Disabled="@orderItem.IsReviewButtonDisabled">
+                        Return
+                    </SfButton>
+                </td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
