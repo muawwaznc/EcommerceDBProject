@@ -1,5 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
+@code {
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private string CurrentUrl { get; set; }
+    private string UserDetailId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Get the current URL
+        CurrentUrl = NavigationManager.Uri;
+        UserDetailId = CurrentUrl.Split('/')[4];
+    }
+}
+
 <link href="_content/Syncfusion.Blazor.Themes/bootstrap5.css" rel="stylesheet" />
 <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
 <div class="page">
@@ -7,10 +22,11 @@
         <NavCustomerMenu />
     </div>
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <div class="nav-item top-row px-4">
+            <NavLink class="nav-link" href="@($"customer-dashboard/{UserDetailId}")" Match="NavLinkMatch.All">
+                <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Dashboard
+            </NavLink>
         </div>
-
         <article class="content px-4">
             @Body
         </article>

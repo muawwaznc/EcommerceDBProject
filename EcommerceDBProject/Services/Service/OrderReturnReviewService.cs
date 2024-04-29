@@ -60,7 +60,7 @@ namespace EcommerceDBProject.Services.Service
                             {
                                 ReviewId = review.ReviewId,
                                 OrderId = order.OrderId,
-                                InventoryItemName = _productService.GetProductFromInventoryItemId(orderItem.OrderItemId).ProductName,
+                                InventoryItemName = _productService.GetProductFromInventoryItemId(orderItem.InventoryItemId).ProductName,
                                 SellerName = seller.LastName + ", " + seller.FirstName,
                                 OrderDate = order.OrderDate,
                                 ReviewStars = review.Rating,
@@ -95,7 +95,7 @@ namespace EcommerceDBProject.Services.Service
                             {
                                 ReturnId = returns.ReturnId,
                                 OrderId = order.OrderId,
-                                InventoryItemName = _productService.GetProductFromInventoryItemId(orderItem.OrderItemId).ProductName,
+                                InventoryItemName = _productService.GetProductFromInventoryItemId(orderItem.InventoryItemId).ProductName,
                                 SellerName = seller.LastName + ", " + seller.FirstName,
                                 OrderDate = order.OrderDate,
                                 ReturnDate = returns.ReturnDate,
