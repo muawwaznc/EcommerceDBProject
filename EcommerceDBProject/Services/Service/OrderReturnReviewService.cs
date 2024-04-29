@@ -6,24 +6,19 @@ namespace EcommerceDBProject.Services.Service
 {
     public class OrderReturnReviewService : IOrderReturnReviewInterface
     {
-        IUserInterface _userService;
-        IOrderInterface _orderService;
         IProductInterface _productService;
         ISellerInterface _sellerService;
-        public OrderReturnReviewService(IUserInterface userService, IOrderInterface orderService,
-            IProductInterface productService, ISellerInterface sellerService)
+        public OrderReturnReviewService(IProductInterface productService, ISellerInterface sellerService)
         {
-            _userService = userService;
-            _orderService = orderService;
             _productService = productService;
             _sellerService = sellerService;
         }
         public bool IsReturnAvailable(string orderItemId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbprojectContext())
             {
                 var produtReturn = db.ProductReturns.FirstOrDefault(x => x.OrderItemId == orderItemId);
-                if(produtReturn != null) 
+                if (produtReturn != null)
                 {
                     return false;
                 }
@@ -46,20 +41,20 @@ namespace EcommerceDBProject.Services.Service
 
         public List<CustomerReviewsViewModel> GetCustomerReviewsViewModelListFromUserDetailId(string userDetailId)
         {
-            var customer = _userService.GetCustomerFromUserDetailId(userDetailId);
-            var customersOrders = _orderService.GetOrdersListFromCustomerId(customer.CustomerId);
-            List<CustomerReviewsViewModel> customerReviewsViewModelList = new List<CustomerReviewsViewModel>();
-            using(var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbprojectContext())
             {
+                var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                var customersOrders = db.Orders.Where(x => x.CustomerId == customer.CustomerId).ToList();
+                List<CustomerReviewsViewModel> customerReviewsViewModelList = new List<CustomerReviewsViewModel>();
                 foreach (var order in customersOrders)
                 {
-                    var orderItemsList = _orderService.GetOrderItemsListFromOrderId(order.OrderId);
-                    foreach(var orderItem in orderItemsList)
+                    var orderItemsList = db.OrderItems.Where(x => x.OrderId == order.OrderId).ToList();
+                    foreach (var orderItem in orderItemsList)
                     {
                         var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == orderItem.InventoryItemId);
                         var seller = _sellerService.GetSellerFromSellerId(inventoryItem.SellerId);
                         var review = db.ProductReviews.FirstOrDefault(x => x.OrderItemId == orderItem.OrderItemId);
-                        if(review != null)
+                        if (review != null)
                         {
                             customerReviewsViewModelList.Add(new CustomerReviewsViewModel
                             {
@@ -74,20 +69,21 @@ namespace EcommerceDBProject.Services.Service
                         }
                     }
                 }
+                return customerReviewsViewModelList;
             }
-            return customerReviewsViewModelList;
         }
 
         public List<CustomerReturnsViewModel> GetCustomerReturnsViewModelListFromUserDetailId(string userDetailId)
         {
-            var customer = _userService.GetCustomerFromUserDetailId(userDetailId);
-            var customersOrders = _orderService.GetOrdersListFromCustomerId(customer.CustomerId);
-            List<CustomerReturnsViewModel> customerReturnsViewModelList = new List<CustomerReturnsViewModel>();
             using (var db = new EcommerceDbprojectContext())
             {
+                var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
+                var customersOrders = db.Orders.Where(x => x.CustomerId == customer.CustomerId).ToList();
+                List<CustomerReturnsViewModel> customerReturnsViewModelList = new List<CustomerReturnsViewModel>();
+
                 foreach (var order in customersOrders)
                 {
-                    var orderItemsList = _orderService.GetOrderItemsListFromOrderId(order.OrderId);
+                    var orderItemsList = db.OrderItems.Where(x => x.OrderId == order.OrderId).ToList();
                     foreach (var orderItem in orderItemsList)
                     {
                         var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == orderItem.InventoryItemId);
@@ -104,13 +100,13 @@ namespace EcommerceDBProject.Services.Service
                                 OrderDate = order.OrderDate,
                                 ReturnDate = returns.ReturnDate,
                                 ReturnStatus = returns.ReturnStatus,
-                                ReturnReason = returns.ReturnReason??"-"
+                                ReturnReason = returns.ReturnReason ?? "-"
                             });
                         }
                     }
                 }
+                return customerReturnsViewModelList;
             }
-            return customerReturnsViewModelList;
         }
     }
 }
