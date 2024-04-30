@@ -19,6 +19,7 @@ builder.Services.AddScoped<IOrderInterface, OrderService>();
 builder.Services.AddScoped<IOrderReturnReviewInterface, OrderReturnReviewService>();
 builder.Services.AddScoped<ICommonInterface, CommonService>();
 builder.Services.AddScoped<IUserInterface, UserService>();
+builder.Services.AddScoped<IPromotionInterface, PromotionService>();
 builder.Services.AddScoped<IInventoryItemInterface, InventoryItemService>();
 
 var app = builder.Build();

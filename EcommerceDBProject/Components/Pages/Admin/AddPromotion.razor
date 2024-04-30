@@ -1,5 +1,132 @@
-﻿<h3>AddPromotion</h3>
+﻿@page "/admin/add-promotion"
+@layout AdminLayout
+@rendermode InteractiveServer
+@using Blazored.Toast
+@using Blazored.Toast.Configuration
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
 
-@code {
+<style>
+    .container {
+        width: 800px;
+        height: auto;
+        margin-top: 70px;
+        /* Center horizontally */
+        background-color: #fff;
+        padding: 20px;
+        border: 3px solid #355c7d;
+        border-radius: 20px;
+        box-shadow: 0 20px 20px rgba(223, 214, 214);
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+    }
 
-}
+    .heading {
+        font-family: sans-serif;
+        color: #355c7d;
+        text-align: center;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+    .label-style {
+        font-size: 18px;
+        font-family: 'Sans Serif';
+        color: black;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .text-box {
+        border: 1px solid #355c7d;
+    }
+    /* CSS */
+    .button-style {
+        background-color: #cf889d;
+        width: 200px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 40px;
+        font-size: 20px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        width: 200px;
+        z-index: 9;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
+</style>
+
+<div class="container">
+    <div class="col-12 mt-3 mb-3 text-center">
+        <h3 class="heading">ADD PROMOTION</h3>
+    </div>
+    <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+    <div class="col-12 row mt-2 p-0">
+        <div class="col-4 m-1 text-left">
+            <label class="label-style">Promotion Name</label>
+        </div>
+        <div class="col-7 m-1">
+            <input type="text" class="form-control text-box" id="inputName" placeholder="Name" @bind-value="@Promotion.PromotionName">
+        </div>
+    </div>
+    <div class="col-12 row mt-2 p-0">
+        <div class="col-4 m-1 text-left">
+            <label class="label-style">Discount Percentage</label>
+        </div>
+        <div class="col-7 m-1">
+            <input type="number" class="form-control text-box" id="inputPercentage" placeholder="discount Percentage" @bind-value="@Promotion.DiscountPercentage">
+        </div>
+    </div>
+    <div class="col-12 row mt-2 p-0">
+        <div class="col-4 m-1 text-left">
+            <label class="label-style">Start Date</label>
+        </div>
+        <div class="col-7 m-1">
+            <input type="date" class="form-control text-box" id="inputStart" placeholder="Start Date" @bind-value="@Promotion.StartDate">
+        </div>
+    </div>
+    <div class="col-12 row mt-2 p-0">
+        <div class="col-4 m-1 text-left">
+            <label class="label-style">End Date</label>
+        </div>
+        <div class="col-7 m-1">
+            <input type="date" class="form-control text-box" id="inputEnd" placeholder="End Date" @bind-value="@Promotion.EndDate">
+        </div>
+    </div>
+    <div class="col-12 row mb-2 p-0">
+        <div class="col-4 m-1 text-left">
+            <label class="label-style">Category Description</label>
+        </div>
+        <div class="col-7 m-1">
+            <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@Promotion.PromotionDescription"></textarea>
+        </div>
+    </div>
+    <div class="col-12 mt-3 mb-3 text-center">
+        <button type="button" class="button-style" @onclick="() => AddProductPromotion()">Add Promotion</button>
+    </div>
+</div>
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />
