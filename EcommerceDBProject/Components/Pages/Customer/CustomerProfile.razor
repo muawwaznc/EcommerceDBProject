@@ -10,27 +10,50 @@
 
 <style>
     .container {
-        width: 750px;
+        width: 1200px;
+        height: auto;
+        margin-top: 50px;
+        /* Center horizontally */
+        background-color: #fff;
+        padding: 20px;
         border: 3px solid #355c7d;
-        box-shadow: #90a2b3 0 2px 4px;
+        border-radius: 20px;
+        box-shadow: 0 20px 20px rgba(223, 214, 214);
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
     }
 
-    .div_color {
-        background-color: #889fb2;
-    }
-    .div_color1{
-        background-color: #e4eaef;
-    }
-    body {
-        background: white;
+    .dropdown {
     }
 
-    .form-control:focus {
-        box-shadow: none;
-        border-color: #4e648a
+        .dropdown select {
+            padding: 8px;
+            font-size: 15px;
+            width: 240px;
+            border-radius: 10px;
+        }
+
+    .heading {
+        font-family: sans-serif;
+        color: #355c7d;
+        text-align: center;
+        text-decoration: underline;
+        font-weight: bold;
     }
 
-    .profile-button {
+    .label-style {
+        font-size: 18px;
+        font-family: 'Sans Serif';
+        color: black;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .text-box {
+        border: 1px solid #355c7d;
+    }
+    /* CSS */
+    .button-style {
         background-color: #cf889d;
         width: 200px;
         border-radius: 6px;
@@ -41,7 +64,6 @@
         font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
         height: 40px;
         font-size: 20px;
-        line-height: 40px;
         outline: 0;
         overflow: hidden;
         padding: 0 20px;
@@ -53,104 +75,145 @@
         -webkit-user-select: none;
         vertical-align: top;
         white-space: nowrap;
+        width: 200px;
         z-index: 9;
-        border: 3px solid #9c4e65;
         transition: box-shadow .2s;
     }
-        .profile-button:hover {
-            background: #9c4e65
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
         }
-
-        .profile-button:focus {
-            background: #e099ae;
-            box-shadow: none
-        }
-
-    .back:hover {
-        color: #4a6a8d;
-        cursor: pointer
-    }
-
-    .labels {
-        font-size: 15px;
-    }
-
 </style>
 
-<div>
-    <div class="container rounded bg-white mt-5 mb-5">
-        <div class="row">
-            <div class="col-md-4 border-right div_color">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img class="rounded-circle mt-5" width="150px" src="user.png">
-                    <span class="font-weight-bold" style="font-size:22px;">@Customer.LastName, @Customer.FirstName</span>
-                    <span class="text-black-50">@CustomerDetail.Email</span>
-                    <span> </span>
-                </div>
+<div class="container">
+    <div class="col-12 mt-3 mb-3 text-center">
+        <h3 class="heading">Profile Setting</h3>
+    </div>
+    <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">First Name</label>
             </div>
-            <div class="col-md-8 border-right div_color1">
-                <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 class="text-right">Profile Settings</h3>
-                    </div>
-                    <div style="border:2px solid lightgrey"></div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <label class="labels">First Name</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter First Name" @bind-Value="@Customer.FirstName"></SfTextBox>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="labels">Last Name</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" @bind-Value="@Customer.LastName" Placeholder="Enter Last Name"></SfTextBox>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label class="labels">Phone Number</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" Enabled=false CssClass="form-control" Placeholder="Enter Phone Number" @bind-Value="@CustomerDetail.PhoneNumber"></SfTextBox>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Email</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" Enabled=false CssClass="form-control" Placeholder="Enter Email" @bind-Value="@CustomerDetail.Email"></SfTextBox>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Password</label>
-                            <SfTextBox TValue="string" Type="InputType.Password" CssClass="form-control" Placeholder="Enter Password" @bind-Value="@Customer.Password"></SfTextBox>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">House Number</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter House Number" @bind-Value="@CustomerAddress.HouseNumber"></SfTextBox>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Street</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter Street" @bind-Value="@CustomerAddress.Street"></SfTextBox>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">City</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter City" @bind-Value="@CustomerAddress.City"></SfTextBox>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="labels">Country</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter Country" @bind-Value="@CustomerAddress.Country"></SfTextBox>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label class="labels">Region</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter Region" @bind-Value="@CustomerAddress.Region"></SfTextBox>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="labels">Zip Code</label>
-                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" @bind-Value="@CustomerAddress.ZipCode" Placeholder="Enter Zip Code"></SfTextBox>
-                        </div>
-                    </div>
-
-                    <div class="mt-5 text-center">
-                        <button class="profile-button" type="button">Save Profile</button>
-                    </div>
-                </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@Customer.FirstName" CssClass="form-control text-box" Placeholder="Enter First Name"></SfTextBox>
+            </div>
+        </div>
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Last Name</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@Customer.LastName" CssClass="form-control text-box" Placeholder="Enter First Name"></SfTextBox>
             </div>
         </div>
     </div>
+    <div class="col-12 row mt-2 p-0">
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Email</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerDetail.Email" Type="InputType.Email" CssClass="form-control text-box" Placeholder="Enter Email"></SfTextBox>
+            </div>
+        </div>
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Phone Number</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerDetail.PhoneNumber" Type="InputType.Tel" CssClass="form-control text-box" Placeholder="Enter Phone Number"></SfTextBox>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">House Number</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerAddress.HouseNumber" CssClass="form-control text-box" Placeholder="Enter House Number"></SfTextBox>
+            </div>
+        </div>
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Street</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerAddress.Street" CssClass="form-control text-box" Placeholder="Enter Street"></SfTextBox>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">City</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerAddress.City" CssClass="form-control text-box" Placeholder="Enter City"></SfTextBox>
+            </div>
+        </div>
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Country</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerAddress.Country" CssClass="form-control text-box" Placeholder="Enter Country"></SfTextBox>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Region</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerAddress.Region" CssClass="form-control text-box" Placeholder="Enter Region"></SfTextBox>
+            </div>
+        </div>
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Zip Code</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@CustomerAddress.ZipCode" CssClass="form-control text-box" Placeholder="Enter Zip Code"></SfTextBox>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Password</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@Customer.Password" CssClass="form-control text-box" Placeholder="Enter Password"></SfTextBox>
+            </div>
+        </div>
+        <div class="col-6 row m-0 p-0">          
+        </div>
+    </div>
+
+
+    <div class="col-12 mt-3 mb-3 text-center">
+        <button type="button" class="button-style">Save Changes</button>
+    </div>
 </div>
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

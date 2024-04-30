@@ -195,7 +195,7 @@ namespace EcommerceDBProject.Services.Service
             var seller = _userService.GetSellerFromUserDetailId(userDetailId);
             var initialPageData = new InitialPageDataForSellerPromotion();
             initialPageData.SellerId = seller.SellerId;
-            initialPageData.PromotionList = _promotionService.GetAllPromotionList();
+            //initialPageData.PromotionList = _promotionService.GetAllPromotionList();
             initialPageData.productCategoriesList = _productService.GetAllProductCategories();
             initialPageData.inventoryItemsList = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
             return initialPageData;
