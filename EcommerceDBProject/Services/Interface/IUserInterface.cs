@@ -17,5 +17,6 @@ namespace EcommerceDBProject.Services.Interface
         Customer GetCustomerFromCustomerId(string customerId);
         UserDetail GetUserDetailFromUserDetailId(string userDetailId);
         void UpdateSellerDetails(InitialPageDataForSellerProfile sellerData);
+        void UpdateCustomerDetails(InitialPageDataForCustomerProfile customerData);
     }
 }

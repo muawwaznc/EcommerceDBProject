@@ -220,5 +220,39 @@ namespace EcommerceDBProject.Services.Service
             }
         }
 
+        public void UpdateCustomerDetails(InitialPageDataForCustomerProfile customerData)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var existingCustomer = db.Customers.FirstOrDefault(s => s.CustomerId == customerData.Customer.CustomerId);
+                if (existingCustomer != null)
+                {
+                    existingCustomer.FirstName = customerData.Customer.FirstName;
+                    existingCustomer.LastName = customerData.Customer.LastName;
+                    existingCustomer.DateOfBirth = customerData.Customer.DateOfBirth;
+                    existingCustomer.RegistrationDate = customerData.Customer.RegistrationDate;
+                    existingCustomer.LastLoginDate = customerData.Customer.LastLoginDate;
+                    existingCustomer.Password = customerData.Customer.Password;
+
+                    db.Customers.Update(existingCustomer);
+                }
+
+                var existingAddress = db.Addresses.FirstOrDefault(a => a.AddressId == customerData.Address.AddressId);
+                if (existingAddress != null)
+                {
+                    existingAddress.HouseNumber = customerData.Address.HouseNumber;
+                    existingAddress.Street = customerData.Address.Street;
+                    existingAddress.City = customerData.Address.City;
+                    existingAddress.Country = customerData.Address.Country;
+                    existingAddress.Region = customerData.Address.Region;
+                    existingAddress.ZipCode = customerData.Address.ZipCode;
+
+                    db.Addresses.Update(existingAddress);
+                }
+
+                db.SaveChanges();
+            }
+        }
+
     }
 }

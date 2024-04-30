@@ -145,5 +145,38 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
         }
+
+        public InitialPageDataForCustomerProfile GetInitialPageDataForCustomerProfile(string userDetailId)
+        {
+            var address = _userService.GetAddressByUserDetailId(userDetailId);
+            var customer = _userService.GetCustomerFromUserDetailId(userDetailId);
+            var userDetail = _userService.GetUserDetailFromUserDetailId(userDetailId);
+            var initialPageData = new InitialPageDataForCustomerProfile
+            {
+                Customer = new CustomerViewModel
+                {
+                    CustomerId = customer.CustomerId,
+                    UserDetailId = customer.UserDetailId,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    DateOfBirth = customer.DateOfBirth,
+                    RegistrationDate = customer.RegistrationDate,
+                    LastLoginDate = customer.LastLoginDate,
+                    Password = customer.Password
+                },
+                UserDetail = userDetail,
+                Address = new AddressViewModel
+                {
+                    AddressId = address.AddressId,
+                    HouseNumber = address.HouseNumber,
+                    Street = address.Street,
+                    City = address.City,
+                    Country = address.Country,
+                    Region = address.Region,
+                    ZipCode = address.ZipCode
+                }
+            };
+            return initialPageData;
+        }
     }
 }
