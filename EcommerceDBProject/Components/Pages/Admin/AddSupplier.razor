@@ -1,4 +1,4 @@
-﻿@page "/admin/addSupplier/"
+﻿@page "/admin/add-supplier/"
 @layout AdminLayout
 @rendermode InteractiveServer
 @using Blazored.Toast
@@ -6,6 +6,8 @@
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Inputs;
+
 <style>
     .container {
         width: 1200px;
@@ -82,26 +84,29 @@
             box-shadow: #355c7d 0 3px 8px;
         }
 </style>
+
 <div class="container">
     <div class="col-12 mt-3 mb-3 text-center">
         <h3 class="heading">ADD SUPPLIER</h3>
     </div>
     <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
     <div class="col-12 row mt-2 p-0">
+
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
-                <label class="label-style">First Name</label>
+                <label class="label-style">Supplier Name</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputLastName" placeholder="First Name">
+                <SfTextBox @bind-Value="@Supplier.SupplierName" CssClass="form-control text-box" Placeholder="Enter First Name"></SfTextBox>
             </div>
         </div>
+
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
-                <label class="label-style">Last Name</label>
+                <label class="label-style">Contact Person Name</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputFirstName" placeholder="Last Name">
+                <SfTextBox @bind-Value="@Supplier.ContactPersonName" CssClass="form-control text-box" Placeholder="Enter Last Name"></SfTextBox>
             </div>
         </div>
     </div>
@@ -111,7 +116,7 @@
                 <label class="label-style">Email</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputEmail" placeholder="Email">
+                <SfTextBox @bind-Value="@SupplierDetails.Email" Type="InputType.Email" CssClass="form-control text-box" Placeholder="Enter Email"></SfTextBox>
             </div>
         </div>
         <div class="col-6 row m-0 p-0">
@@ -119,86 +124,77 @@
                 <label class="label-style">Phone Number</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputNumber" placeholder="Phone Number">
+                <SfTextBox @bind-Value="@SupplierDetails.PhoneNumber" Type="InputType.Tel" CssClass="form-control text-box" Placeholder="Enter Phone Number"></SfTextBox>
             </div>
         </div>
     </div>
     <div class="col-12 row mt-2 p-0">
-        <div class="col-6 row m-0 p-0">
-            <div class="col-4 m-1 text-left">
-                <label class="label-style">Password</label>
-            </div>
-            <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputPassword" placeholder="Password">
-            </div>
-        </div>
+        
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">House Number</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputHouseNumber" placeholder="House Number">
+                <SfTextBox @bind-Value="@SupplierAddress.HouseNumber" CssClass="form-control text-box" Placeholder="Enter House Number"></SfTextBox>
             </div>
         </div>
-    </div>
-    <div class="col-12 row mt-2 p-0">
+
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
-                <label class="label-style">street</label>
+                <label class="label-style">Street</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputStreet" placeholder="Street">
+                <SfTextBox @bind-Value="@SupplierAddress.Street" CssClass="form-control text-box" Placeholder="Enter Street"></SfTextBox>
             </div>
         </div>
+
+    </div>
+    <div class="col-12 row mt-2 p-0">
+        
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">City</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputCity" placeholder="City">
+                <SfTextBox @bind-Value="@SupplierAddress.City" CssClass="form-control text-box" Placeholder="Enter City"></SfTextBox>
             </div>
         </div>
-    </div>
 
-    <div class="col-12 row mt-2 p-0">
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Country</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputCountry" placeholder="Country">
+                <SfTextBox @bind-Value="@SupplierAddress.Country" CssClass="form-control text-box" Placeholder="Enter Country"></SfTextBox>
             </div>
         </div>
+
+    </div>
+
+    <div class="col-12 row mt-2 p-0">
+        
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Region</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputRegion" placeholder="Region">
+                <SfTextBox @bind-Value="@SupplierAddress.Region" CssClass="form-control text-box" Placeholder="Enter Region"></SfTextBox>
             </div>
         </div>
-    </div>
-    <div class="col-12 row mt-2 p-0">
+
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Zip Code</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputZipCode" placeholder="Zip Code">
+                <SfTextBox @bind-Value="@SupplierAddress.ZipCode" CssClass="form-control text-box" Placeholder="Enter Zip Code"></SfTextBox>
             </div>
         </div>
-        <div class="col-6 row m-0 p-0">
-            <div class="col-4 m-1 text-left">
-                <label class="label-style">Postel Code</label>
-            </div>
-            <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputPostalCode" placeholder="Postal Code">
-            </div>
-        </div>
+
     </div>
 
     <div class="col-12 mt-3 mb-3 text-center">
-        <button type="button" class="button-style">Add Supplier</button>
+        <button type="button" class="button-style" @onclick="AddSupplierIntoDatabase">Add Supplier</button>
     </div>
 </div>
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"

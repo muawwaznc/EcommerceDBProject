@@ -254,5 +254,42 @@ namespace EcommerceDBProject.Services.Service
             }
         }
 
+        public void AddSupplier(InitialPageDataForAddSupplier supplierViewModel)
+        {
+            try
+            {
+                using (var db = new EcommerceDbprojectContext())
+                {
+                    var address = supplierViewModel.SupplierAddress;
+                    if (IsAddressCorrect(address))
+                    {
+                        db.Addresses.Add(address);
+                        db.SaveChanges();
+                    }
+                    var userDetail = new UserDetail
+                    {
+                        AddressId = address.AddressId,
+                        Email = supplierViewModel.SupplierDetails.Email,
+                        PhoneNumber = supplierViewModel.SupplierDetails.PhoneNumber,
+                        Picture = "DefaultPicture"
+                    };
+                    db.UserDetails.Add(userDetail);
+                    db.SaveChanges();
+                    var supplier = new Supplier
+                    {
+                        UserDetailId = userDetail.UserDetailId,
+                        SupplierName = supplierViewModel.Supplier.SupplierName,
+                        ContactPersonName = supplierViewModel.Supplier.ContactPersonName
+                    };
+                    db.Suppliers.Add(supplier);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
+        }
+
     }
 }
