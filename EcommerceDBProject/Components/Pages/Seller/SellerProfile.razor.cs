@@ -1,4 +1,5 @@
-﻿using EcommerceDBProject.DBContext;
+﻿using Blazored.Toast.Services;
+using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
@@ -11,7 +12,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         [Inject] ICommonInterface CommonService { get; set; }
         [Inject] IUserInterface UserService { get; set; }
-
+        [Inject] IToastService ToastService { get; set; }
         #endregion
 
         #region Properties
@@ -41,6 +42,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
         protected void OnSaveProfileClick()
         {
             UserService.UpdateSellerDetails(InitialPageData);
+            ToastService.ShowSuccess("Profile Updated Successfully");
         }
 
         #endregion
