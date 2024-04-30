@@ -4,14 +4,14 @@ using EcommerceDBProject.ViewModels;
 
 namespace EcommerceDBProject.Services.Service
 {
-    public class ProductService: IProductInterface
+    public class ProductService : IProductInterface
     {
         public List<ComboBoxItemsViewModel> GetAllCategoriesForDropDown()
         {
             var db = new EcommerceDbprojectContext();
             var ProductCategories = db.ProductCategories.ToList();
             var ProductCategoriesList = new List<ComboBoxItemsViewModel>();
-            foreach(var category in ProductCategories)
+            foreach (var category in ProductCategories)
             {
                 ProductCategoriesList.Add(new ComboBoxItemsViewModel
                 {
@@ -54,6 +54,14 @@ namespace EcommerceDBProject.Services.Service
                 var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == inventoryItemId);
                 var product = db.Products.FirstOrDefault(x => x.ProductId == inventoryItem.ProductId);
                 return product;
+            }
+        }
+        public void AddCategory(ProductCategory category)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                db.ProductCategories.Add(category);
+                db.SaveChanges();
             }
         }
     }
