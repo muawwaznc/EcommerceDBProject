@@ -1,5 +1,98 @@
-﻿<h3>SellerPromotion</h3>
+﻿@page "/seller-dashboard/{UserDetailId}/apply-promotion/"
+@layout CustomerLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+<style>
+    .container {
+        width: 90%;
+        margin: 30px 20px 20px 30px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(223,214,214);
+    }
 
-@code {
+    .head {
+        background-color: #355c7d;
+        color: #fff;
+    }
 
-}
+    .hover-design {
+        background-color: #dae7f5;
+        border-bottom: 1px solid black
+    }
+
+    .button-style {
+        background-color: #cf889d;
+        width: 150px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 30px;
+        font-size: 18px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        z-index: 9;
+        border: 2px solid #c06c84;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
+</style>
+<div class="container">
+    <div class="col-12 row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center">
+            <h1 style="color:#234b6e;font-weight:bold;font-family:Arial, Helvetica, sans-serif">All Promotion</h1>
+        </div>
+        <div class="col-4">
+            <button type="button" class="button-style">Apply Promotion</button>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="head">
+                    @* class="table-light" *@
+                    <tr>
+                        <th scope="col">Promotion Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Discount Percentage</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in PromotionList)
+                    {
+                        <tr class="hover-design">
+                            <th scope="row">@item.PromotionName</th>
+                            <td>@item.PromotionDescription</td>
+                            <td>@item.DiscountPercentage</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

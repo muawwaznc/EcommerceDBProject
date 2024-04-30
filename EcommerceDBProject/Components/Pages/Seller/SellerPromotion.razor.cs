@@ -9,13 +9,21 @@ namespace EcommerceDBProject.Components.Pages.Seller
     {
         [Inject] IPromotionInterface PromotionService { get; set; }
         List<Promotion> PromotionList = new List<Promotion>();
+        public bool Visibility { get; set; }
         #region Load Initials
 
         protected override void OnInitialized()
         {
             PromotionList = PromotionService.GetAllProductPromotion();
         }
-
+        protected void OpenDialog()
+        {
+            Visibility = true;
+        }
+        protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
+        {
+            args.MaxHeight = null;
+        }
 
         #endregion
 
