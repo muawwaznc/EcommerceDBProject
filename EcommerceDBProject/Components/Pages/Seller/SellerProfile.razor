@@ -7,45 +7,68 @@
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
 <style>
-    .container-fluid {
-        border: 2px solid #4f2934;
+    .container {
+        width: 750px;
+        border: 3px solid #355c7d;
+        box-shadow: #90a2b3 0 2px 4px;
     }
 
     .div_color {
-        background-color: #cd899c;
+        background-color: #889fb2;
+    }
+
+    .div_color1 {
+        background-color: #e4eaef;
     }
 
     body {
-        background: #929aa1 #6c5b7b #ab949b;
+        background: white;
     }
 
     .form-control:focus {
         box-shadow: none;
-        border-color: #c06c84
+        border-color: #4e648a
     }
 
     .profile-button {
-        background: #862943 box-shadow: none;
-        border: none
+        background-color: #cf889d;
+        width: 200px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 40px;
+        font-size: 20px;
+        line-height: 40px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        z-index: 9;
+        border: 3px solid #9c4e65;
+        transition: box-shadow .2s;
     }
 
         .profile-button:hover {
-            background: #d63663
+            background: #9c4e65
         }
 
         .profile-button:focus {
-            background: #751430;
+            background: #e099ae;
             box-shadow: none
         }
 
-
-        .profile-button:active {
-            background: #c06c84;
-            rgb(121, 22, 50) box-shadow: none
-        }
-
     .back:hover {
-        color: #c06c84;
+        color: #4a6a8d;
         cursor: pointer
     }
 
@@ -53,12 +76,6 @@
         font-size: 15px;
     }
 
-    .add-experience:hover {
-        background: #c06c84;
-        color: #fff;
-        cursor: pointer;
-        border: solid 1px #c06c84
-    }
 </style>
 <div>
     <div class="container-fluid rounded bg-white mt-5 mb-5">
@@ -70,7 +87,7 @@
                          src="user.png"><span class="font-weight-bold" style="font-size:22px;">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span>
                 </div>
             </div>
-            <div class="col-md-8 border-right">
+            <div class="col-md-8 border-right div_color1">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3 class="text-right">Profile Settings</h3>
@@ -125,7 +142,7 @@
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary profile-button" type="button">
+                        <button class="profile-button" type="button">
                             Save
                             Profile
                         </button>

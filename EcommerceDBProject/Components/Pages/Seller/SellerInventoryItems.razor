@@ -139,7 +139,8 @@
         padding: 16px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         position: relative;
-        background-color: #f5f5f5;
+        background-color: #dfd6e7;
+        ;
         transition: transform 0.2s;
         margin-bottom: 16px;
     }
@@ -164,8 +165,8 @@
     }
 
         .product-card-checkbox:checked {
-            background: #4CAF50;
-            border-color: #4CAF50;
+            background: #6c5b7b;
+            border-color: #6c5b7b;
         }
 
     .product-card-image {
@@ -207,17 +208,17 @@
     .product-card-price {
         font-size: 24px;
         font-weight: bold;
-        color: #4CAF50;
+        color: #6c5b7b;
     }
 </style>
 
 <div class="col-12 m-2 p-2 row">
     <div class="col-8 m-0 p-0 row">
         <div class="col-3 mt-3">
-            <label style="font-size:22px;text-align:left;font-family:sans-serif">Select Category : </label>
+            <label style="font-size:18px;text-align:left;font-family:sans-serif;margin-top:10px;font-weight:bold;">Select Category : </label>
         </div>
-        <div class="col-7 mt-2">
-            <select class="category-select" id="category" name="category" @onchange="@OnProductCategoryChanged">
+        <div class="col-7 " style="margin-left:-20px;">
+            <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
                 <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                     Select Category
                 </option>
