@@ -6,6 +6,7 @@
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Inputs;
 
 <style>
     .container {
@@ -23,15 +24,15 @@
     }
 
     .dropdown {
-      
     }
 
         .dropdown select {
             padding: 8px;
             font-size: 15px;
-            width:240px;
+            width: 240px;
             border-radius: 10px;
         }
+
     .heading {
         font-family: sans-serif;
         color: #355c7d;
@@ -98,7 +99,7 @@
                 <label class="label-style">Product Name</label>
             </div>
             <div class="col-7 m-1">
-                <input @bind="@Product.ProductName" type="text" class="form-control text-box" id="inputName" placeholder="Product Name">
+                <SfTextBox @bind-value="@Product.ProductName" CssClass="form-control text-box" Placeholder="Enter Product Name"></SfTextBox>
             </div>
 
         </div>
@@ -108,11 +109,11 @@
                 <label class="label-style">Product Price</label>
             </div>
             <div class="col-7 m-1">
-                <input type="number" @bind="@Product.ProductName" class="form-control text-box" id="inputName" placeholder="Price">
+                <SfNumericTextBox TValue="double" @bind-Value="@Product.Price" CssClass="form-control text-box" Placeholder="Enter Price"></SfNumericTextBox>
             </div>
         </div>
-       
-        
+
+
     </div>
     <div class="col-12 row mb-2 p-0">
         <div class="col-6 row">
@@ -120,7 +121,7 @@
                 <label class="label-style">Product Weight</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputName" placeholder="Weight">
+                <SfNumericTextBox TValue="double?" @bind-Value="@Product.ProductWeight" CssClass="form-control text-box" Placeholder="Enter Weight"></SfNumericTextBox>
             </div>
         </div>
         <div class="col-6 row">
@@ -129,7 +130,7 @@
             </div>
             <div class="col-7 m-1">
                 <div class="dropdown">
-                    <select class="category-select" id="category" name="category">
+                    <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
                         <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                             Select Category
                         </option>
@@ -153,7 +154,7 @@
             </div>
             <div class="col-7 m-1">
                 <div class="dropdown">
-                    <select class="category-select" id="category" name="category" >
+                    <select class="category-select" id="category" name="category">
                         <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                             Select Supplier
                         </option>
@@ -168,14 +169,14 @@
                 </div>
             </div>
         </div>
-         <div class="col-6 row">
-        <div class="col-4 m-1 text-left">
-        <label class="label-style">Description </label>
+        <div class="col-6 row">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Description</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@Product.ProductDescription" Multiline=true CssClass="form-control text-box" Placeholder="Enter Product Description"></SfTextBox>
+            </div>
         </div>
-        <div class="col-7 m-1">
-        <textarea class="form-control text-box" id="inputDescription" placeholder="Product description"></textarea>
-        </div>
-        </div> 
     </div>
     <div class="col-12 mt-3 mb-3 text-center">
         <button type="button" class="button-style" @onclick="AddProductInDatabase">Add Product</button>

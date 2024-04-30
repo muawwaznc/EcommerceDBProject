@@ -1,6 +1,7 @@
 ﻿using Blazored.Toast.Services;
 using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
+using EcommerceDBProject.Services.Service;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
 
@@ -59,8 +60,37 @@ namespace EcommerceDBProject.Components.Pages.Admin
             }
             else
             {
+                if(Product.SupplierId == "no-select")
+                {
+                    Product.SupplierId = null;
+                }
+                if (Product.ProductWeight <= 0)
+                {
+                    Product.ProductWeight = null;
+                }
                 ProductService.AddProduct(InitialPageData.Product);
+                ToastService.ShowSuccess("Product Added Successfully");
             }            
+        }
+
+        #endregion
+
+        #region OnChange Functions
+
+        protected void OnProductCategoryChanged(ChangeEventArgs e)
+        {
+            if(e.Value.ToString() != "no-select")
+            {
+                Product.CategoryId = e.Value.ToString();
+            }
+        }
+
+        protected void OnSupplierChanged(ChangeEventArgs e)
+        {
+            if (e.Value.ToString() != "no-select")
+            {
+                Product.SupplierId = e.Value.ToString();
+            }
         }
 
         #endregion
