@@ -88,22 +88,27 @@
     <div class="col-12 mt-3 mb-3 text-center">
         <h3 class="heading">ADD PRODUCT</h3>
     </div>
+
     <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+
     <div class="col-12 row mt-2 p-0">
         <div class="col-6 row">
+
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Product Name</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputName" placeholder="Product Name">
+                <input @bind="@Product.ProductName" type="text" class="form-control text-box" id="inputName" placeholder="Product Name">
             </div>
+
         </div>
+
         <div class="col-6 row">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Product Price</label>
             </div>
             <div class="col-7 m-1">
-                <input type="text" class="form-control text-box" id="inputName" placeholder="Price">
+                <input type="number" @bind="@Product.ProductName" class="form-control text-box" id="inputName" placeholder="Price">
             </div>
         </div>
        
@@ -128,7 +133,7 @@
                         <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                             Select Category
                         </option>
-                        @foreach (var productCategory in CategoryList)
+                        @foreach (var productCategory in ProductCategoriesList)
                         {
                             <option class="category-option" style="border:1px solid lightgrey;"
                                     value="@productCategory.CategoryId">
@@ -150,9 +155,9 @@
                 <div class="dropdown">
                     <select class="category-select" id="category" name="category" >
                         <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
-                            Select Category
+                            Select Supplier
                         </option>
-                        @foreach (var supplier in SupplierList)
+                        @foreach (var supplier in SuppliersList)
                         {
                             <option class="category-option" style="border:1px solid lightgrey;"
                                     value="@supplier.SupplierId">
@@ -173,7 +178,7 @@
         </div> 
     </div>
     <div class="col-12 mt-3 mb-3 text-center">
-        <button type="button" class="button-style" >Add Product</button>
+        <button type="button" class="button-style" @onclick="AddProductInDatabase">Add Product</button>
     </div>
 </div>
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"

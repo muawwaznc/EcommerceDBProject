@@ -87,5 +87,14 @@ namespace EcommerceDBProject.Services.Service
                 return suppliersList;
             }                
         }
+
+        public void AddProduct(Product product)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                db.Products.Add(product);
+                db.SaveChanges();
+            }
+        }
     }
 }

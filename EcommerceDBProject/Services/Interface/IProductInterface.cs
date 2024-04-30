@@ -13,5 +13,6 @@ namespace EcommerceDBProject.Services.Interface
         void AddProductCategory(ProductCategory category);
         bool IsCategoryNameAlreadyExist(string categoryName);
         List<Supplier> GetAllSuppliers();
+        void AddProduct(Product product);
     }
 }

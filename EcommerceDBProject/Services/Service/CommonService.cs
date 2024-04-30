@@ -178,5 +178,15 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
         }
+        
+        public InitialPageDataForAddProduct GetInitialPageDataForAddProduct()
+        {
+            var initialPageDate = new InitialPageDataForAddProduct
+            {
+                ProductCategoriesList = _productService.GetAllProductCategories(),
+                SuppliersList = _productService.GetAllSuppliers()
+            };
+            return initialPageDate;
+        }
     }
 }
