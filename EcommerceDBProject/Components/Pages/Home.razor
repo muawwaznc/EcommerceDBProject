@@ -26,24 +26,57 @@ else
         ;
     }
 
-    body {
+    .body {
         font-family: Arial, Helvetica, sans-serif;
     }
+    .form-control{
+        font-size:15px;
+    }
+    /* CSS */
+    .button-style {
+        background-color: #cf889d; 
+        width:200px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 40px;
+        font-size:20px;
+        line-height: 40px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        width: 100%;
+        z-index: 9;
+        border: 0;
+        transition: box-shadow .2s;
+    }
 
-    .container {
+    .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+    }
+    .container-fluid {
         display: grid;
         grid-template-columns: 1fr 2fr;
         background-color: red;
-        background: linear-gradient(to bottom, #51a5be, #042658);
-        margin: 10% auto;
-        height:600px;
-        width:1200px;
+        background: linear-gradient(to bottom,#355c7d, #6c5b7b ,#c06c84);
         border-radius: 5px;
+        height:85vh;
     }
     .label-style{
-        font-size:18px;
+        font-size:15px;
         color:black;
-        font-family:Calibri;
+        font-family:sans-serif;
     }
     .content-holder {
         text-align: center;
@@ -93,10 +126,10 @@ else
 
     .input-field {
         box-sizing: border-box;
-        font-size: 14px;
+        font-size: 15px;
         padding: 10px;
         border-radius: 7px;
-        border: 1px solid rgb(168, 168, 168);
+        border: 1px solid #355c7d;
         width: 250px;
         outline: none;
     }
@@ -104,44 +137,37 @@ else
 
 
 
-    .button-2 {
-        display: none;
-    }
-
-    .button {
-        box-sizing: border-box;
-        color: white;
-        font-size: 14px;
-        padding: 13px;
-        border-radius: 7px;
-        border: none;
-        width: 250px;
-        outline: none;
-        background-color: rgb(56, 189, 149);
-    }
 </style>
-<div class="card text-center container">
-    <div class="card-header d-flex flex-column justify-content-center align-items-center">
-        <div class="text-center">
-            <label style="font-size: 3em; color: white;">HELLO !</label>
+<div class="col-12 card text-center container-fluid row">
+    <div class="col-12 card-header d-flex flex-column justify-content-center align-items-center">
+        <div class="text-center ">
+            <label style="font-size: 4em; color: white;">HELLO !</label>
         </div>
-        <div class="text-center">
-            <ul class="nav nav-pills card-header-pills">
+        <div class="col-12 text-center row">
+            <div class="col-1"></div>
+            <div class="col-5 m-1" style="text-align:right;">
+                <button type="button" style="width:150px;" class="button-style @($"{CssForSignInNav} {("nav-link")}")" @onclick="() => OnSignInTabClick()">
+                    SignIn
+                </button>
+            </div>
+            <div class="col-5 m-1" style="text-align:left;">
+                <button type="button" style="width:150px;" class="button-style @($"{CssForSignUpNav} {("nav-link")}")" @onclick="(() => OnSignUpTabClick())">
+                    SignUp
+                </button>
+            </div>
+            <div class="col-1"></div>
+           @*  <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <button type="button" class="@($"{CssForSignInNav} {("nav-link")}")" @onclick="() => OnSignInTabClick()">
-                        SignIn
-                    </button>
+                    
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="@($"{CssForSignUpNav} {("nav-link")}")" @onclick="(() => OnSignUpTabClick())">
-                        SignUp
-                    </button>
+                    
                 </li>
-            </ul>
+            </ul> *@
         </div>
     </div>
 
-    <div class="card-body box-2 d-flex flex-column justify-content-center align-items-center">
+    <div class="col-12 card-body box-2 d-flex flex-column justify-content-center align-items-center">
         @if (isSignInActive)
         {
             <form class="row g-3">
@@ -162,13 +188,13 @@ else
                 @if(!InitialPageData.IsLoading)
                 {
                     <div class="col-12">
-                        <button type="button" class="btn btn-primary" @onclick="() => SignIn()">Sign in</button>
+                        <button type="button" style="width:200px;" class="button-style" @onclick="() => SignIn()">Sign in</button>
                     </div>
                 }
                 else
                 {
-                    <button class="btn btn-primary" type="button" disabled>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <button class="button-style" style="width:150px;" type="button" disabled>
+                        <span class="button-style spinner-border spinner-border-sm"  role="status" aria-hidden="true"></span>
                         Sign in
                     </button>
                 }
@@ -250,7 +276,7 @@ else
                 </div>
 
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary" @onclick="() => SignUp()">Sign Up</button>
+                    <button type="submit" style="width:150px;" class="button-style" @onclick="() => SignUp()">Sign Up</button>
                 </div>
             </form>
         }

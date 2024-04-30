@@ -13,6 +13,37 @@
         z-index: 99999;
     }
 
+    .button-style {
+        background-color: #cf889d;
+        width: 200px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 40px;
+        font-size: 20px;
+        line-height: 40px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        z-index: 9;
+        border: 0;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
     .toast {
         display: none;
         padding: 1.5rem;
@@ -138,7 +169,7 @@
         padding: 16px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         position: relative;
-        background-color: #f5f5f5;
+        background-color: #e4eff7;
         transition: transform 0.2s;
         margin-bottom: 16px;
     }
@@ -154,7 +185,7 @@
         right: 16px;
         width: 20px;
         height: 20px;
-        border: 1px solid #ddd;
+        border: 1px solid #355c7d;
         border-radius: 3px;
         appearance: none;
         cursor: pointer;
@@ -163,8 +194,8 @@
     }
 
         .product-card-checkbox:checked {
-            background: #4CAF50;
-            border-color: #4CAF50;
+            background: #355c7d;
+            border-color:black;
         }
 
     .product-card-image {
@@ -206,16 +237,16 @@
     .product-card-price {
         font-size: 24px;
         font-weight: bold;
-        color: #4CAF50;
+        color: #355c7d;
     }
 </style>
 
 <div class="col-12 m-2 p-2 row">
     <div class="col-8 m-0 p-0 row">
         <div class="col-3 mt-3">
-            <label style="font-size:22px;text-align:left;font-family:sans-serif">Select Category : </label>
+            <label style="font-size:18px;text-align:left;font-family:sans-serif;margin-top:10px;font-weight:bold;">Select Category : </label>
         </div>
-        <div class="col-7 mt-2">
+        <div class="col-7 " style="margin-left:-20px;">
                 <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
                 <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                     Select Category
@@ -230,16 +261,16 @@
                 </select>
         </div>
     </div>
-    <div class="col-4 mt-3 p-0 text-right" style="text-align:right;">
-        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:250px;height:45px;margin:3px;font-size:22px;text-align:center;margin:2px;" class="btn btn-success" @onclick="OpenConfirmOrderModel">
+    <div class="col-4 p-0 text-right" style="text-align:right;margin-top:22px;">
+        <button type="button"  class="button-style" @onclick="OpenConfirmOrderModel">
             Order
         </button>
     </div>
 </div>
-<div class="mt-2 mb-2 mr-0 ml-0 p-0" style="border-bottom:2px solid lightgrey"></div>
+<div class="mt-2 mb-2 mr-0 ml-0 p-0" style="border-bottom:1px solid lightgrey"></div>
 <div class="col-12 m-0 p-0 row">
     <div class="col-12 m-2">
-        <h3 style="font-family:sans-serif;text-align:center;color:black;font-weight:bold">All Products</h3>
+        <h3 style="font-family:sans-serif;text-align:center;color:#355c7d;font-weight:bold">All Products</h3>
     </div>
     <div class="col-12 mt-2 row">
         @foreach (var inventoryItem in InventoryItemsList)
@@ -255,8 +286,8 @@
                     <img src="user.png" alt="Example Image" class="product-card-image" style="border:1px solid black" >
                     <h2 class="product-card-name m-1" style="font-weight:bold;">@inventoryItem.Product.ProductName</h2>
                     <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
-                    <p class="product-card-description m-0 p-0" style="font-size:18px;color:black;font-family:sans-serif">Stock Amount: @inventoryItem.StockAmount</p>
-                    <p class="product-card-description m-0 p-0" style="font-size:18px;color:black;font-family:sans-serif">Seller: @sellerName</p>
+                    <p class="product-card-description m-0 p-0" style="font-size:15px;color:black;font-family:sans-serif">Stock Amount: @inventoryItem.StockAmount</p>
+                    <p class="product-card-description m-0 p-0" style="font-size:15px;color:black;font-family:sans-serif">Seller: @sellerName</p>
                     <div class="product-card-quantity-price">
                         <span class="product-card-price">$@inventoryItem.SalePrice</span>
                     </div>
