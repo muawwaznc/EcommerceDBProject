@@ -28,6 +28,12 @@ namespace EcommerceDBProject.Services.Service
             var ProductCategories = db.ProductCategories.ToList();
             return ProductCategories;
         }
+        public List<Supplier> GetAllSuppliers()
+        {
+            var db = new EcommerceDbprojectContext();
+            var suppliersList = db.Suppliers.ToList();
+            return suppliersList;
+        }
 
         public Product GetProductFromProductId(string productId)
         {

@@ -11,5 +11,6 @@ namespace EcommerceDBProject.Services.Interface
         ProductCategory GetProductCategoryFromProductCategoryId(string categoryId);
         Product GetProductFromInventoryItemId(string inventoryItemId);
         void AddCategory(ProductCategory category);
+        List<Supplier> GetAllSuppliers();
     }
 }
