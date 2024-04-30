@@ -1,38 +1,51 @@
-﻿
+﻿@code {
+    // Inject the NavigationManager to access the URL
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private string CurrentUrl { get; set; }
+    private string UserDetailId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Get the current URL
+        CurrentUrl = NavigationManager.Uri;
+        UserDetailId = CurrentUrl.Split('/')[4];
+    }
+}
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">EcommerceDBProject</a>
+        <a class="navbar-brand" href="@($"{CurrentUrl}")">EcommerceDBProject</a>
     </div>
 </div>
 
-<input type="checkbox" title="Customer Dashboard" class="navbar-toggler" />
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="@($"customer-dashboard/{UserDetailId}")" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Dashboard
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/orders">
+            <NavLink class="nav-link" href="@($"{CurrentUrl}/orders")">
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> My Orders
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/returns">
+            <NavLink class="nav-link" href="@($"{CurrentUrl}/returns/")">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> My Returns
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/weather">
+            <NavLink class="nav-link" href="@($"customer-dashboard/{UserDetailId}/weather")">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> My Reviews
             </NavLink>
         </div>
     </nav>
 </div>
-
