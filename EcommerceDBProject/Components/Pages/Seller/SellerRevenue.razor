@@ -1,0 +1,137 @@
+﻿@page "/seller-dashboard/{UserDetailId}/revenue/"
+@layout SellerLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Charts
+<style>
+    .container-fluid {
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(223,214,214);
+    }
+
+    .label-style {
+        font-size: 18px;
+        font-family: 'Sans Serif';
+        color: black;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .dropdown {
+    }
+
+        .dropdown select {
+            padding: 8px;
+            font-size: 15px;
+            width: 240px;
+            border-radius: 10px;
+        }
+
+    .head {
+        background-color: #355c7d;
+        color: #fff;
+    }
+
+    .hover-design {
+        background-color: #dae7f5;
+        border-bottom: 1px solid black
+    }
+
+    .button-style {
+        background-color: #cf889d;
+        width: 150px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 30px;
+        font-size: 18px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        z-index: 9;
+        border: 2px solid #c06c84;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
+</style>
+<div class="container-fluid">
+    <div class="col-12 row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center">
+            <h1 style="color:#234b6e;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Seller Revenue</h1>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div class="col-12 row mt-2 mb-2" style="border:1px solid lightgrey"></div>
+    <div class="col-12 mt-1 row">
+        <div class="col-6 m-0 p-0 row">
+            <div class="col-2 m-1 text-left">
+                <label class="label-style">Category</label>
+            </div>
+            <div class="col-8 m-1">
+                <div class="dropdown">
+                    <select class="category-select" id="category" name="category" >
+                        <option class="category-option" style="border:1px solid lightgrey;width:250px;" value="no-select">
+                            Select Category
+                        </option>
+                        @foreach (var productCategory in ProductCategoriesList)
+                        {
+                            <option class="category-option" style="border:1px solid lightgrey;"
+                                    value="@productCategory.CategoryId">
+                                @productCategory.CategoryName
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 m-0 p-0 row">
+            <div class="col-2 m-1 text-left">
+                <label class="label-style">Product</label>
+            </div>
+            <div class="col-8 m-1">
+                <div class="dropdown">
+                    <select class="category-select" id="InventoryItem" name="InventoryItem" >
+                        <option class="category-option" style="border:1px solid lightgrey;width:250px;" value="no-select">
+                            Select Category
+                        </option>
+                        @foreach (var item in InventoryItemList)
+                        {
+                            var ProductName = ProductService.GetProductFromProductId(item.ProductId).ProductName;
+                            <option class="category-option" style="border:1px solid lightgrey;"
+                                    value="@item.InventoryItemId">
+                                @ProductName
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-2">
+            <SfChart>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@Sales" XName="Month" YName="SalesValue" Type="ChartSeriesType.Column">
+                    </ChartSeries>
+                 </ChartSeriesCollection>
+            </SfChart>
+        </div>
+    </div>
+</div>
+
