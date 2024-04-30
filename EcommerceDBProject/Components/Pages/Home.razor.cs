@@ -77,7 +77,7 @@ namespace EcommerceDBProject.Components.Pages
                 {
                     if(SignInModel.Email == "warda😎@gmail.com" && SignInModel.Password == "crib")
                     {
-                        NavigationManager.NavigateTo("/admin/addCategory");
+                        NavigationManager.NavigateTo("/admin/add-category");
                         InitialPageData.IsLoading = false;
                         return;
                     }
