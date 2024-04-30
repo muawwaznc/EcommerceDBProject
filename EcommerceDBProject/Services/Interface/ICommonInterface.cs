@@ -14,5 +14,6 @@ namespace EcommerceDBProject.Services.Interface
         InitialPageDataForSellerProfile GetInitialPageDataForSellerProfile(string userDetailId);
         InitialPageDataForCustomerProfile GetInitialPageDataForCustomerProfile(string userDetailId);
         InitialPageDataForAddProduct GetInitialPageDataForAddProduct();
+        InitialPageDataForSellerPromotion GetInitialPageDataForSellerPromotion(string userDetailId);
     }
 }

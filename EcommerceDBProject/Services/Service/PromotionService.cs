@@ -13,16 +13,18 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
-        public List<Promotion> GetAllProductPromotion()
+        public List<Promotion> GetAllPromotionList()
         {
-            var db = new EcommerceDbprojectContext();
-            var PromotionList = db.Promotions.ToList();
-            return PromotionList;
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var promotionList = db.Promotions.ToList();
+                return promotionList;
+            }            
         }
         public bool IsPromotionNameAlreadyExist(string promotionName)
         {
-            var PromotionList = GetAllProductPromotion();
-            foreach (var item in PromotionList)
+            var promotionList = GetAllPromotionList();
+            foreach (var item in promotionList)
             {
                 if (item.PromotionName == promotionName)
                 {

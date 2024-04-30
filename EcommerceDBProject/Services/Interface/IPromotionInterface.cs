@@ -5,7 +5,7 @@ namespace EcommerceDBProject.Services.Interface
     public interface IPromotionInterface
     {
         void AddPromotion(Promotion promotion);
-        List<Promotion> GetAllProductPromotion();
+        List<Promotion> GetAllPromotionList();
         bool IsPromotionNameAlreadyExist(string promotionName);
     }
 }
