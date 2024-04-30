@@ -6,6 +6,8 @@
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Inputs;
+
 <style>
     .container {
         width: 750px;
@@ -96,51 +98,51 @@
                     <div class="row mt-2">
                         <div class="col-md-6">
                             <label class="labels">First Name</label>
-                            <input type="text" class="form-control" placeholder="Enter First Name" value="@Seller.FirstName">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter First Name" @bind-Value="@Seller.FirstName"></SfTextBox>
                         </div>
                         <div class="col-md-6">
                             <label class="labels">Last Name</label>
-                            <input type="text" class="form-control" value="@Seller.LastName" placeholder="Enter Last Name">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" @bind-Value="@Seller.LastName" Placeholder="Enter Last Name"></SfTextBox>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label class="labels">Phone Number</label>
-                            <input disabled type="text" class="form-control" placeholder="Enter Phone Number" value="@SellerDetail.PhoneNumber">
+                            <SfTextBox TValue="string" Type="InputType.Text" Enabled=false CssClass="form-control" Placeholder="Enter Phone Number" @bind-Value="@SellerDetail.PhoneNumber"></SfTextBox>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Email</label>
-                            <input disabled type="text" class="form-control" placeholder="Enter Email" value="@SellerDetail.Email">
+                            <SfTextBox TValue="string" Type="InputType.Text" Enabled=false CssClass="form-control" Placeholder="Enter Email" @bind-Value="@SellerDetail.Email"></SfTextBox>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Password</label>
-                            <input type="password" class="form-control" placeholder="Enter Password" value="@Seller.Password">
+                            <SfTextBox TValue="string" Type="InputType.Password" CssClass="form-control" Placeholder="Enter Password" @bind-Value="@Seller.Password"></SfTextBox>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">House Number</label>
-                            <input type="text" class="form-control" placeholder="Enter House Number" value="@SellerAddress.HouseNumber">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter House Number" @bind-Value="@SellerAddress.HouseNumber"></SfTextBox>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Street</label>
-                            <input type="text" class="form-control" placeholder="Enter Street" value="@SellerAddress.Street">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter Street" @bind-Value="@SellerAddress.Street"></SfTextBox>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">City</label>
-                            <input type="text" class="form-control" placeholder="Enter City" value="@SellerAddress.City">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter City" @bind-Value="@SellerAddress.City"></SfTextBox>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Country</label>
-                            <input type="text" class="form-control" placeholder="Enter Country" value="@SellerAddress.Country">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter Country" @bind-Value="@SellerAddress.Country"></SfTextBox>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label class="labels">Region</label>
-                            <input type="text" class="form-control" placeholder="Enter Region" value="@SellerAddress.Region">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" Placeholder="Enter Region" @bind-Value="@SellerAddress.Region"></SfTextBox>
                         </div>
                         <div class="col-md-6">
                             <label class="labels">Zip Code</label>
-                            <input type="text" class="form-control" value="@SellerAddress.ZipCode" placeholder="Enter Zip Code">
+                            <SfTextBox TValue="string" Type="InputType.Text" CssClass="form-control" @bind-Value="@SellerAddress.ZipCode" Placeholder="Enter Zip Code"></SfTextBox>
                         </div>
                     </div>
                     <div class="mt-5 text-center">

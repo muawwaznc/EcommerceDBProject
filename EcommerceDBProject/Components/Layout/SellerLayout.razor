@@ -1,12 +1,28 @@
 ﻿@inherits LayoutComponentBase
 
+@code {
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private string CurrentUrl { get; set; }
+    private string UserDetailId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CurrentUrl = NavigationManager.Uri;
+        UserDetailId = CurrentUrl.Split('/')[4];
+    }
+}
+
 <div class="page">
     <div class="sidebar">
         <NavSellerMenu />
     </div>
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <div class="nav-item top-row px-4">
+            <NavLink class="nav-link" href="@($"seller-dashboard/{UserDetailId}/profile")" Match="NavLinkMatch.All">
+                <span class="bi bi-person-fill-nav-menu" aria-hidden="true" style="color:#355c7d"></span> Profile
+            </NavLink>
         </div>
 
         <article class="content px-4">
