@@ -28,13 +28,7 @@ namespace EcommerceDBProject.Services.Service
             var ProductCategories = db.ProductCategories.ToList();
             return ProductCategories;
         }
-        public List<Supplier> GetAllSuppliers()
-        {
-            var db = new EcommerceDbprojectContext();
-            var suppliersList = db.Suppliers.ToList();
-            return suppliersList;
-        }
-
+        
         public Product GetProductFromProductId(string productId)
         {
             using (var db = new EcommerceDbprojectContext())
@@ -62,13 +56,36 @@ namespace EcommerceDBProject.Services.Service
                 return product;
             }
         }
-        public void AddCategory(ProductCategory category)
+        
+        public void AddProductCategory(ProductCategory category)
         {
             using (var db = new EcommerceDbprojectContext())
             {
                 db.ProductCategories.Add(category);
                 db.SaveChanges();
             }
+        }
+
+        public bool IsCategoryNameAlreadyExist(string categoryName)
+        {
+            var categoryList = GetAllProductCategories();
+            foreach (var item in categoryList)
+            {
+                if (item.CategoryName == categoryName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<Supplier> GetAllSuppliers()
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var suppliersList = db.Suppliers.ToList();
+                return suppliersList;
+            }                
         }
     }
 }

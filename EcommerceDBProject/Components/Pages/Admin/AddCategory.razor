@@ -6,6 +6,7 @@
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
+
 <style>
     .container {
         width: 700px;
@@ -70,6 +71,7 @@
             box-shadow: #355c7d 0 3px 8px;
         }
 </style>
+
 <div class="container">
     <div class="col-12 mt-3 mb-3 text-center">
         <h3 class="heading">ADD CATEGORY</h3>
@@ -77,18 +79,18 @@
     <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
     <div class="col-12 row mt-2 p-0">
         <div class="col-4 m-1 text-left">
-            <label class="label-style">Category Name :</label>
+            <label class="label-style">Category Name</label>
         </div>
         <div class="col-7 m-1">
-            <input type="text" class="form-control text-box" id="inputName" placeholder="Category Name" @bind-value="@CategoryName">
+            <input type="text" class="form-control text-box" id="inputName" placeholder="Category Name" @bind-value="@ProductCategory.CategoryName">
         </div>
     </div>
     <div class="col-12 row mb-2 p-0">
         <div class="col-4 m-1 text-left">
-            <label class="label-style">Category Description :</label>
+            <label class="label-style">Category Description</label>
         </div>
         <div class="col-7 m-1">
-            <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@CategoryDescription"></textarea>
+            <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@ProductCategory.CategoryDescription"></textarea>
         </div>
     </div>
     <div class="col-12 mt-3 mb-3 text-center">
