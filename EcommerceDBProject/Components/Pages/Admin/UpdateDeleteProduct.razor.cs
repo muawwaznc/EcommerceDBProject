@@ -52,7 +52,6 @@ namespace EcommerceDBProject.Components.Pages.Admin
             ProductService.UpdateProduct(InitialPageData.SelectedProduct.Product);
             InitialPageData.IsEditDialogBoxOpen = false;
             ToastService.ShowSuccess("Product Updated Sucessfully");
-            OnInitialized();
         }
 
         #endregion
