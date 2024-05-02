@@ -121,12 +121,10 @@
                         <th scope="col">Discount Percentage</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var category in @InitialPageData.CategoriesList)
+                    @* @foreach (var category in @InitialPageData.CategoriesList)
                     {
                         <tr>
                             <th scope="row">@category.CategoryId</th>
@@ -146,7 +144,7 @@
                                 </SfButton>
                             </td>
                         </tr>
-                    }
+                    } *@
 
                 </tbody>
             </table>
@@ -154,7 +152,7 @@
     </div>
 </div>
 
-<SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
+@* <SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
     <DialogTemplates>
         <Header>
             <div class="text-center">
@@ -228,7 +226,7 @@
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
 </SfDialog>
-
+ *@
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
                 Timeout="9999999"
                 IconType="IconType.FontAwesome"

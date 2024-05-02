@@ -37,19 +37,23 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected void EditCategory()
         {
-            InitialPageData.SelectedCategory.CategoryId = InitialPageData.SelectedProductCategoryId;
-            ProductService.UpdateCategory(InitialPageData.SelectedCategory);
+            ProductService.UpdateProductCategory(InitialPageData.SelectedCategory);
             InitialPageData.IsEditDialogBoxOpen = false;
-            ToastService.ShowSuccess("Category Updated Sucessfully");
+            ToastService.ShowSuccess("Category Updated Successfully");
+        }
+
+        protected void DeleteProductCategory()
+        {
+
         }
 
         #endregion
 
         #region Dialogue Box Functions
 
-        protected void OpenEditCategoryDialogBox(ProductCategory category)
+        protected void OpenEditCategoryDialogBox(ProductCategory productCategory)
         {
-            InitialPageData.SelectedProductCategoryId = category.CategoryId;
+            InitialPageData.SelectedCategory = productCategory;
             InitialPageData.IsEditDialogBoxOpen = true;
         }
 

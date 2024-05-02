@@ -118,7 +118,6 @@
                         <th scope="col">Category Id</th>
                         <th scope="col">Category Name</th>
                         <th scope="col">Category Description</th>
-                        <th scope="col"></th>                   
                     </tr>
                 </thead>
                 <tbody>
@@ -131,6 +130,12 @@
                             <td>
                                 <SfButton CssClass="button-style" OnClick="() => OpenEditCategoryDialogBox(category)">
                                     Edit
+                                </SfButton>
+                            </td>
+
+                            <td>
+                                <SfButton CssClass="button-style" OnClick="() => DeleteProductCategory()">
+                                    Delete
                                 </SfButton>
                             </td>
                         </tr>
@@ -151,25 +156,38 @@
         </Header>
         <Content>
             <form class="row g-3 m-3">
-                <div class="col-12 mt-3 mb-3 text-center">
-                    <h3 class="heading">UPDATE CATEGORY</h3>
-                </div>
-                <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+
                 <div class="col-12 row mt-2 p-0">
-                    <div class="col-4 m-1 text-left">
-                        <label class="label-style">Category Name</label>
+
+                    <div class="col-6 row">
+
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Category Name</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfTextBox @bind-value="@InitialPageData.SelectedCategory.CategoryName"
+                                       CssClass="form-control text-box"
+                                       Placeholder="Enter Product Name">
+                            </SfTextBox>
+                        </div>
+
                     </div>
-                    <div class="col-7 m-1">
-                        <input type="text" class="form-control text-box" id="inputName" placeholder="Category Name" @bind-value="@InitialPageData.SelectedCategory.CategoryName">
+
+                    <div class="col-6 row">
+
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Description</label>
+                        </div>
+
+                        <div class="col-7 m-1">
+                            <SfTextBox @bind-Value="@InitialPageData.SelectedCategory.CategoryDescription"
+                                       Multiline=true CssClass="form-control text-box"
+                                       Placeholder="Enter Product Description">
+                            </SfTextBox>
+                        </div>
+
                     </div>
-                </div>
-                <div class="col-12 row mb-2 p-0">
-                    <div class="col-4 m-1 text-left">
-                        <label class="label-style">Category Description</label>
-                    </div>
-                    <div class="col-7 m-1">
-                        <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@InitialPageData.SelectedCategory.CategoryDescription"></textarea>
-                    </div>
+
                 </div>
 
                 <div class="col-12 mt-3 text-center">

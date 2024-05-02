@@ -123,11 +123,11 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
-        public void UpdateCategory(ProductCategory category)
+        public void UpdateProductCategory(ProductCategory productCategory)
         {
             using (var db = new EcommerceDbprojectContext())
             {
-                db.ProductCategories.Update(category);
+                db.ProductCategories.Update(productCategory);
                 db.SaveChanges();
             }
         }
