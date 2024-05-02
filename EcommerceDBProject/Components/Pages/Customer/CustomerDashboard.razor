@@ -45,6 +45,7 @@
         .button-style:hover {
             box-shadow: #355c7d 0 3px 8px;
         }
+
     .toast {
         display: none;
         padding: 1.5rem;
@@ -81,6 +82,7 @@
         flex-direction: row;
         animation: fadein 1s;
     }
+
     .sidebar .sidebar-override {
         background-color: rgb(50,50,50);
         background-image: none;
@@ -143,7 +145,7 @@
         padding: 16px;
         border: 2px solid lightgrey;
         border-radius: 5px;
-        margin-top:10px;
+        margin-top: 10px;
         background-color: #f5f5f5;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s;
@@ -196,7 +198,7 @@
 
         .product-card-checkbox:checked {
             background: #355c7d;
-            border-color:black;
+            border-color: black;
         }
 
     .product-card-image {
@@ -248,27 +250,31 @@
             <label style="font-size:18px;text-align:left;font-family:sans-serif;margin-top:10px;font-weight:bold;">Select Category : </label>
         </div>
         <div class="col-7 " style="margin-left:-20px;">
-                <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
+            <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
                 <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                     Select Category
                 </option>
-                    @foreach (var productCategory in ProductCategories)
-                    {
-                        <option class="category-option" style="border:1px solid lightgrey;"
-                                value="@productCategory.CategoryId">
-                            @productCategory.CategoryName
-                        </option>
-                    }
-                </select>
+                @foreach (var productCategory in ProductCategories)
+                {
+                    <option class="category-option" style="border:1px solid lightgrey;"
+                            value="@productCategory.CategoryId">
+                        @productCategory.CategoryName
+                    </option>
+                }
+            </select>
         </div>
     </div>
     <div class="col-4 p-0 text-right" style="text-align:right;margin-top:22px;">
-        <button type="button"  class="button-style" @onclick="OpenConfirmOrderModel">
+        <button type="button" class="button-style" @onclick="OpenConfirmOrderModel">
             Order
         </button>
     </div>
 </div>
-<div class="mt-2 mb-2 mr-0 ml-0 p-0" style="border-bottom:1px solid lightgrey"></div>
+
+<div class="mt-2 mb-2 mr-0 ml-0 p-0" style="border-bottom:1px solid lightgrey">
+
+</div>
+
 <div class="col-12 m-0 p-0 row">
     <div class="col-12 m-2">
         <h3 style="font-family:sans-serif;text-align:center;color:#355c7d;font-weight:bold">All Products</h3>
@@ -284,7 +290,7 @@
                     <div class="col-12">
                         <input style="border:2px solid black;" @onchange="(e) => OnInventoryItemSelect(inventoryItem, e)" type="checkbox" class="product-card-checkbox">
                     </div>
-                    <img src="Products.jpg" alt="Example Image" class="product-card-image" style="border:1px solid black" >
+                    <img src="Products.jpg" alt="Example Image" class="product-card-image" style="border:1px solid black">
                     <h2 class="product-card-name m-1" style="font-weight:bold;">@inventoryItem.Product.ProductName</h2>
                     <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
                     <p class="product-card-description m-0 p-0" style="font-size:15px;color:black;font-family:sans-serif">Stock Amount: @inventoryItem.StockAmount</p>
@@ -304,12 +310,13 @@
         }
     </div>
 </div>
+
 <SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsOrderModelShow">
     <DialogTemplates>
         <Header>
             <div class="text-center">
                 <label class="text-center" style="font-size:22px;text-align:center;font-family:sans-serif;font-weight:bold">Confirm Order</label>
-</div>
+            </div>
         </Header>
         <Content>
             <form class="row g-3 m-3">
@@ -388,12 +395,12 @@
                             <option value="Dhl">Dhl</option>
                         </select>
                     </div>
-               </div>
-                    
+                </div>
+
                 <div class="col-12 mt-3 text-center">
                     <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:35px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
                         Close
-                    </button>                                          
+                    </button>
                     @if (!InitialPageData.IsOrderProcessing)
                     {
                         <button type="button" style="width:200px;" class="button-style p-1" @onclick="() => ConfirmOrder()">
@@ -418,6 +425,7 @@
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
 </SfDialog>
+
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
                 Timeout="9999999"
                 IconType="IconType.FontAwesome"

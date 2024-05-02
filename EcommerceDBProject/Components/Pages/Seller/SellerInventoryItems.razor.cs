@@ -41,7 +41,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         protected void OnProductCategoryChanged(ChangeEventArgs e)
         {
-            var productCategory = ProductService.GetProductCategoryFromProductCategoryId(e.Value.ToString());
+            var productCategory = ProductService.GetProductCategoryByCategoryId(e.Value.ToString());
 
             if (productCategory == null)
             {

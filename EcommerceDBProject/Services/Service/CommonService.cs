@@ -200,5 +200,26 @@ namespace EcommerceDBProject.Services.Service
             initialPageData.inventoryItemsList = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
             return initialPageData;
         }
+
+        public InitialPageDataForUpdateDeleteProduct GetInitialPageDataForUpdateDeleteProduct()
+        {
+            var products = _productService.GetAllProducts();
+            var productsList = new List<ProductViewModel>();
+            foreach (var product in products)
+            {
+                productsList.Add(new ProductViewModel
+                {
+                    Product = product,
+                    Category = _productService.GetProductCategoryByCategoryId(product.CategoryId),
+                    Supplier = product.SupplierId != null ? _productService.GetSupplierBySupplierId(product.SupplierId) : null
+                });
+            }
+            var initialPageData = new InitialPageDataForUpdateDeleteProduct {
+                Products = productsList,
+                CategoriesList = _productService.GetAllProductCategories(),
+                SuppliersList = _productService.GetAllSuppliers()
+            };
+            return initialPageData;
+        }
     }
 }

@@ -1,0 +1,258 @@
+﻿@page "/admin/update-product/"
+@layout AdminLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+@using Blazored.Toast;
+@using Blazored.Toast.Configuration;
+
+<style>
+    ody {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #0a192f; /* Navy blue background */
+    }
+
+    .container {
+        width: 90%;
+        margin: 30px 20px 20px 30px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(223,214,214);
+    }
+
+    .SfButton {
+        background-color: #1a2939; /* Dark navy blue button background */
+        color: #fff; /* White text color */
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .SfButton:hover {
+            background-color: #30475e; /* Medium navy blue button background on hover */
+        }
+
+        .SfButton:disabled {
+            background-color: #30475e; /* Medium navy blue for disabled button */
+            cursor: not-allowed;
+        }
+
+    .dropdown {
+    }
+
+        .dropdown select {
+            padding: 8px;
+            font-size: 15px;
+            width: 240px;
+            border-radius: 10px;
+        }
+
+    .label-style {
+        font-size: 18px;
+        font-family: 'Sans Serif';
+        color: black;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .text-box {
+        border: 1px solid #355c7d;
+    }
+</style>
+
+<div class="container">
+    <div class="col-12 text-center">
+        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Your Orders</h1>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Product ID</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Product Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Supplier Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Products)
+                    {
+                        <tr>
+                            <th scope="row">@product.Product.ProductId</th>
+                            <td>@product.Product.ProductName</td>
+                            <td>@product.Category.CategoryName</td>
+                            <td>@product.Product.ProductDescription</td>
+                            <td>$@System.Math.Round(product.Product.Price, 2)</td>
+                            <td>@product.Product.ProductWeight</td>
+                            <td>@product.Supplier?.SupplierName</td>
+                            <td>
+                                <SfButton CssClass="btn btn-primary" OnClick="() => OpenEditProductDialogBox(product)">
+                                    Edit
+                                </SfButton>
+                            </td>
+                            <td>
+                                <SfButton CssClass="btn btn-danger" OnClick="() => DeleteProduct(product)">
+                                    Delete
+                                </SfButton>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
+    <DialogTemplates>
+        <Header>
+            <div class="text-center">
+                <label class="text-center" style="font-size:22px;text-align:center;font-family:sans-serif;font-weight:bold">Edit Product</label>
+            </div>
+        </Header>
+        <Content>
+            <form class="row g-3 m-3">
+
+                <div class="col-12 row mt-2 p-0">
+
+                    <div class="col-6 row">
+
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Product Name</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfTextBox @bind-value="@InitialPageData.SelectedProduct.Product.ProductName" CssClass="form-control text-box" Placeholder="Enter Product Name"></SfTextBox>
+                        </div>
+
+                    </div>
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Product Price</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfNumericTextBox TValue="double" @bind-Value="@InitialPageData.SelectedProduct.Product.Price" CssClass="form-control text-box" Placeholder="Enter Price"></SfNumericTextBox>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 row mb-2 p-0">
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Product Weight</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfNumericTextBox TValue="double?"
+                                              @bind-Value="@InitialPageData.SelectedProduct.Product.ProductWeight"
+                                              CssClass="form-control text-box"
+                                              Placeholder="Enter Weight">
+                            </SfNumericTextBox>
+                        </div>
+                    </div>
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Category</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <div class="dropdown">
+
+                                <select class="form-control input-style"
+                                        @bind="@InitialPageData.SelectedProductCategoryId">
+
+                                    @foreach (var category in CategoriesList)
+                                    {
+                                        <option class="category-option" style="border:1px solid lightgrey;"
+                                                value="@category.CategoryId">
+                                            @category.CategoryName
+                                        </option>
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 row mb-2 p-0">
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Supplier</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <div class="dropdown">
+
+                                <select class="category-select"
+                                        @bind="@InitialPageData.SelectedSupplierId">
+
+                                    <option class="category-option" style="border:1px solid lightgrey;" value="no-select">Select Supplier</option>
+                                    @foreach (var supplier in SuppliersList)
+                                    {
+                                        <option class="category-option" style="border:1px solid lightgrey;"
+                                                value="@supplier.SupplierId">
+                                            @supplier.SupplierName
+                                        </option>
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Description</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfTextBox 
+                                @bind-Value="@InitialPageData.SelectedProduct.Product.ProductDescription" 
+                                Multiline=true CssClass="form-control text-box" 
+                                Placeholder="Enter Product Description">
+                            </SfTextBox>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 mt-3 text-center">
+
+                    <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                    <button type="button" class="btn btn-success" @onclick="() => EditProduct()">
+                        Update Product
+                    </button>
+
+                </div>
+            </form>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+
+    </DialogButtons>
+    <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+</SfDialog>
+
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

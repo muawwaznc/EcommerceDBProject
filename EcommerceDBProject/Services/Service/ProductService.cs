@@ -38,15 +38,6 @@ namespace EcommerceDBProject.Services.Service
             }
         }
 
-        public ProductCategory GetProductCategoryFromProductCategoryId(string categoryId)
-        {
-            using (var db = new EcommerceDbprojectContext())
-            {
-                var productCategory = db.ProductCategories.FirstOrDefault(x => x.CategoryId == categoryId);
-                return productCategory;
-            }
-        }
-
         public Product GetProductFromInventoryItemId(string inventoryItemId)
         {
             using (var db = new EcommerceDbprojectContext())
@@ -93,6 +84,42 @@ namespace EcommerceDBProject.Services.Service
             using(var db = new EcommerceDbprojectContext())
             {
                 db.Products.Add(product);
+                db.SaveChanges();
+            }
+        }
+
+        public List<Product> GetAllProducts()
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var products = db.Products.ToList();
+                return products;
+            }
+        }
+
+        public ProductCategory GetProductCategoryByCategoryId(string categoryId)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                var category = db.ProductCategories.FirstOrDefault(x => x.CategoryId == categoryId);
+                return category;
+            }
+        }
+
+        public Supplier GetSupplierBySupplierId(string supplierId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var supplier = db.Suppliers.FirstOrDefault(x => x.SupplierId == supplierId);
+                return supplier;
+            }
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                db.Products.Update(product);
                 db.SaveChanges();
             }
         }
