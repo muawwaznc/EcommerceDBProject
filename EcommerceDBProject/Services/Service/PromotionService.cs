@@ -33,5 +33,14 @@ namespace EcommerceDBProject.Services.Service
             }
             return false;
         }
+
+        public void UpdatePromotion(Promotion promotion)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                db.Promotions.Update(promotion);
+                db.SaveChanges();
+            }
+        }
     }
 }

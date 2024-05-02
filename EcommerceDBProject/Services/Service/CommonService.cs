@@ -227,5 +227,14 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
         }
+
+        public InitialPageDataForUpdateDeletePromotion GetInitialPageDataForUpdateDeletePromotion()
+        {
+            var initialPageData = new InitialPageDataForUpdateDeletePromotion
+            {
+                PromotionsList = _promotionService.GetAllPromotionList(),
+            };
+            return initialPageData;
+        }
     }
 }

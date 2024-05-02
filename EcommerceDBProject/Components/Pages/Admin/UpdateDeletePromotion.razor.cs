@@ -11,15 +11,14 @@ namespace EcommerceDBProject.Components.Pages.Admin
         #region Injections
 
         [Inject] ICommonInterface CommonService { get; set; }
-        [Inject] IProductInterface ProductService { get; set; }
+        [Inject] IPromotionInterface PromotionService { get; set; }
         [Inject] IToastService ToastService { get; set; }
 
         #endregion
 
         #region Properties
 
-        InitialPageDataForUpdatePromotion InitialPageData { get; set; } = new();
-        List<ProductCategory> CategoriesList { get; set; } = new();
+        InitialPageDataForUpdateDeletePromotion InitialPageData = new();
 
         #endregion
 
@@ -27,22 +26,21 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected override void OnInitialized()
         {
-            //InitialPageData = CommonService.GetInitialPageDataForUpdateCategory();
-            //CategoriesList = InitialPageData.CategoriesList;
+            InitialPageData = CommonService.GetInitialPageDataForUpdateDeletePromotion();
         }
 
         #endregion
 
         #region OnClick Functions
 
-        protected void EditCategory()
+        protected void EditPromotion()
         {
-            //ProductService.UpdateProductCategory(InitialPageData.SelectedCategory);
-            //InitialPageData.IsEditDialogBoxOpen = false;
-            ToastService.ShowSuccess("Category Updated Successfully");
+            PromotionService.UpdatePromotion(InitialPageData.SelectedPromotion);
+            InitialPageData.IsEditDialogBoxOpen = false;
+            ToastService.ShowSuccess("Promotion Updated Successfully");
         }
 
-        protected void DeleteProductCategory()
+        protected void DeletePromotion()
         {
 
         }
@@ -51,10 +49,10 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         #region Dialogue Box Functions
 
-        protected void OpenEditCategoryDialogBox(ProductCategory productCategory)
+        protected void OpenEditPromotionDialogBox(Promotion promotion)
         {
-            //InitialPageData.SelectedCategory = productCategory;
-            //InitialPageData.IsEditDialogBoxOpen = true;
+            InitialPageData.SelectedPromotion = promotion;
+            InitialPageData.IsEditDialogBoxOpen = true;
         }
 
         protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)

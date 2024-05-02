@@ -17,5 +17,6 @@ namespace EcommerceDBProject.Services.Interface
         InitialPageDataForSellerPromotion GetInitialPageDataForSellerPromotion(string userDetailId);
         InitialPageDataForUpdateDeleteProduct GetInitialPageDataForUpdateDeleteProduct();
         InitialPageDataForUpdateCategory GetInitialPageDataForUpdateCategory();
+        InitialPageDataForUpdateDeletePromotion GetInitialPageDataForUpdateDeletePromotion();
     }
 }

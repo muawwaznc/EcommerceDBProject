@@ -118,33 +118,33 @@
                         <th scope="col">Promotion Id</th>
                         <th scope="col">Promotion Name</th>
                         <th scope="col">Promotion Description</th>
-                        <th scope="col">Discount Percentage</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
+                        <th scope="col">Discount Percentage</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @* @foreach (var category in @InitialPageData.CategoriesList)
+                    @foreach (var promotion in @InitialPageData.PromotionsList)
                     {
                         <tr>
-                            <th scope="row">@category.CategoryId</th>
-                            <td>@category.CategoryName</td>
-                            <td>@category.CategoryDescription</td>
-                            <td>@category.CategoryName</td>
-                            <td>@category.CategoryDescription</td>
-                            <td>@category.CategoryName</td>
+                            <th scope="row">@promotion.PromotionId</th>
+                            <td>@promotion.PromotionName</td>
+                            <td>@promotion.PromotionDescription</td>
+                            <td>@promotion.StartDate</td>
+                            <td>@promotion.EndDate</td>
+                            <td>@promotion.DiscountPercentage</td>
                             <td>
-                                <SfButton CssClass="button-style" OnClick="() => OpenEditCategoryDialogBox(category)">
+                                <SfButton CssClass="button-style" OnClick="() => OpenEditPromotionDialogBox(promotion)">
                                     Edit
                                 </SfButton>
                             </td>
                             <td>
-                                <SfButton CssClass="button-style" OnClick="() => OpenEditCategoryDialogBox(category)">
+                                <SfButton CssClass="button-style" OnClick="() => DeletePromotion()">
                                     Delete
                                 </SfButton>
                             </td>
                         </tr>
-                    } *@
+                    }
 
                 </tbody>
             </table>
@@ -152,58 +152,118 @@
     </div>
 </div>
 
-@* <SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
+<SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
     <DialogTemplates>
         <Header>
             <div class="text-center">
-                <label class="text-center" style="font-size:22px;text-align:center;font-family:sans-serif;font-weight:bold">Edit Product</label>
+                <label class="text-center" style="font-size:22px;text-align:center;font-family:sans-serif;font-weight:bold">Edit Promotion</label>
             </div>
         </Header>
         <Content>
             <form class="row g-3 m-3">
-                <div class="col-12 mt-3 mb-3 text-center">
-                    <h3 class="heading">ADD PROMOTION</h3>
-                </div>
-                <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+
                 <div class="col-12 row mt-2 p-0">
-                    <div class="col-4 m-1 text-left">
-                        <label class="label-style">Promotion Name</label>
+
+                    <div class="col-6 row">
+
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Promotion Name</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfTextBox @bind-value="@InitialPageData.SelectedPromotion.PromotionName" CssClass="form-control text-box" Placeholder="Enter Promotion Name"></SfTextBox>
+                        </div>
+
                     </div>
-                    <div class="col-7 m-1">
-                        <input type="text" class="form-control text-box" id="inputName" placeholder="Name" @bind-value="@Promotion.PromotionName">
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Discount Percentage</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfNumericTextBox TValue="double" @bind-Value="@InitialPageData.SelectedPromotion.DiscountPercentage" CssClass="form-control text-box" Placeholder="Enter Price"></SfNumericTextBox>
+                        </div>
                     </div>
+
                 </div>
-                <div class="col-12 row mt-2 p-0">
-                    <div class="col-4 m-1 text-left">
-                        <label class="label-style">Discount Percentage</label>
+
+                <div class="col-12 row p-0">
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Start Date</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfDateTime TValue="double?"
+                                              @bind-Value="@InitialPageData.SelectedProduct.Product.ProductWeight"
+                                              CssClass="form-control text-box"
+                                              Placeholder="Enter Weight">
+                            </SfDateTime>
+                        </div>
                     </div>
-                    <div class="col-7 m-1">
-                        <input type="number" class="form-control text-box" id="inputPercentage" placeholder="discount Percentage" @bind-value="@Promotion.DiscountPercentage">
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Category</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <div class="dropdown">
+
+                                <select class="form-control input-style"
+                                        @bind="@InitialPageData.SelectedProductCategoryId">
+
+                                    @foreach (var category in CategoriesList)
+                                    {
+                                        <option class="category-option" style="border:1px solid lightgrey;"
+                                                value="@category.CategoryId">
+                                            @category.CategoryName
+                                        </option>
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                <div class="col-12 row mt-2 p-0">
-                    <div class="col-4 m-1 text-left">
-                        <label class="label-style">Start Date</label>
-                    </div>
-                    <div class="col-7 m-1">
-                        <input type="date" class="form-control text-box" id="inputStart" placeholder="Start Date" @bind-value="@Promotion.StartDate">
-                    </div>
-                </div>
-                <div class="col-12 row mt-2 p-0">
-                    <div class="col-4 m-1 text-left">
-                        <label class="label-style">End Date</label>
-                    </div>
-                    <div class="col-7 m-1">
-                        <input type="date" class="form-control text-box" id="inputEnd" placeholder="End Date" @bind-value="@Promotion.EndDate">
-                    </div>
-                </div>
+
                 <div class="col-12 row mb-2 p-0">
-                    <div class="col-4 m-1 text-left">
-                        <label class="label-style">Promotion Description</label>
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Supplier</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <div class="dropdown">
+
+                                <select class="category-select"
+                                        @bind="@InitialPageData.SelectedSupplierId">
+
+                                    <option class="category-option" style="border:1px solid lightgrey;" value="no-select">Select Supplier</option>
+                                    @foreach (var supplier in SuppliersList)
+                                    {
+                                        <option class="category-option" style="border:1px solid lightgrey;"
+                                                value="@supplier.SupplierId">
+                                            @supplier.SupplierName
+                                        </option>
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-7 m-1">
-                        <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@Promotion.PromotionDescription"></textarea>
+
+                    <div class="col-6 row">
+                        <div class="col-4 m-1 text-left">
+                            <label class="label-style">Description</label>
+                        </div>
+                        <div class="col-7 m-1">
+                            <SfTextBox @bind-Value="@InitialPageData.SelectedProduct.Product.ProductDescription"
+                                       Multiline=true CssClass="form-control text-box"
+                                       Placeholder="Enter Product Description">
+                            </SfTextBox>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="col-12 mt-3 text-center">
@@ -212,8 +272,8 @@
                         Close
                     </button>
 
-                    <button type="button" class="btn btn-success" @onclick="() => EditPromotion()">
-                        Update Promotion
+                    <button type="button" class="btn btn-success" @onclick="() => EditProduct()">
+                        Update Product
                     </button>
 
                 </div>
@@ -226,7 +286,7 @@
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
 </SfDialog>
- *@
+
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
                 Timeout="9999999"
                 IconType="IconType.FontAwesome"
