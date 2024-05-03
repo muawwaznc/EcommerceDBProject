@@ -1,0 +1,202 @@
+﻿@page "/admin/update-category/"
+@layout AdminLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+@using Blazored.Toast;
+@using Blazored.Toast.Configuration;
+
+<style>
+    ody {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #0a192f; /* Navy blue background */
+    }
+
+    .container {
+        width: 100%;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(223,214,214);
+    }
+
+    .SfButton {
+        background-color: #1a2939; /* Dark navy blue button background */
+        color: #fff; /* White text color */
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .SfButton:hover {
+            background-color: #30475e; /* Medium navy blue button background on hover */
+        }
+
+        .SfButton:disabled {
+            background-color: #30475e; /* Medium navy blue for disabled button */
+            cursor: not-allowed;
+        }
+
+    .dropdown {
+    }
+
+        .dropdown select {
+            padding: 8px;
+            font-size: 15px;
+            width: 240px;
+            border-radius: 10px;
+        }
+
+    .head {
+        background-color: #355c7d;
+        color: #fff;
+    }
+
+    .button-style {
+        background-color: #cf889d;
+        width: 200px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 35px;
+        font-size: 18px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        width: 120px;
+        z-index: 9;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
+
+    .hover-design {
+        background-color: #dae7f5;
+        border-bottom: 1px solid black
+    }
+
+    .label-style {
+        font-size: 18px;
+        font-family: inherit;
+        color: black;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .text-box {
+        border: 2px solid #355c7d;
+    }
+</style>
+
+<div class="container">
+    <div class="col-12 text-center">
+        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL CATEGORIES</h1>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="head">
+                    <tr>
+                        <th scope="col">Category Id</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Category Description</th>
+                        <th scope="col"></th>                   
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in @InitialPageData.CategoriesList)
+                    {
+                        <tr>
+                            <th scope="row">@category.CategoryId</th>
+                            <td>@category.CategoryName</td>
+                            <td>@category.CategoryDescription</td>
+                            <td>
+                                <SfButton CssClass="button-style" OnClick="() => OpenEditCategoryDialogBox(category)">
+                                    Edit
+                                </SfButton>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
+    <DialogTemplates>
+        <Header>
+            <div class="text-center">
+                <label class="text-center" style="font-size:22px;text-align:center;font-family:sans-serif;font-weight:bold">Edit Product</label>
+            </div>
+        </Header>
+        <Content>
+            <form class="row g-3 m-3">
+                <div class="col-12 mt-3 mb-3 text-center">
+                    <h3 class="heading">ADD CATEGORY</h3>
+                </div>
+                <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+                <div class="col-12 row mt-2 p-0">
+                    <div class="col-4 m-1 text-left">
+                        <label class="label-style">Category Name</label>
+                    </div>
+                    <div class="col-7 m-1">
+                        <input type="text" class="form-control text-box" id="inputName" placeholder="Category Name" @bind-value="@InitialPageData.SelectedCategory.CategoryName">
+                    </div>
+                </div>
+                <div class="col-12 row mb-2 p-0">
+                    <div class="col-4 m-1 text-left">
+                        <label class="label-style">Category Description</label>
+                    </div>
+                    <div class="col-7 m-1">
+                        <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@InitialPageData.SelectedCategory.CategoryDescription"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3 text-center">
+
+                    <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                    <button type="button" class="btn btn-success" @onclick="() => EditCategory()">
+                        Update Category
+                    </button>
+
+                </div>
+            </form>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+
+    </DialogButtons>
+    <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+</SfDialog>
+
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

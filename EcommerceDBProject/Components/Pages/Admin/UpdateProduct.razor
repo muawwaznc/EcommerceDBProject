@@ -16,8 +16,8 @@
     }
 
     .container {
-        width: 90%;
-        margin: 30px 20px 20px 30px;
+        width: 100%;
+        margin: auto;
         background-color: #fff;
         padding: 20px;
         border-radius: 20px;
@@ -52,27 +52,66 @@
             border-radius: 10px;
         }
 
+    .head {
+        background-color: #355c7d;
+        color: #fff;
+    }
+
+    .button-style {
+        background-color: #cf889d;
+        width: 200px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 35px;
+        font-size: 18px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        width: 120px;
+        z-index: 9;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
+    .hover-design {
+        background-color: #dae7f5;
+        border-bottom: 1px solid black
+    }
     .label-style {
         font-size: 18px;
-        font-family: 'Sans Serif';
+        font-family: inherit;
         color: black;
         font-weight: bold;
         text-align: left
     }
 
     .text-box {
-        border: 1px solid #355c7d;
+        border: 2px solid #355c7d;
     }
 </style>
 
 <div class="container">
     <div class="col-12 text-center">
-        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Your Orders</h1>
+        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL PRODUCTS</h1>
     </div>
     <div class="col-12">
         <div class="table-responsive">
             <table class="table table-striped">
-                <thead>
+                <thead class="head">
                     <tr>
                         <th scope="col">Product ID</th>
                         <th scope="col">Product Name</th>
@@ -81,6 +120,8 @@
                         <th scope="col">Price</th>
                         <th scope="col">Weight</th>
                         <th scope="col">Supplier Name</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,12 +136,12 @@
                             <td>@product.Product.ProductWeight</td>
                             <td>@product.Supplier?.SupplierName</td>
                             <td>
-                                <SfButton CssClass="btn btn-primary" OnClick="() => OpenEditProductDialogBox(product)">
+                                <SfButton CssClass="button-style" OnClick="() => OpenEditProductDialogBox(product)">
                                     Edit
                                 </SfButton>
                             </td>
                             <td>
-                                <SfButton CssClass="btn btn-danger" OnClick="() => DeleteProduct(product)">
+                                <SfButton CssClass="button-style" OnClick="() => DeleteProduct(product)">
                                     Delete
                                 </SfButton>
                             </td>
@@ -147,7 +188,7 @@
 
                 </div>
 
-                <div class="col-12 row mb-2 p-0">
+                <div class="col-12 row p-0">
 
                     <div class="col-6 row">
                         <div class="col-4 m-1 text-left">

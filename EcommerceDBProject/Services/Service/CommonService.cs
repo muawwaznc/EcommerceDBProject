@@ -200,6 +200,12 @@ namespace EcommerceDBProject.Services.Service
             initialPageData.inventoryItemsList = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
             return initialPageData;
         }
+        public InitialPageDataForUpdateCategory GetInitialPageDataForUpdateCategory()
+        {
+            InitialPageDataForUpdateCategory initialPageData = new();
+            initialPageData.CategoriesList = _productService.GetAllProductCategories();
+            return initialPageData;
+        }
 
         public InitialPageDataForUpdateDeleteProduct GetInitialPageDataForUpdateDeleteProduct()
         {

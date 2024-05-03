@@ -43,14 +43,14 @@
 
     .label-style {
         font-size: 18px;
-        font-family: 'Sans Serif';
+        font-family: inherit;
         color: black;
         font-weight: bold;
         text-align: left
     }
 
     .text-box {
-        border: 1px solid #355c7d;
+        border: 2px solid #355c7d;
     }
     /* CSS */
     .button-style {
@@ -116,7 +116,7 @@
                 <label class="label-style">Email</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@SupplierDetails.Email" Type="InputType.Email" CssClass="form-control text-box" Placeholder="Enter Email"></SfTextBox>
+                <SfTextBox @bind-Value="@SupplierDetails.Email" Type="InputType.Email" CssClass=" text-box" Placeholder="Enter Email"></SfTextBox>
             </div>
         </div>
         <div class="col-6 row m-0 p-0">

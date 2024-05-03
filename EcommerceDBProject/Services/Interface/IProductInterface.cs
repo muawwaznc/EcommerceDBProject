@@ -17,5 +17,6 @@ namespace EcommerceDBProject.Services.Interface
         ProductCategory GetProductCategoryByCategoryId(string categoryId);
         Supplier GetSupplierBySupplierId(string supplierId);
         void UpdateProduct(Product product);
+        void UpdateCategory(ProductCategory category);
     }
 }

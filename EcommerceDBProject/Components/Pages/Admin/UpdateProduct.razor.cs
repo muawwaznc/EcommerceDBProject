@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace EcommerceDBProject.Components.Pages.Admin
 {
-    public partial class UpdateDeleteProduct : ComponentBase
+    public partial class UpdateProduct : ComponentBase
     {
         #region Injections
 
