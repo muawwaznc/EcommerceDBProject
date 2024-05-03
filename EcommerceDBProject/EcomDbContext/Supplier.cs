@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.DBContext;
+namespace EcommerceDBProject.EcomDbContext;
 
 public partial class Supplier
 {
@@ -12,6 +12,8 @@ public partial class Supplier
     public string SupplierName { get; set; } = null!;
 
     public string ContactPersonName { get; set; } = null!;
+
+    public string ContactPersonPhoneNumber { get; set; } = null!;
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 

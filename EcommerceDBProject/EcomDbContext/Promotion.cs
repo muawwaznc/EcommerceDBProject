@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.DBContext;
+namespace EcommerceDBProject.EcomDbContext;
 
 public partial class Promotion
 {
@@ -17,5 +17,5 @@ public partial class Promotion
 
     public double DiscountPercentage { get; set; }
 
-    public virtual ICollection<InventoryItem> InventoryItems { get; set; } = new List<InventoryItem>();
+    public virtual ICollection<ProductPromotion> ProductPromotions { get; set; } = new List<ProductPromotion>();
 }

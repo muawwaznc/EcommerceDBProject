@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DBContext;
+﻿using EcommerceDBProject.EcomDbContext;
 using EcommerceDBProject.Services.Interface;
 
 namespace EcommerceDBProject.Services.Service

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.DBContext;
+namespace EcommerceDBProject.EcomDbContext;
 
 public partial class InventoryItem
 {
@@ -23,7 +23,7 @@ public partial class InventoryItem
 
     public virtual Product Product { get; set; } = null!;
 
-    public virtual Seller Seller { get; set; } = null!;
+    public virtual ICollection<ProductPromotion> ProductPromotions { get; set; } = new List<ProductPromotion>();
 
-    public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();
+    public virtual Seller Seller { get; set; } = null!;
 }

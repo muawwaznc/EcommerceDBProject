@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerceDBProject.DBContext;
+namespace EcommerceDBProject.EcomDbContext;
 
 public partial class EcommerceDbprojectContext : DbContext
 {
@@ -30,6 +30,8 @@ public partial class EcommerceDbprojectContext : DbContext
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+
+    public virtual DbSet<ProductPromotion> ProductPromotions { get; set; }
 
     public virtual DbSet<ProductReturn> ProductReturns { get; set; }
 
@@ -316,6 +318,38 @@ public partial class EcommerceDbprojectContext : DbContext
                 .HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<ProductPromotion>(entity =>
+        {
+            entity.HasKey(e => new { e.PromotionId, e.InventoryItemId });
+
+            entity.ToTable("ProductPromotion");
+
+            entity.HasIndex(e => e.ProductPromotionId, "UQ__ProductP__9E52F8C2C8E2FE82").IsUnique();
+
+            entity.Property(e => e.PromotionId)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("PromotionID");
+            entity.Property(e => e.InventoryItemId)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("InventoryItemID");
+            entity.Property(e => e.ProductPromotionId)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.InventoryItem).WithMany(p => p.ProductPromotions)
+                .HasPrincipalKey(p => p.InventoryItemId)
+                .HasForeignKey(d => d.InventoryItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductPromotion_InventoryItem");
+
+            entity.HasOne(d => d.Promotion).WithMany(p => p.ProductPromotions)
+                .HasForeignKey(d => d.PromotionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductPromotion_Promotion");
+        });
+
         modelBuilder.Entity<ProductReturn>(entity =>
         {
             entity.HasKey(e => e.OrderItemId).HasName("PK__ProductR__57ED06A1B6E795DD");
@@ -400,32 +434,6 @@ public partial class EcommerceDbprojectContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
-
-            entity.HasMany(d => d.InventoryItems).WithMany(p => p.Promotions)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ProductPromotion",
-                    r => r.HasOne<InventoryItem>().WithMany()
-                        .HasPrincipalKey("InventoryItemId")
-                        .HasForeignKey("InventoryItemId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_ProductPromotion_InventoryItem"),
-                    l => l.HasOne<Promotion>().WithMany()
-                        .HasForeignKey("PromotionId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_ProductPromotion_Promotion"),
-                    j =>
-                    {
-                        j.HasKey("PromotionId", "InventoryItemId");
-                        j.ToTable("ProductPromotion");
-                        j.IndexerProperty<string>("PromotionId")
-                            .HasMaxLength(15)
-                            .IsUnicode(false)
-                            .HasColumnName("PromotionID");
-                        j.IndexerProperty<string>("InventoryItemId")
-                            .HasMaxLength(15)
-                            .IsUnicode(false)
-                            .HasColumnName("InventoryItemID");
-                    });
         });
 
         modelBuilder.Entity<Seller>(entity =>
@@ -479,6 +487,9 @@ public partial class EcommerceDbprojectContext : DbContext
                 .HasColumnName("UserDetailID");
             entity.Property(e => e.ContactPersonName)
                 .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ContactPersonPhoneNumber)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.SupplierId)
                 .HasMaxLength(15)
