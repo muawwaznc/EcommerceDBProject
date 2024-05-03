@@ -41,20 +41,24 @@ namespace EcommerceDBProject.Components.Pages.Admin
             {
                 ToastService.ShowError("Enter End Date");
             }
+            if(Promotion.EndDate < Promotion.StartDate)
+            {
+                ToastService.ShowError("Enter a Valid Start and End Date");
+            }
             else if (Promotion.PromotionDescription == null)
             {
                 ToastService.ShowError("Enter Promotion Description");
             }
             else
             {
-                if (!PromotionService.IsPromotionNameAlreadyExist(Promotion.PromotionName))
+                if (!PromotionService.IsPromotionNameAlreadyExist(Promotion))
                 {
                     PromotionService.AddPromotion(Promotion);
-                    ToastService.ShowSuccess("Promotion Added Succesfully");
+                    ToastService.ShowSuccess("Promotion Added Successfully");
                 }
                 else
                 {
-                    ToastService.ShowError("Duplication Of Promotion Name");
+                    ToastService.ShowError("Promotion is Already Exist");
                 }
             }
         }

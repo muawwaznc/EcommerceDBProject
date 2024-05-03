@@ -16,13 +16,15 @@ namespace EcommerceDBProject.Services.Service
 
         public CommonService(IInventoryItemInterface inventoryItemService,
             IProductInterface productService, IUserInterface userService,
-            IOrderInterface orderService, IOrderReturnReviewInterface orderReturnReviewService)
+            IOrderInterface orderService, IOrderReturnReviewInterface orderReturnReviewService,
+            IPromotionInterface promotionService)
         {
             _inventoryItemService = inventoryItemService;
             _productService = productService;
             _userService = userService;
             _orderService = orderService;
             _orderReturnReviewService = orderReturnReviewService;
+            _promotionService = promotionService;
         }
 
         public InitialPageDataForCustomerDashboard GetInitialPageDataForCustomerDashboard(string userDetailId)
@@ -195,7 +197,7 @@ namespace EcommerceDBProject.Services.Service
             var seller = _userService.GetSellerFromUserDetailId(userDetailId);
             var initialPageData = new InitialPageDataForSellerPromotion();
             initialPageData.SellerId = seller.SellerId;
-            //initialPageData.PromotionList = _promotionService.GetAllPromotionList();
+            initialPageData.PromotionList = _promotionService.GetAllPromotionList();
             initialPageData.productCategoriesList = _productService.GetAllProductCategories();
             initialPageData.inventoryItemsList = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
             return initialPageData;
@@ -232,9 +234,10 @@ namespace EcommerceDBProject.Services.Service
         {
             var initialPageData = new InitialPageDataForUpdateDeletePromotion
             {
-                PromotionsList = _promotionService.GetAllPromotionList(),
+                PromotionsList = _promotionService.GetAllPromotionList()
             };
             return initialPageData;
+
         }
     }
 }

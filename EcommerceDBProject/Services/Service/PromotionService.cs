@@ -15,19 +15,27 @@ namespace EcommerceDBProject.Services.Service
         }
         public List<Promotion> GetAllPromotionList()
         {
-            using(var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbprojectContext())
             {
                 var promotionList = db.Promotions.ToList();
                 return promotionList;
-            }            
+            }
         }
-        public bool IsPromotionNameAlreadyExist(string promotionName)
+        public bool IsPromotionNameAlreadyExist(Promotion promotion)
         {
             var promotionList = GetAllPromotionList();
             foreach (var item in promotionList)
             {
-                if (item.PromotionName == promotionName)
+                if (item.PromotionName == promotion.PromotionName)
                 {
+                    if(promotion.StartDate < item.StartDate && promotion.EndDate < item.StartDate)
+                    {
+                        return false;
+                    }
+                    else if(promotion.StartDate > item.EndDate)
+                    {
+                        return false;
+                    }
                     return true;
                 }
             }
