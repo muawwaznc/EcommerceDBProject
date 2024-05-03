@@ -38,12 +38,14 @@ namespace EcommerceDBProject.Components.Pages.Admin
             PromotionService.UpdatePromotion(InitialPageData.SelectedPromotion);
             InitialPageData.IsEditDialogBoxOpen = false;
             ToastService.ShowSuccess("Promotion Updated Successfully");
+            InitialPageData = CommonService.GetInitialPageDataForUpdateDeletePromotion();
         }
 
-        protected void DeletePromotion()
+        protected void DeletePromotion(Promotion promotion)
         {
-            PromotionService.DeletePromotion(InitialPageData.SelectedPromotion);
+            PromotionService.DeletePromotion(promotion);
             ToastService.ShowSuccess("Promotion Deleted Successfully");
+            InitialPageData = CommonService.GetInitialPageDataForUpdateDeletePromotion();
         }
 
         #endregion

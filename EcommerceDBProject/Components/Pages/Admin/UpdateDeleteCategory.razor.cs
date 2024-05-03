@@ -40,12 +40,23 @@ namespace EcommerceDBProject.Components.Pages.Admin
             ProductService.UpdateProductCategory(InitialPageData.SelectedCategory);
             InitialPageData.IsEditDialogBoxOpen = false;
             ToastService.ShowSuccess("Category Updated Successfully");
+            InitialPageData = CommonService.GetInitialPageDataForUpdateCategory();
+            CategoriesList = InitialPageData.CategoriesList;
         }
 
         protected void DeleteProductCategory(ProductCategory productCategory)
         {
-            ProductService.DeleteProductCategory(productCategory);
-            ToastService.ShowSuccess("Category Deleted Successfully");
+            if (ProductService.DeleteProductCategory(productCategory))
+            {
+                ToastService.ShowSuccess("Category Deleted Successfully");
+            }
+            else
+            {
+                ToastService.ShowError("Category is Linked With Products, First Unlink It..");
+            }
+
+            InitialPageData = CommonService.GetInitialPageDataForUpdateCategory();
+            CategoriesList = InitialPageData.CategoriesList;
         }
 
         #endregion

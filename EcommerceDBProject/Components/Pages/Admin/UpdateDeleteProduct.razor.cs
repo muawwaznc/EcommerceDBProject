@@ -42,8 +42,18 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected void DeleteProduct(ProductViewModel product)
         {
-            ProductService.DeleteProduct(product.Product);
-            ToastService.ShowSuccess("Product Deleted Successfully");
+            if (ProductService.DeleteProduct(product.Product))
+            {
+                ToastService.ShowSuccess("Product Deleted Successfully");
+            }
+            else
+            {
+                ToastService.ShowError("Product is Bought By Sellers, First Delete Inventory Items...");
+            }
+            InitialPageData = CommonService.GetInitialPageDataForUpdateDeleteProduct();
+            Products = InitialPageData.Products;
+            CategoriesList = InitialPageData.CategoriesList;
+            SuppliersList = InitialPageData.SuppliersList;
         }
 
         protected void EditProduct()
@@ -53,6 +63,11 @@ namespace EcommerceDBProject.Components.Pages.Admin
             ProductService.UpdateProduct(InitialPageData.SelectedProduct.Product);
             InitialPageData.IsEditDialogBoxOpen = false;
             ToastService.ShowSuccess("Product Updated Successfully");
+
+            InitialPageData = CommonService.GetInitialPageDataForUpdateDeleteProduct();
+            Products = InitialPageData.Products;
+            CategoriesList = InitialPageData.CategoriesList;
+            SuppliersList = InitialPageData.SuppliersList;
         }
 
         #endregion

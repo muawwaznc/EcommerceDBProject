@@ -62,7 +62,7 @@ namespace EcommerceDBProject.Services.Service
                 }
                 catch(Exception)
                 {
-                    var productPromotions = db.ProductPromotions.Where(x => x.PromotionId == promotion.PromotionId);
+                    var productPromotions = db.ProductPromotions.Where(x => x.PromotionId == promotion.PromotionId).ToList();
                     db.ProductPromotions.RemoveRange(productPromotions);
                     db.Promotions.Remove(promotion);
                     db.SaveChanges();

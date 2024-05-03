@@ -132,7 +132,7 @@ namespace EcommerceDBProject.Services.Service
             }
         }
 
-        public void DeleteProduct(Product product)
+        public bool DeleteProduct(Product product)
         {
             using (var db = new EcommerceDbprojectContext())
             {
@@ -140,18 +140,16 @@ namespace EcommerceDBProject.Services.Service
                 {
                     db.Products.Remove(product);
                     db.SaveChanges();
+                    return true;
                 }
                 catch (Exception)
                 {
-                    var products = db.Products.Where(x => x.ProductId == product.ProductId);
-                    db.Products.RemoveRange(products);
-                    db.Products.Remove(product);
-                    db.SaveChanges();
+                    return false;
                 }
             }
         }
 
-        public void DeleteProductCategory(ProductCategory productCategory)
+        public bool DeleteProductCategory(ProductCategory productCategory)
         {
             using (var db = new EcommerceDbprojectContext())
             {
@@ -159,13 +157,11 @@ namespace EcommerceDBProject.Services.Service
                 {
                     db.ProductCategories.Remove(productCategory);
                     db.SaveChanges();
+                    return true;
                 }
                 catch (Exception)
                 {
-                    var productCategories = db.ProductCategories.Where(x => x.CategoryId == productCategory.CategoryId);
-                    db.ProductCategories.RemoveRange(productCategories);
-                    db.ProductCategories.Remove(productCategory);
-                    db.SaveChanges();
+                    return false;
                 }
             }
         }
