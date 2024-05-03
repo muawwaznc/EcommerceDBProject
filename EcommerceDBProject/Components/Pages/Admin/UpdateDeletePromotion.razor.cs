@@ -26,7 +26,6 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected override void OnInitialized()
         {
-            PromotionService.DeletePromotion(InitialPageData.SelectedPromotion);
             InitialPageData = CommonService.GetInitialPageDataForUpdateDeletePromotion();
         }
 

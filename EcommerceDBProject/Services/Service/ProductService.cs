@@ -131,5 +131,43 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+
+        public void DeleteProduct(Product product)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                try
+                {
+                    db.Products.Remove(product);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    var products = db.Products.Where(x => x.ProductId == product.ProductId);
+                    db.Products.RemoveRange(products);
+                    db.Products.Remove(product);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public void DeleteProductCategory(ProductCategory productCategory)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                try
+                {
+                    db.ProductCategories.Remove(productCategory);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    var productCategories = db.ProductCategories.Where(x => x.CategoryId == productCategory.CategoryId);
+                    db.ProductCategories.RemoveRange(productCategories);
+                    db.ProductCategories.Remove(productCategory);
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }

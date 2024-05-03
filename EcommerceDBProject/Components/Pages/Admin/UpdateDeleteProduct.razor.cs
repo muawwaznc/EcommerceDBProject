@@ -42,7 +42,8 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected void DeleteProduct(ProductViewModel product)
         {
-
+            ProductService.DeleteProduct(product.Product);
+            ToastService.ShowSuccess("Product Deleted Successfully");
         }
 
         protected void EditProduct()
@@ -51,7 +52,7 @@ namespace EcommerceDBProject.Components.Pages.Admin
             InitialPageData.SelectedProduct.Product.SupplierId = InitialPageData.SelectedSupplierId;
             ProductService.UpdateProduct(InitialPageData.SelectedProduct.Product);
             InitialPageData.IsEditDialogBoxOpen = false;
-            ToastService.ShowSuccess("Product Updated Sucessfully");
+            ToastService.ShowSuccess("Product Updated Successfully");
         }
 
         #endregion

@@ -47,9 +47,19 @@ namespace EcommerceDBProject.Services.Service
         {
             using (var db = new EcommerceDbprojectContext())
             {
-                var p = db.Promotions.FirstOrDefault(x => x.PromotionId == "PROM-1");
-                db.Promotions.Remove(p);
-                db.SaveChanges();
+                try
+                {
+                    db.Promotions.Remove(promotion);
+                    db.SaveChanges();
+                }
+                catch(Exception)
+                {
+                    var productPromotions = db.ProductPromotions.Where(x => x.PromotionId == promotion.PromotionId);
+                    db.ProductPromotions.RemoveRange(productPromotions);
+                    db.Promotions.Remove(promotion);
+                    db.SaveChanges();
+                }
+                
             }
         }
     }

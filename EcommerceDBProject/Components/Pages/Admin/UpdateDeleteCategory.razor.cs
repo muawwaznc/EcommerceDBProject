@@ -42,9 +42,10 @@ namespace EcommerceDBProject.Components.Pages.Admin
             ToastService.ShowSuccess("Category Updated Successfully");
         }
 
-        protected void DeleteProductCategory()
+        protected void DeleteProductCategory(ProductCategory productCategory)
         {
-
+            ProductService.DeleteProductCategory(productCategory);
+            ToastService.ShowSuccess("Category Deleted Successfully");
         }
 
         #endregion
