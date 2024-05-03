@@ -9,5 +9,6 @@ namespace EcommerceDBProject.Services.Interface
         bool IsPromotionNameAlreadyExist(Promotion promotion);
         void UpdatePromotion(Promotion promotion);
         void DeletePromotion(Promotion promotion);
+        bool AddProductPromotion(ProductPromotion productPromotion);
     }
 }

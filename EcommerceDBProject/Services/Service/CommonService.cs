@@ -198,8 +198,8 @@ namespace EcommerceDBProject.Services.Service
             var initialPageData = new InitialPageDataForSellerPromotion();
             initialPageData.SellerId = seller.SellerId;
             initialPageData.PromotionList = _promotionService.GetAllPromotionList();
-            initialPageData.productCategoriesList = _productService.GetAllProductCategories();
-            initialPageData.inventoryItemsList = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
+            initialPageData.ProductCategoriesList = _productService.GetAllProductCategories();
+            initialPageData.InventoryItemsList = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
             return initialPageData;
         }
         public InitialPageDataForUpdateCategory GetInitialPageDataForUpdateCategory()

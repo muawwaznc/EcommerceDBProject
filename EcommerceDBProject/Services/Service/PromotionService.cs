@@ -70,5 +70,22 @@ namespace EcommerceDBProject.Services.Service
                 
             }
         }
+
+        public bool AddProductPromotion(ProductPromotion productPromotion)
+        {
+            using(var db = new EcommerceDbprojectContext())
+            {
+                try
+                {
+                    db.ProductPromotions.Add(productPromotion);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }                
+            }
+        }
     }
 }

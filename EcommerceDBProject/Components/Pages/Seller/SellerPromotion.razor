@@ -2,8 +2,8 @@
 @layout SellerLayout
 @rendermode InteractiveServer
 @using EcommerceDBProject.Components.Layout
-@using Syncfusion.Blazor.Popups;
-@using Syncfusion.Blazor.Buttons;
+
+
 <style>
     .container {
         width: 90%;
@@ -55,6 +55,7 @@
             box-shadow: #355c7d 0 3px 8px;
         }
 </style>
+
 <div class="container">
     <div class="col-12 row">
         <div class="col-4"></div>
@@ -116,7 +117,7 @@
                             <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                                 Select Category
                             </option>
-                            @foreach (var productCategory in InitialPageData.productCategoriesList)
+                            @foreach (var productCategory in InitialPageData.ProductCategoriesList)
                             {
                                 <option class="category-option" style="border:1px solid lightgrey;"
                                         value="@productCategory.CategoryId">
@@ -137,7 +138,7 @@
                             <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                                 Select Product
                             </option>
-                            @foreach (var inventoryItem in InitialPageData.inventoryItemsList)
+                            @foreach (var inventoryItem in InitialPageData.InventoryItemsList)
                             {
                                 var productName = ProductService.GetProductFromInventoryItemId(inventoryItem.InventoryItemId).ProductName;
                                 <option class="category-option" style="border:1px solid lightgrey;"
@@ -154,7 +155,7 @@
                     <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:35px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
                         Close
                     </button>
-                    
+
                     <button type="button" style="width:200px;" class="button-style p-1" @onclick="() => ApplyPromotionOnProduct()">
                         Apply Promotion
                     </button>
@@ -169,3 +170,11 @@
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
 </SfDialog>
+
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

@@ -1,4 +1,5 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using Blazored.Toast.Services;
+using EcommerceDBProject.DatabaseContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.Services.Service;
 using EcommerceDBProject.ViewModels;
@@ -13,6 +14,8 @@ namespace EcommerceDBProject.Components.Pages.Seller
         [Inject] ICommonInterface CommonService { get; set; }
         [Inject] IProductInterface ProductService { get;set; }
         [Inject] IInventoryItemInterface InventoryItemService { get; set; }
+        [Inject] IPromotionInterface PromotionService { get; set; }
+        [Inject] IToastService ToastService { get; set; }
 
         #endregion
 
@@ -36,6 +39,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         protected void OpenApplyPromotionDialogBox(Promotion promotion)
         {
+            InitialPageData.SelectedPromotionId = promotion.PromotionId;
             InitialPageData.ApplyPromotionDialogBox = true;
         }
 
@@ -53,11 +57,11 @@ namespace EcommerceDBProject.Components.Pages.Seller
             if (e.Value.ToString() != "no-select")
             {
                 InitialPageData.SelectedCategoryId = e.Value.ToString();
-                InitialPageData.inventoryItemsList = InventoryItemService.GetSellerInventoryItemsOfSpecifcCetagory(e.Value.ToString(), InitialPageData.SellerId);
+                InitialPageData.InventoryItemsList = InventoryItemService.GetSellerInventoryItemsOfSpecifcCetagory(e.Value.ToString(), InitialPageData.SellerId);
             }
             else
             {
-                InitialPageData.inventoryItemsList = InventoryItemService.GetSellerInventoryItemsListFromSellerId(InitialPageData.SellerId);
+                InitialPageData.InventoryItemsList = InventoryItemService.GetSellerInventoryItemsListFromSellerId(InitialPageData.SellerId);
                 InitialPageData.SelectedCategoryId = null;
             }
         }
@@ -80,7 +84,23 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         protected void ApplyPromotionOnProduct()
         {
-            
+            if(InitialPageData.SelectedPromotionId != null && InitialPageData.SelectedInventoryItemId != null)
+            {
+                var productPromotion = new ProductPromotion{
+                    PromotionId = InitialPageData.SelectedPromotionId,
+                    InventoryItemId = InitialPageData.SelectedInventoryItemId
+                };
+                if (PromotionService.AddProductPromotion(productPromotion))
+                {
+                    ToastService.ShowSuccess("Promotion Is Applied Successfully");
+                }
+                else
+                {
+                    ToastService.ShowSuccess("This Promotion Is Already Applied On This Product");
+                }
+                InitialPageData.ApplyPromotionDialogBox = false;
+            }
+
         }
 
         #endregion
