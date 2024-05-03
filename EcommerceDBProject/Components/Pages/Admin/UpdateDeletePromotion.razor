@@ -1,4 +1,4 @@
-﻿@page "/admin/update-category/"
+﻿@page "/admin/update-promotion/"
 @layout AdminLayout
 @rendermode InteractiveServer
 @using EcommerceDBProject.Components.Layout
@@ -108,17 +108,21 @@
 
 <div class="container">
     <div class="col-12 text-center">
-        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL CATEGORIES</h1>
+        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL PROMOTION</h1>
     </div>
     <div class="col-12">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead class="head">
                     <tr>
-                        <th scope="col">Category Id</th>
-                        <th scope="col">Category Name</th>
-                        <th scope="col">Category Description</th>
-                        <th scope="col"></th>                   
+                        <th scope="col">Promotion Id</th>
+                        <th scope="col">Promotion Name</th>
+                        <th scope="col">Promotion Description</th>
+                        <th scope="col">Discount Percentage</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -128,9 +132,17 @@
                             <th scope="row">@category.CategoryId</th>
                             <td>@category.CategoryName</td>
                             <td>@category.CategoryDescription</td>
+                            <td>@category.CategoryName</td>
+                            <td>@category.CategoryDescription</td>
+                            <td>@category.CategoryName</td>
                             <td>
                                 <SfButton CssClass="button-style" OnClick="() => OpenEditCategoryDialogBox(category)">
                                     Edit
+                                </SfButton>
+                            </td>
+                            <td>
+                                <SfButton CssClass="button-style" OnClick="() => OpenEditCategoryDialogBox(category)">
+                                    Delete
                                 </SfButton>
                             </td>
                         </tr>
@@ -152,23 +164,47 @@
         <Content>
             <form class="row g-3 m-3">
                 <div class="col-12 mt-3 mb-3 text-center">
-                    <h3 class="heading">UPDATE CATEGORY</h3>
+                    <h3 class="heading">ADD PROMOTION</h3>
                 </div>
                 <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
                 <div class="col-12 row mt-2 p-0">
                     <div class="col-4 m-1 text-left">
-                        <label class="label-style">Category Name</label>
+                        <label class="label-style">Promotion Name</label>
                     </div>
                     <div class="col-7 m-1">
-                        <input type="text" class="form-control text-box" id="inputName" placeholder="Category Name" @bind-value="@InitialPageData.SelectedCategory.CategoryName">
+                        <input type="text" class="form-control text-box" id="inputName" placeholder="Name" @bind-value="@Promotion.PromotionName">
+                    </div>
+                </div>
+                <div class="col-12 row mt-2 p-0">
+                    <div class="col-4 m-1 text-left">
+                        <label class="label-style">Discount Percentage</label>
+                    </div>
+                    <div class="col-7 m-1">
+                        <input type="number" class="form-control text-box" id="inputPercentage" placeholder="discount Percentage" @bind-value="@Promotion.DiscountPercentage">
+                    </div>
+                </div>
+                <div class="col-12 row mt-2 p-0">
+                    <div class="col-4 m-1 text-left">
+                        <label class="label-style">Start Date</label>
+                    </div>
+                    <div class="col-7 m-1">
+                        <input type="date" class="form-control text-box" id="inputStart" placeholder="Start Date" @bind-value="@Promotion.StartDate">
+                    </div>
+                </div>
+                <div class="col-12 row mt-2 p-0">
+                    <div class="col-4 m-1 text-left">
+                        <label class="label-style">End Date</label>
+                    </div>
+                    <div class="col-7 m-1">
+                        <input type="date" class="form-control text-box" id="inputEnd" placeholder="End Date" @bind-value="@Promotion.EndDate">
                     </div>
                 </div>
                 <div class="col-12 row mb-2 p-0">
                     <div class="col-4 m-1 text-left">
-                        <label class="label-style">Category Description</label>
+                        <label class="label-style">Promotion Description</label>
                     </div>
                     <div class="col-7 m-1">
-                        <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@InitialPageData.SelectedCategory.CategoryDescription"></textarea>
+                        <textarea class="form-control text-box" style="height:120px;" id="inputDescription" placeholder="Category description" @bind="@Promotion.PromotionDescription"></textarea>
                     </div>
                 </div>
 
@@ -178,8 +214,8 @@
                         Close
                     </button>
 
-                    <button type="button" class="btn btn-success" @onclick="() => EditCategory()">
-                        Update Category
+                    <button type="button" class="btn btn-success" @onclick="() => EditPromotion()">
+                        Update Promotion
                     </button>
 
                 </div>
