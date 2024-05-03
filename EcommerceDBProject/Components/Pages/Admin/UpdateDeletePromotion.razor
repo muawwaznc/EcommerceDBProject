@@ -4,6 +4,7 @@
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Calendars;
 @using Blazored.Toast;
 @using Blazored.Toast.Configuration;
 
@@ -189,38 +190,29 @@
                 <div class="col-12 row p-0">
 
                     <div class="col-6 row">
+
                         <div class="col-4 m-1 text-left">
                             <label class="label-style">Start Date</label>
                         </div>
+
                         <div class="col-7 m-1">
-                            <SfDateTime TValue="double?"
-                                              @bind-Value="@InitialPageData.SelectedProduct.Product.ProductWeight"
-                                              CssClass="form-control text-box"
-                                              Placeholder="Enter Weight">
-                            </SfDateTime>
+                            <SfDateTimePicker CssClass="form-control text-box" TValue="DateTime"
+                                              @bind-Value="@InitialPageData.SelectedPromotion.StartDate">
+                            </SfDateTimePicker>
                         </div>
+
                     </div>
 
                     <div class="col-6 row">
+
                         <div class="col-4 m-1 text-left">
-                            <label class="label-style">Category</label>
+                            <label class="label-style">End Date</label>
                         </div>
+
                         <div class="col-7 m-1">
-                            <div class="dropdown">
-
-                                <select class="form-control input-style"
-                                        @bind="@InitialPageData.SelectedProductCategoryId">
-
-                                    @foreach (var category in CategoriesList)
-                                    {
-                                        <option class="category-option" style="border:1px solid lightgrey;"
-                                                value="@category.CategoryId">
-                                            @category.CategoryName
-                                        </option>
-                                    }
-                                </select>
-
-                            </div>
+                            <SfDateTimePicker CssClass="form-control text-box" TValue="DateTime"
+                                              @bind-Value="@InitialPageData.SelectedPromotion.EndDate">
+                            </SfDateTimePicker>
                         </div>
                     </div>
 
@@ -229,37 +221,15 @@
                 <div class="col-12 row mb-2 p-0">
 
                     <div class="col-6 row">
-                        <div class="col-4 m-1 text-left">
-                            <label class="label-style">Supplier</label>
-                        </div>
-                        <div class="col-7 m-1">
-                            <div class="dropdown">
 
-                                <select class="category-select"
-                                        @bind="@InitialPageData.SelectedSupplierId">
-
-                                    <option class="category-option" style="border:1px solid lightgrey;" value="no-select">Select Supplier</option>
-                                    @foreach (var supplier in SuppliersList)
-                                    {
-                                        <option class="category-option" style="border:1px solid lightgrey;"
-                                                value="@supplier.SupplierId">
-                                            @supplier.SupplierName
-                                        </option>
-                                    }
-                                </select>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 row">
                         <div class="col-4 m-1 text-left">
                             <label class="label-style">Description</label>
                         </div>
+
                         <div class="col-7 m-1">
-                            <SfTextBox @bind-Value="@InitialPageData.SelectedProduct.Product.ProductDescription"
+                            <SfTextBox @bind-Value="@InitialPageData.SelectedPromotion.PromotionDescription"
                                        Multiline=true CssClass="form-control text-box"
-                                       Placeholder="Enter Product Description">
+                                       Placeholder="Enter Promotion Description">
                             </SfTextBox>
                         </div>
                     </div>
@@ -272,8 +242,8 @@
                         Close
                     </button>
 
-                    <button type="button" class="btn btn-success" @onclick="() => EditProduct()">
-                        Update Product
+                    <button type="button" class="btn btn-success" @onclick="() => EditPromotion()">
+                        Update Promotion
                     </button>
 
                 </div>

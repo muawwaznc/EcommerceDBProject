@@ -26,6 +26,7 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected override void OnInitialized()
         {
+            PromotionService.DeletePromotion(InitialPageData.SelectedPromotion);
             InitialPageData = CommonService.GetInitialPageDataForUpdateDeletePromotion();
         }
 
@@ -42,7 +43,8 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected void DeletePromotion()
         {
-
+            PromotionService.DeletePromotion(InitialPageData.SelectedPromotion);
+            ToastService.ShowSuccess("Promotion Deleted Successfully");
         }
 
         #endregion

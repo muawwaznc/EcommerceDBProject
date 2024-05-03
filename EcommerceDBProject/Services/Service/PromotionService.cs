@@ -42,5 +42,15 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+
+        public void DeletePromotion(Promotion promotion)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var p = db.Promotions.FirstOrDefault(x => x.PromotionId == "PROM-1");
+                db.Promotions.Remove(p);
+                db.SaveChanges();
+            }
+        }
     }
 }
