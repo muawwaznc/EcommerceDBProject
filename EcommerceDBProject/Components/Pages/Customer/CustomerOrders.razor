@@ -14,11 +14,22 @@
         box-shadow: 0 0 20px rgba(223,214,214);
     }
 
+    .label-style {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        margin: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
     .head {
         background-color: #355c7d;
         color: #fff;
     }
 
+    .text-box {
+        border: 1px solid #355c7d;
+    }
     .hover-design {
         background-color: #dae7f5;
         border-bottom: 1px solid black
@@ -87,7 +98,7 @@
                                 </SfButton>
                             </td>
                             <td>
-                                <SfButton CssClass="button-style">
+                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
                                     Return
                                 </SfButton>
                             </td>
@@ -99,3 +110,52 @@
         </div>
     </div>
 </div>
+<SfDialog CssClass="col-6" Width="40%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@IsDialogBoxOpen">
+    <DialogTemplates>
+        <Header>
+            <div class="text-center">
+                <label class="text-center" style="font-size:22px;text-align:center;font-family:sans-serif;font-weight:bold">Return Product</label>
+            </div>
+        </Header>
+        <Content>
+            <form class="row g-3 m-3">
+                <div class="col-12 row p-0">
+                    <div class="col-4 text-left">
+                        <label class="label-style">Return Reason</label>
+                    </div>
+                    <div class="col-7">
+                        <textarea class="text-box w-100" style="margin-left:-15px;" id="inputDescription" placeholder="Return Reason" @bind="@ReturnReason"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 row p-0">
+                    <div class="col-4 text-left">
+                        <label class="label-style">Quantity : </label>
+                    </div>
+                    <div class="col-7">
+                        <input class="text-box w-100" style="margin-left:-15px;" type="number" min="1" max="@OrderQuantity" id="inputDescription" placeholder="1" @bind="@ReturnQuantity"></input>
+                    </div>
+                </div>
+                <div class="col-12 mt-3 text-center">
+                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-success p-1" @onclick="() => ConfirmReturn()">
+                        Confirm Return
+                    </button>
+                </div>
+            </form>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+
+    </DialogButtons>
+    <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+</SfDialog>
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

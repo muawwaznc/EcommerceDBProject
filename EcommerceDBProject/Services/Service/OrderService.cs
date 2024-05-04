@@ -115,6 +115,16 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+        public void UpdateOrderItemReturnStatus(string orderItemId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var orderItem = db.OrderItems.Where(x => x.OrderItemId == orderItemId).FirstOrDefault();
+                orderItem.IsReturned = true;
+                db.OrderItems.Update(orderItem);
+                db.SaveChanges();
+            }
+        }
 
         public List<CustomerOrdersViewModel> GetCustomerOrdersViewModelList(string userDetailId)
         {

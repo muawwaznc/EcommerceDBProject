@@ -1,6 +1,10 @@
-﻿using EcommerceDBProject.Services.Interface;
+﻿using Blazored.Toast.Services;
+using EcommerceDBProject.DatabaseContext;
+using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Syncfusion.Blazor.Charts.Internal;
 
 namespace EcommerceDBProject.Components.Pages.Customer
 {
@@ -13,7 +17,8 @@ namespace EcommerceDBProject.Components.Pages.Customer
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] ISellerInterface SellerService { get; set; }
         [Inject] IOrderInterface OrderService { get; set; }
-
+        [Inject] IOrderReturnReviewInterface ReturnService { get; set; }
+        [Inject] IToastService toastService { get; set; }
         #endregion
 
         #region Properties
@@ -22,6 +27,11 @@ namespace EcommerceDBProject.Components.Pages.Customer
         InitialPageDataForCustomerOrders InitialPageData { get; set; } = new();
         List<CustomerOrdersViewModel> OrdersList { get; set; } = new();
 
+        public bool IsDialogBoxOpen { get; set; }
+        public string OrderItemId { get; set; }
+        public string ReturnReason { get; set; }
+        public int ReturnQuantity { get; set; }
+        public int OrderQuantity { get; set; }
         #endregion
 
         #region Load Initials
@@ -36,9 +46,11 @@ namespace EcommerceDBProject.Components.Pages.Customer
 
         #region Dialogue Box Functions
 
-        protected void OpenConfirmOrderModel()
+        public void OpenDialog(CustomerOrdersViewModel orderItem)
         {
-
+            OrderItemId = orderItem.OrderItemId;
+            OrderQuantity = orderItem.OrderQuantity;
+            IsDialogBoxOpen = true;
         }
 
         protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
@@ -46,6 +58,37 @@ namespace EcommerceDBProject.Components.Pages.Customer
             args.MaxHeight = null;
         }
 
+        #endregion
+
+        #region Confirm Return Function
+        
+        public void ConfirmReturn()
+        {
+            if(string.IsNullOrEmpty(ReturnReason))
+            {
+                toastService.ShowError("Enter Return Reason");
+            }
+            else if(ReturnQuantity <= 0)
+            {
+                toastService.ShowError("Enter Return quantity");
+            }
+            else if(ReturnQuantity > OrderQuantity)
+            {
+                toastService.ShowError("Return Quantity must be less than order Quantity");
+            }
+            else
+            {
+                ProductReturn productReturn = new();
+                productReturn.ReturnReason = ReturnReason;
+                productReturn.ReturnDate = DateTime.Now;
+                productReturn.ReturnStatus = "Pending";
+                productReturn.Quantity = ReturnQuantity;
+                OrderService.UpdateOrderItemReturnStatus(OrderItemId);
+                ReturnService.AddReturn(productReturn);
+            }
+            
+
+        }
         #endregion
     }
 }

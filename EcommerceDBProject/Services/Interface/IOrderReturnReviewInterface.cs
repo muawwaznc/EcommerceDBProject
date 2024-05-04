@@ -1,4 +1,5 @@
-﻿using EcommerceDBProject.ViewModels;
+﻿using EcommerceDBProject.DatabaseContext;
+using EcommerceDBProject.ViewModels;
 
 namespace EcommerceDBProject.Services.Interface
 {
@@ -6,6 +7,7 @@ namespace EcommerceDBProject.Services.Interface
     {
         bool IsReturnAvailable(string orderItemId);
         bool IsReviewAvailable(string orderItemId);
+        void AddReturn(ProductReturn productReturn);
         List<CustomerReviewsViewModel> GetCustomerReviewsViewModelListFromUserDetailId(string userDetailId);
         List<CustomerReturnsViewModel> GetCustomerReturnsViewModelListFromUserDetailId(string userDetailId);
     }

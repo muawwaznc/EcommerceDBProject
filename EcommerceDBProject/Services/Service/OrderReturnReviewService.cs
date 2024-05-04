@@ -38,7 +38,14 @@ namespace EcommerceDBProject.Services.Service
                 return true;
             }
         }
-
+        public void AddReturn(ProductReturn productReturn)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                db.ProductReturns.Add(productReturn);
+                db.SaveChanges();
+            }
+        }
         public List<CustomerReviewsViewModel> GetCustomerReviewsViewModelListFromUserDetailId(string userDetailId)
         {
             using (var db = new EcommerceDbprojectContext())
