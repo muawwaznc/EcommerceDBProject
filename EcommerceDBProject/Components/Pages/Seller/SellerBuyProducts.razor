@@ -1,0 +1,206 @@
+﻿@page "/seller-dashboard/{UserDetailId}/buy-products/"
+@layout AdminLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Calendars;
+@using Blazored.Toast;
+@using Blazored.Toast.Configuration;
+
+<style>
+    ody {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #0a192f; /* Navy blue background */
+    }
+
+    .container {
+        width: 100%;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(223,214,214);
+    }
+
+    .SfButton {
+        background-color: #1a2939; /* Dark navy blue button background */
+        color: #fff; /* White text color */
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .SfButton:hover {
+            background-color: #30475e; /* Medium navy blue button background on hover */
+        }
+
+        .SfButton:disabled {
+            background-color: #30475e; /* Medium navy blue for disabled button */
+            cursor: not-allowed;
+        }
+
+    .dropdown {
+    }
+
+        .dropdown select {
+            padding: 8px;
+            font-size: 15px;
+            width: 240px;
+            border-radius: 10px;
+        }
+
+    .head {
+        background-color: #355c7d;
+        color: #fff;
+    }
+
+    .button-style {
+        background-color: #cf889d;
+        width: 200px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 35px;
+        font-size: 18px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        width: 120px;
+        z-index: 9;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
+
+    .hover-design {
+        background-color: #dae7f5;
+        border-bottom: 1px solid black
+    }
+
+    .category-select {
+        width: 100%;
+        padding: 16px;
+        border: 2px solid lightgrey;
+        border-radius: 5px;
+        margin-top: 10px;
+        background-color: #f5f5f5;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+    }
+
+        .category-select:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .label-style {
+        font-size: 18px;
+        font-family: inherit;
+        color: black;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .text-box {
+        border: 2px solid #355c7d;
+    }
+</style>
+
+<div class="container">
+    <div class="col-12 text-center">
+        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">BUY PRODUCTS</h1>
+    </div>
+    <div class="col-12 mt-2 row">
+        <div class="col-6 row">
+            <div class="col-4 mt-3">
+                <label style="font-size:18px;text-align:left;font-family:sans-serif;margin-top:10px;font-weight:bold;">Select Category : </label>
+            </div>
+            <div class="col-7 " style="margin-left:-20px;">
+                <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
+                    <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
+                        Select Category
+                    </option>
+                    @foreach (var productCategory in ProductCategories)
+                    {
+                        <option class="category-option" style="border:1px solid lightgrey;"
+                                value="@productCategory.CategoryId">
+                            @productCategory.CategoryName
+                        </option>
+                    }
+                </select>
+            </div>
+
+        </div>
+        <div class="col-6"></div>
+    </div>
+    <div class="col-12 mt-2">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="head">
+                    <tr>
+                        <th scope="col">Product Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Product Description</th>
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Select Quantity</th>
+                        <th scope="col">Buy Products</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in ProductList)
+                    {
+                        <tr>
+                            <th scope="row">@product.ProductId</th>
+                            <td>@product.ProductName</td>
+                            <td>@product.ProductDescription</td>
+                            <td>@product.Supplier</td>
+                            <td>@product.Price</td>
+                            <td style="width:100px;">
+                                <input @* readonly="@(!IsInventoryItemCheckboxChecked(inventoryItem))" *@
+                                       @* @onchange="(e) => OnSelectedInventoryItemQuantityChange(inventoryItem, e)" *@
+                                       type="number"  id="quantity" name="quantity" min="1"
+                                        value="1">
+                            </td>
+                            <td>
+                                <SfButton CssClass="button-style">
+                                    Buy product
+                                </SfButton>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

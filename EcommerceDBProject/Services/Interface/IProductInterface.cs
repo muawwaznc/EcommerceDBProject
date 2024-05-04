@@ -20,5 +20,6 @@ namespace EcommerceDBProject.Services.Interface
         void UpdateProductCategory(ProductCategory productCategory);
         bool DeleteProduct(Product product);
         bool DeleteProductCategory(ProductCategory productCategory);
+        List<Product> GetAllProductsByCategoryId(string categoryId);
     }
 }

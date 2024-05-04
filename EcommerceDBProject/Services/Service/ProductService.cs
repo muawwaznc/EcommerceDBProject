@@ -96,6 +96,14 @@ namespace EcommerceDBProject.Services.Service
                 return products;
             }
         }
+        public List<Product> GetAllProductsByCategoryId(string categoryId)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var products = db.Products.Where(x => x.CategoryId == categoryId).ToList();
+                return products;
+            }
+        }
 
         public ProductCategory GetProductCategoryByCategoryId(string categoryId)
         {
