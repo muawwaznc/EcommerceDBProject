@@ -46,6 +46,14 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+        public void AddReview(ProductReview productReview)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                db.ProductReviews.Add(productReview);
+                db.SaveChanges();
+            }
+        }
         public List<CustomerReviewsViewModel> GetCustomerReviewsViewModelListFromUserDetailId(string userDetailId)
         {
             using (var db = new EcommerceDbprojectContext())

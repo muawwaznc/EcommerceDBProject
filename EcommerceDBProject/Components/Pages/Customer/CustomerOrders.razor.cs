@@ -17,7 +17,7 @@ namespace EcommerceDBProject.Components.Pages.Customer
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] ISellerInterface SellerService { get; set; }
         [Inject] IOrderInterface OrderService { get; set; }
-        [Inject] IOrderReturnReviewInterface ReturnService { get; set; }
+        [Inject] IOrderReturnReviewInterface ReturnReviewService { get; set; }
         [Inject] IToastService toastService { get; set; }
         #endregion
 
@@ -32,6 +32,9 @@ namespace EcommerceDBProject.Components.Pages.Customer
         public string ReturnReason { get; set; }
         public int ReturnQuantity { get; set; }
         public int OrderQuantity { get; set; }
+        public string DialogBoxTitle { get; set; } = "Review";
+        public string ReviewText { get; set; }
+        public int Rating { get; set; }
         #endregion
 
         #region Load Initials
@@ -51,6 +54,7 @@ namespace EcommerceDBProject.Components.Pages.Customer
             OrderItemId = orderItem.OrderItemId;
             OrderQuantity = orderItem.OrderQuantity;
             IsDialogBoxOpen = true;
+
         }
 
         protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
@@ -84,10 +88,28 @@ namespace EcommerceDBProject.Components.Pages.Customer
                 productReturn.ReturnStatus = "Pending";
                 productReturn.Quantity = ReturnQuantity;
                 OrderService.UpdateOrderItemReturnStatus(OrderItemId);
-                ReturnService.AddReturn(productReturn);
+                ReturnReviewService.AddReturn(productReturn);
+                toastService.ShowSuccess("Request for return added Successfully");
             }
             
 
+        }
+        public void AddCustomerReview()
+        {
+            if(Rating < 0 )
+            {
+                toastService.ShowError("Please Rate the Product from 0-5");
+            }
+            else
+            {
+                ProductReview review = new();
+                review.ReviewText = ReviewText;
+                review.ReviewDate = DateTime.Now;
+                review.OrderItemId = OrderItemId;
+                review.Rating = Rating;
+                ReturnReviewService.AddReview(review);
+                toastService.ShowSuccess("Review added Successfully");
+            }
         }
         #endregion
     }

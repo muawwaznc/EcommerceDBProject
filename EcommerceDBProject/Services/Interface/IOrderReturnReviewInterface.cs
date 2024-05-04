@@ -8,6 +8,7 @@ namespace EcommerceDBProject.Services.Interface
         bool IsReturnAvailable(string orderItemId);
         bool IsReviewAvailable(string orderItemId);
         void AddReturn(ProductReturn productReturn);
+        void AddReview(ProductReview productReview);
         List<CustomerReviewsViewModel> GetCustomerReviewsViewModelListFromUserDetailId(string userDetailId);
         List<CustomerReturnsViewModel> GetCustomerReturnsViewModelListFromUserDetailId(string userDetailId);
     }
