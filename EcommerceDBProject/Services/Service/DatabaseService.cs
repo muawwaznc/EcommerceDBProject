@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.NewDatabase;
 using EcommerceDBProject.Services.Interface;
 
 namespace EcommerceDBProject.Services.Service
@@ -14,9 +14,9 @@ namespace EcommerceDBProject.Services.Service
                 {
                     string[] fields = line.Split(',');
 
-                    if (fields.Length == 4)
+                    if (fields.Length >= 4)
                     {
-                        using(var db = new EcommerceDbprojectContext())
+                        using(var db = new EcommerceDbContext())
                         {
                             db.ProductCategories.Add(new ProductCategory
                             {
@@ -45,7 +45,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 7)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.Addresses.Add(new Address
                             {
@@ -77,7 +77,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 8)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.Customers.Add(new Customer
                             {
@@ -110,7 +110,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 6)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.InventoryItems.Add(new InventoryItem
                             {
@@ -142,7 +142,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 3)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.InventoryItemPictures.Add(new InventoryItemPicture
                             {
@@ -170,7 +170,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 7)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.Orders.Add(new Order
                             {
@@ -203,7 +203,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 9)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.OrderItems.Add(new OrderItem
                             {
@@ -238,7 +238,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 7)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.Products.Add(new Product
                             {
@@ -270,7 +270,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 3)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.ProductPromotions.Add(new ProductPromotion
                             {
@@ -298,7 +298,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 6)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.ProductReturns.Add(new ProductReturn
                             {
@@ -329,7 +329,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 5)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.ProductReviews.Add(new ProductReview
                             {
@@ -359,7 +359,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 6)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.Promotions.Add(new Promotion
                             {
@@ -390,7 +390,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 7)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.Sellers.Add(new Seller
                             {
@@ -422,7 +422,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 5)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.Suppliers.Add(new Supplier
                             {
@@ -452,7 +452,7 @@ namespace EcommerceDBProject.Services.Service
 
                     if (fields.Length == 4)
                     {
-                        using (var db = new EcommerceDbprojectContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.UserDetails.Add(new UserDetail
                             {
