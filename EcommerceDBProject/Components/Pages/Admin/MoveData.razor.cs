@@ -24,7 +24,7 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected void OnProductCategoryButtonClick()
         {
-            DatabaseService.ConvertCategoryExcelToSQL(filePath + "ProductCategories.csv");
+            DatabaseService.ConvertCategoryExcelToSQL(filePath + "ProductCategories.xlsx");
         }
 
         protected void OnAddressButtonClick()

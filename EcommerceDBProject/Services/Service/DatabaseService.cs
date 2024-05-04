@@ -1,5 +1,7 @@
 ﻿using EcommerceDBProject.NewDatabase;
 using EcommerceDBProject.Services.Interface;
+using IronXL;
+using System.Data;
 
 namespace EcommerceDBProject.Services.Service
 {
@@ -7,33 +9,39 @@ namespace EcommerceDBProject.Services.Service
     {
         public void ConvertCategoryExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length >= 4)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string categoryName = row[1].ToString().Trim();
+                    string categoryDescription = row[2].ToString().Trim();
+                    DateTime dateCreated;
+
+                    if (DateTime.TryParse(row[3].ToString().Trim(), out dateCreated))
                     {
-                        using(var db = new EcommerceDbContext())
+                        using (var db = new EcommerceDbContext())
                         {
                             db.ProductCategories.Add(new ProductCategory
                             {
-                                CategoryName = fields[1],
-                                CategoryDescription = fields[2],
-                                DateCreated = DateTime.Parse(fields[3])
+                                CategoryName = categoryName,
+                                CategoryDescription = categoryDescription,
+                                DateCreated = dateCreated
                             });
+                            db.SaveChanges();
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid data format: {line}");
+                        Console.WriteLine($"Invalid date format in row {row}");
                     }
                 }
             }
         }
-
+            
         public void ConvertAddressExcelToSQL(string filePath)
         {
             using (StreamReader reader = new StreamReader(filePath))
