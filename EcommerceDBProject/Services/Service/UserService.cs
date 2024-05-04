@@ -39,10 +39,18 @@ namespace EcommerceDBProject.Services.Service
                 using (var db = new EcommerceDbContext())
                 {
                     var address = signUpModel.Address;
+                    var duplicateAddress = IsDuplicateAddress(address);
                     if (IsAddressCorrect(address))
                     {
-                        db.Addresses.Add(address);
-                        db.SaveChanges();
+                        if(duplicateAddress == null)
+                        {
+                            db.Addresses.Add(address);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            address = duplicateAddress;
+                        }
                     }
                     var userDetail = new UserDetail
                     {
@@ -99,6 +107,21 @@ namespace EcommerceDBProject.Services.Service
                 return false;
             }
             return true;
+        }
+
+        private Address IsDuplicateAddress(Address address)
+        {
+            using(var db = new EcommerceDbContext())
+            {
+                var dbAddress = db.Addresses.FirstOrDefault(x => x.HouseNumber == address.HouseNumber &&
+                x.Street == address.Street && x.City == address.City && x.Country == address.Country &&
+                x.Region == address.Region && x.ZipCode == address.ZipCode);
+                if(dbAddress == null)
+                {
+                    return null;
+                }
+                return dbAddress;
+            }
         }
 
         public UserRole GetUserRoleByUserDetailId(string userDetailId)

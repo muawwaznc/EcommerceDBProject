@@ -3,6 +3,7 @@ using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
 using EcommerceDBProject.Enum;
+using Blazored.Toast.Services;
 
 namespace EcommerceDBProject.Components.Pages
 {
@@ -12,6 +13,7 @@ namespace EcommerceDBProject.Components.Pages
 
         [Inject] IUserInterface UserService { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
+        [Inject] IToastService ToastService { get; set; }
 
         #endregion
 
@@ -75,6 +77,7 @@ namespace EcommerceDBProject.Components.Pages
             {
                 try
                 {
+                    ToastService.ShowInfo("Loading...");
                     if(SignInModel.Email == "warda😎@gmail.com" && SignInModel.Password == "crib")
                     {
                         NavigationManager.NavigateTo("/admin/add-category");
@@ -84,8 +87,7 @@ namespace EcommerceDBProject.Components.Pages
                     var isAuthenicatedUser = UserService.IsAuthenicated(SignInModel.Email, SignInModel.Password);
                     if (isAuthenicatedUser == null)
                     {
-                        //SfToast.Title = "You entered an invalid email password";
-                        //SfToast.ShowAsync();
+                        ToastService.ShowError("Invalid Credentials");
                         InitialPageData.IsLoading = false;
                         return;
                     }
@@ -120,7 +122,11 @@ namespace EcommerceDBProject.Components.Pages
                 var isAuthenicatedUser = UserService.SignUp(SignUpModel);
                 if (isAuthenicatedUser == null)
                 {
-
+                    ToastService.ShowError("Something went wrong... Try Again...");
+                }
+                else
+                {
+                    ToastService.ShowError("Signup Successfully");
                 }
 
             }
