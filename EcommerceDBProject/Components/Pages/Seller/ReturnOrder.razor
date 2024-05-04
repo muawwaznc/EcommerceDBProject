@@ -1,0 +1,123 @@
+﻿@page "/seller-dashboard/{UserDetailId}/return-orders/"
+@layout CustomerLayout
+@rendermode InteractiveServer
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+<style>
+    .container {
+        width: 97%;
+        margin: 30px 20px 20px 30px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(223,214,214);
+    }
+
+    .label-style {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        margin: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .head {
+        background-color: #355c7d;
+        color: #fff;
+    }
+
+    .text-box {
+        border: 1px solid #355c7d;
+    }
+
+    .hover-design {
+        background-color: #dae7f5;
+        border-bottom: 1px solid black
+    }
+
+    .button-style {
+        background-color: #cf889d;
+        width: 100px;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+        height: 30px;
+        font-size: 18px;
+        outline: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        pointer-events: auto;
+        position: relative;
+        text-align: center;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: top;
+        white-space: nowrap;
+        z-index: 9;
+        border: 2px solid #c06c84;
+        transition: box-shadow .2s;
+    }
+
+        .button-style:hover {
+            box-shadow: #355c7d 0 3px 8px;
+        }
+</style>
+<div class="container">
+    <div class="col-12 text-center">
+        <h1 style="color:#234b6e;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Your Orders</h1>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="head">
+                    @* class="table-light" *@
+                    <tr>
+                        <th scope="col">Customer NAME</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Return Reason</th>
+                        <th scope="col">Return Status</th>
+                        <th scope="col">Cancel</th>
+                        <th scope="col">Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* @foreach (var orderItem in OrdersList)
+                    {
+                        <tr class="hover-design">
+                            <th scope="row">@orderItem.OrderId</th>
+                            <td>@orderItem.InventoryItemName</td>
+                            <td>@orderItem.OrderQuantity</td>
+                            <td>@orderItem.TotalPrice</td>
+                            <td>@orderItem.OrderStatus</td>
+                            <td>
+                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                    Cancel
+                                </SfButton>
+                            </td>
+                            <td>
+                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                    completed
+                                </SfButton>
+                            </td>
+                        </tr>
+                    } *@
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

@@ -184,7 +184,6 @@ namespace EcommerceDBProject.Services.Service
                 return orderItems;
             }
         }
-
         public List<SellerOrdersViewModel> GetSellerOrdersViewModelList(string userDetailId)
         {
             using (var db = new EcommerceDbprojectContext())
