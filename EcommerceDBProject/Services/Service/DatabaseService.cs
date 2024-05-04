@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.NewDatabase;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using IronXL;
 using Microsoft.Data.SqlClient;
@@ -609,6 +609,139 @@ namespace EcommerceDBProject.Services.Service
                         });
                         db.SaveChanges();
                     }
+                }
+            }
+        }
+
+        public void GenerateProductReturns()
+        {
+            List<OrderItem> orderItemList = new List<OrderItem>();
+            using (var db = new EcommerceDbContext())
+            {
+                orderItemList = db.OrderItems.ToList();
+            }
+            Random random = new Random();
+
+            string[] returnReasons = {
+                "Defective or Damaged Item",
+                "Wrong Item Received",
+                "Doesn't Meet Expectations",
+                "Size or Fit Issues",
+                "Changed Mind",
+                "Better Price Elsewhere",
+                "Duplicate or Accidental Purchase",
+                "Unsatisfactory Customer Service",
+                "Received Late",
+                "Unwanted Gift",
+                "Product Not as Described",
+                "Quality Concerns",
+                "Difficulty in Assembly or Use",
+                "Not Compatible with Other Devices",
+                "Expired or Perishable Item",
+                "Packaging Damage",
+                "Wrong Color or Style",
+                "Allergic Reaction",
+                "Product Recalled",
+                "Missing Parts or Accessories",
+                "Limited Functionality",
+                "Confusing Instructions",
+                "Customer Error in Ordering",
+                "Shipping Damage",
+                "Product Didn't Solve Problem",
+                "Warranty Issues",
+                "Not Durable as Expected",
+                "Overstocked or Excess Inventory",
+                "Unsatisfactory Performance",
+                "Product No Longer Needed"
+    };
+
+            for (int i = 1; i <= 500; i++)
+            {
+                var randomOrderItem = orderItemList[random.Next(orderItemList.Count)];
+
+                if (!randomOrderItem.IsReturned)
+                {
+                    DateTime? shippingDate = randomOrderItem.ShippingDate;
+                    DateTime returnDate = shippingDate.HasValue ? shippingDate.Value.AddDays(2) : DateTime.Now;
+
+                    string randomReason = returnReasons[random.Next(returnReasons.Length)];
+                    int randomQuantity = random.Next(1, randomOrderItem.Quantity + 1);
+                    string returnStatus = returnDate > DateTime.Now.AddDays(-4) ? "Pending" : "Returned";
+
+                    using (var db = new EcommerceDbContext())
+                    {
+                        db.ProductReturns.Add(new ProductReturn
+                        {
+                            OrderItemId = randomOrderItem.OrderItemId,
+                            ReturnDate = returnDate,
+                            ReturnReason = randomReason,
+                            Quantity = randomQuantity,
+                            ReturnStatus = returnStatus
+                        });
+
+                        db.SaveChanges();
+                    }
+                }
+                
+            }
+        }
+
+        public void GenerateProductReviews()
+        {
+            List<OrderItem> orderItemList = new List<OrderItem>();
+            using (var db = new EcommerceDbContext())
+            {
+                orderItemList = db.OrderItems.ToList();
+            }
+            Random random = new Random();
+
+            string[] reviewTexts = {
+                "Poor quality, not recommended.",
+                "Below average product, needs improvement.",
+                "Average product, meets expectations.",
+                "Good product, but could be better.",
+                "Excellent product!"
+            };
+
+            for (int i = 1; i <= 5000; i++)
+            {
+                var orderItem = orderItemList[random.Next(orderItemList.Count)];
+
+                bool isAlreadyReviewd = false;
+                using(var db = new EcommerceDbContext())
+                {
+                    isAlreadyReviewd = db.ProductReviews.Any(pr => pr.OrderItemId == orderItem.OrderItemId);
+                }
+                if (orderItem.ShippingDate != null && orderItem.OrderStatus == "Delivered" && !isAlreadyReviewd)
+                {
+                    DateTime shippingDate = orderItem.ShippingDate.Value;
+                    DateTime reviewDate = shippingDate.AddDays(random.Next(1, 5));
+                    int rating = random.Next(1, 6);
+                    string reviewText = rating == 0 ? null : reviewTexts[rating - 1];
+                    if (orderItem.IsReturned)
+                    {
+                        reviewText = "Defected";
+                        rating = 1;
+                    }
+
+                    try
+                    {
+                        using (var db = new EcommerceDbContext())
+                        {
+                            db.ProductReviews.Add(new ProductReview
+                            {
+                                OrderItemId = orderItem.OrderItemId,
+                                Rating = rating,
+                                ReviewText = reviewText,
+                                ReviewDate = reviewDate
+                            });
+                            db.SaveChanges();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        i--;
+                    }       
                 }
             }
         }

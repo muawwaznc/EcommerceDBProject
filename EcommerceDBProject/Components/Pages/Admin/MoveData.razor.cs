@@ -89,6 +89,20 @@ namespace EcommerceDBProject.Components.Pages.Admin
             ToastService.ShowSuccess("Product Promotions Generated Successfully");
         }
 
+        protected void OnProductReturnButtonClick()
+        {
+            ToastService.ShowInfo("Loading....");
+            DatabaseService.GenerateProductReturns();
+            ToastService.ShowSuccess("Product Returns Generated Successfully");
+        }
+
+        protected void OnProductReviewButtonClick()
+        {
+            ToastService.ShowInfo("Loading....");
+            DatabaseService.GenerateProductReviews();
+            ToastService.ShowSuccess("Product Reviews Generated Successfully");
+        }
+
         #endregion
     }
 }

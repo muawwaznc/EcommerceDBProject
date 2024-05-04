@@ -20,5 +20,7 @@
         void GenerateRandomInventoryItems();
         void GenerateRandomOrders();
         void GenerateProductPromotions();
+        void GenerateProductReturns();
+        void GenerateProductReviews();
     }
 }
