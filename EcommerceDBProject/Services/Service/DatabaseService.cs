@@ -1,6 +1,7 @@
 ﻿using EcommerceDBProject.NewDatabase;
 using EcommerceDBProject.Services.Interface;
 using IronXL;
+using Syncfusion.ExcelExport;
 using System.Data;
 
 namespace EcommerceDBProject.Services.Service
@@ -59,19 +60,19 @@ namespace EcommerceDBProject.Services.Service
                     string region = row[5].ToString().Trim();
                     string zipCode = row[6].ToString().Trim();
 
-                        using (var db = new EcommerceDbContext())
+                    using (var db = new EcommerceDbContext())
+                    {
+                        db.Addresses.Add(new Address
                         {
-                            db.Addresses.Add(new Address
-                            {
-                                HouseNumber = houseNumber,
-                                Street= street,
-                                City = city,
-                                Country = country,
-                                Region = region,
-                                ZipCode = zipCode
-                            });
-                            db.SaveChanges();
-                        }
+                            HouseNumber = houseNumber,
+                            Street = street,
+                            City = city,
+                            Country = country,
+                            Region = region,
+                            ZipCode = zipCode
+                        });
+                        db.SaveChanges();
+                    }
                 }
             }
         }
@@ -88,8 +89,8 @@ namespace EcommerceDBProject.Services.Service
                 {
                     string userDetailId = row[1].ToString().Trim();
                     string firstName = row[2].ToString().Trim();
-                    string LastName= row[3].ToString().Trim();
-                    string password= row[4].ToString().Trim();
+                    string LastName = row[3].ToString().Trim();
+                    string password = row[4].ToString().Trim();
                     DateTime dateOfBirth;
                     DateTime lastLoginDate;
                     DateTime registrationDate;
@@ -102,10 +103,10 @@ namespace EcommerceDBProject.Services.Service
                         {
                             db.Customers.Add(new Customer
                             {
-                                UserDetailId =userDetailId ,
+                                UserDetailId = userDetailId,
                                 FirstName = firstName,
                                 LastName = LastName,
-                                Password = password,   
+                                Password = password,
                                 RegistrationDate = registrationDate,
                                 LastLoginDate = lastLoginDate,
                                 DateOfBirth = dateOfBirth
@@ -124,85 +125,95 @@ namespace EcommerceDBProject.Services.Service
 
         public void ConvertInventoryItemExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
+
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
+
+            foreach (DataTable table in dataSet.Tables)
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
                 {
-                    string[] fields = line.Split(',');
+                    string sellerId = row[1].ToString().Trim();
+                    string productId = row[2].ToString().Trim();
+                    string salePrice = row[3].ToString().Trim();
+                    string stockAmount = row[4].ToString().Trim();
+                    string condition = row[5].ToString().Trim();
 
-                    if (fields.Length == 6)
+                    using (var db = new EcommerceDbContext())
                     {
-                        using (var db = new EcommerceDbContext())
+                        db.InventoryItems.Add(new InventoryItem
                         {
-                            db.InventoryItems.Add(new InventoryItem
-                            {
-                                SellerId = fields[1],
-                                ProductId = fields[2],
-                                SalePrice = double.Parse(fields[3]),
-                                StockAmount = int.Parse(fields[4]),
-                                Condition = fields[5]
+                            SellerId = sellerId,
+                            ProductId = productId,
+                            SalePrice = salePrice,
+                            StockAmount = stockAmount,
+                            Condition = condition
 
-                            });
-                        }
+                        });
+
                     }
-                    else
-                    {
-                        Console.WriteLine($"Invalid data format: {line}");
-                    }
+
                 }
             }
         }
 
         public void ConvertInvetoryItemPictureExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length == 3)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string pictureUrl = row[1].ToString().Trim();
+                    string inventoryItemId = row[2].ToString().Trim();
+
+                    using (var db = new EcommerceDbContext())
                     {
-                        using (var db = new EcommerceDbContext())
+                        db.InventoryItemPictures.Add(new InventoryItemPicture
                         {
-                            db.InventoryItemPictures.Add(new InventoryItemPicture
-                            {
-                                PictureUrl = fields[1],
-                                InventoryItemId = fields[2]
-                            });
-                        }
+                            PictureUrl = pictureUrl,
+                            InventoryItemId = inventoryItemId
+                        });
+
                     }
-                    else
-                    {
-                        Console.WriteLine($"Invalid data format: {line}");
-                    }
+
                 }
             }
         }
 
         public void ConvertOrderExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length == 7)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string customerId = row[1].ToString().Trim();
+                    string totalPrice = row[2].ToString().Trim();
+                    string shippingAddressId = row[2].ToString().Trim();
+                    string shippingMethod = row[2].ToString().Trim();
+                    string paymentMehod = row[2].ToString().Trim();
+                    DateTime orderDate;
+                    if (DateTime.TryParse(row[3].ToString().Trim(), out orderDate))
                     {
+
                         using (var db = new EcommerceDbContext())
                         {
                             db.Orders.Add(new Order
                             {
-                                OrderDate = DateTime.Parse(fields[1]),
-                                PaymentMethod = fields[2],
-                                ShippingAddressId = fields[3],
-                                ShippingMethod = fields[4],
-                                TotalPrice = double.Parse(fields[5]),
-                                CustomerId = fields[6]
+                                OrderDate = orderDate,
+                                PaymentMethod = paymentMehod,
+                                ShippingAddressId = shippingAddressId,
+                                ShippingMethod = shippingMethod,
+                                TotalPrice = totalPrice,
+                                CustomerId = customerId
 
                             });
                         }
@@ -217,27 +228,38 @@ namespace EcommerceDBProject.Services.Service
 
         public void ConvertOrderItemExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length == 9)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string inventoryItemId = row[1].ToString().Trim();
+                    string orderId = row[2].ToString().Trim();
+                    string quantity = row[3].ToString().Trim();
+                    string unitPrice = row[4].ToString().Trim();
+                    string isReturned = row[5].ToString().Trim();
+                    string orderStatus = row[6].ToString().Trim();
+                    DateTime shippingDate;
+                    DateTime requiredShippingDate;
+
+                    if (DateTime.TryParse(row[7].ToString().Trim(), out shippingDate))
                     {
+
                         using (var db = new EcommerceDbContext())
                         {
                             db.OrderItems.Add(new OrderItem
                             {
-                                OrderId= fields[1],
-                                InventoryItemId = fields[2],
-                                Quantity = int.Parse(fields[3]),
-                                UnitPrice = double.Parse(fields[4]),
-                                IsReturned = bool.Parse(fields[5]),
-                                OrderStatus = fields[6],
-                                ShippingDate = DateTime.Parse(fields[7]),
-                                RequiredShippingDate = DateTime.Parse(fields[8])
+                                OrderId = orderId,
+                                InventoryItemId = inventoryItemId,
+                                Quantity = quantity,
+                                UnitPrice = unitPrice,
+                                IsReturned = isReturned,
+                                OrderStatus = orderStatus,
+                                ShippingDate = shippingDate,
+                                RequiredShippingDate = requiredShippingDate
 
                             });
                         }
@@ -284,58 +306,64 @@ namespace EcommerceDBProject.Services.Service
 
         public void ConvertProductPromotionExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length == 3)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string productId = row[1].ToString().Trim();
+                    string inventoryItemId = row[2].ToString().Trim();
+
+
+                    using (var db = new EcommerceDbContext())
                     {
-                        using (var db = new EcommerceDbContext())
+                        db.ProductPromotions.Add(new ProductPromotion
                         {
-                            db.ProductPromotions.Add(new ProductPromotion
-                            {
-                                InventoryItemId = fields[1],
-                                PromotionId = fields[2]
-                            });
-                        }
+                            InventoryItemId = inventoryItemId,
+                            PromotionId = productId
+                        });
+
                     }
-                    else
-                    {
-                        Console.WriteLine($"Invalid data format: {line}");
-                    }
+
                 }
             }
         }
 
         public void ConvertProductReturnExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length == 6)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string orderItemId = row[1].ToString().Trim();
+                    string returnReason = row[2].ToString().Trim();
+                    string returnStatus = row[1].ToString().Trim();
+                    string quantity = row[1].ToString().Trim();
+                    DateTime returnDate;
+                    if (DateTime.TryParse(row[3].ToString().Trim(), out returnDate))
                     {
                         using (var db = new EcommerceDbContext())
                         {
                             db.ProductReturns.Add(new ProductReturn
                             {
-                                OrderItemId = fields[1],
-                                ReturnStatus= fields[2],
-                                ReturnDate = DateTime.Parse(fields[3]),
-                                ReturnReason= fields[4],
-                                Quantity = int.Parse(fields[5])
+                                OrderItemId = orderItemId,
+                                ReturnStatus = returnStatus,
+                                ReturnDate = returnDate,
+                                ReturnReason = returnReason,
+                                Quantity = quantity
                             });
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid data format: {line}");
+                        Console.WriteLine($"Invalid date format in row {row}");
                     }
                 }
             }
@@ -343,29 +371,35 @@ namespace EcommerceDBProject.Services.Service
 
         public void ConvertProductReviewExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length == 5)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string orderItemId = row[1].ToString().Trim();
+                    string reviewText = row[2].ToString().Trim();
+                    string rating = row[3].ToString().Trim();
+                    DateTime reviewDate;
+
+                    if (DateTime.TryParse(row[4].ToString().Trim(), out reviewDate))
                     {
                         using (var db = new EcommerceDbContext())
                         {
                             db.ProductReviews.Add(new ProductReview
                             {
-                                OrderItemId = fields[1],
-                                ReviewText = fields[2],
-                                ReviewDate = DateTime.Parse(fields[3]),
-                                Rating = int.Parse(fields[4])
+                                OrderItemId = orderItemId,
+                                ReviewText = reviewText,
+                                ReviewDate = reviewDate,
+                                Rating = rating
                             });
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid data format: {line}");
+                        Console.WriteLine($"Invalid date format in row {row}");
                     }
                 }
             }
@@ -373,33 +407,43 @@ namespace EcommerceDBProject.Services.Service
 
         public void ConvertPromotionExcelToSQL(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
 
-                    if (fields.Length == 6)
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    string promotionName = row[1].ToString().Trim();
+                    string promotionDescription = row[2].ToString().Trim();
+                    string discountPercentage = row[3].ToString().Trim();
+                    DateTime startDate;
+                    DateTime endDate;
+
+                    if (DateTime.TryParse(row[4].ToString().Trim(), out startDate))
                     {
                         using (var db = new EcommerceDbContext())
                         {
+
                             db.Promotions.Add(new Promotion
                             {
-                                PromotionName = fields[4],
-                                PromotionDescription = fields[1],
-                                StartDate= DateTime.Parse(fields[2]),
-                                EndDate= DateTime.Parse(fields[3]),
-                                DiscountPercentage = int.Parse(fields[5])
+                                PromotionName = promotionName,
+                                PromotionDescription = promotionDescription,
+                                StartDate = startDate,
+                                EndDate = endDate,
+                                DiscountPercentage = discountPercentage
                             });
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid data format: {line}");
+                        Console.WriteLine($"Invalid date format in row {row}");
                     }
                 }
             }
+
+
         }
 
         public void ConvertSellerExcelToSQL(string filePath)
@@ -412,14 +456,14 @@ namespace EcommerceDBProject.Services.Service
                 Console.WriteLine(table.TableName);
                 foreach (DataRow row in table.Rows)
                 {
-                    string userDetailId= row[1].ToString().Trim();
+                    string userDetailId = row[1].ToString().Trim();
                     string firstName = row[2].ToString().Trim();
                     string lastName = row[3].ToString().Trim();
-                    string sellerRating= row[4].ToString().Trim();
+                    string sellerRating = row[4].ToString().Trim();
                     string password = row[5].ToString().Trim();
                     DateTime registrationDate;
                     if (DateTime.TryParse(row[3].ToString().Trim(), out registrationDate))
-                    { 
+                    {
                         using (var db = new EcommerceDbContext())
                         {
                             db.Sellers.Add(new Seller
@@ -451,21 +495,21 @@ namespace EcommerceDBProject.Services.Service
                 foreach (DataRow row in table.Rows)
                 {
                     string userDetailId = row[1].ToString().Trim();
-                    string supplierName= row[2].ToString().Trim();
+                    string supplierName = row[2].ToString().Trim();
                     string contactPersonName = row[2].ToString().Trim();
-                    string contactPersonNumber= row[2].ToString().Trim();
+                    string contactPersonNumber = row[2].ToString().Trim();
                     using (var db = new EcommerceDbContext())
                     {
                         db.Suppliers.Add(new Supplier
                         {
-                                UserDetailId = userDetailId,
-                                SupplierName = supplierName,
-                                ContactPersonName = contactPersonName,
-                                ContactPersonPhoneNumber = contactPersonNumber
+                            UserDetailId = userDetailId,
+                            SupplierName = supplierName,
+                            ContactPersonName = contactPersonName,
+                            ContactPersonPhoneNumber = contactPersonNumber
                         });
-                        
+
                     }
-                   
+
                 }
             }
         }
@@ -483,32 +527,32 @@ namespace EcommerceDBProject.Services.Service
                     string addressId = row[1].ToString().Trim();
                     string email = row[2].ToString().Trim();
                     string phoneNumber = row[2].ToString().Trim();
-                    string picture= row[2].ToString().Trim();
-                     using (var db = new EcommerceDbContext())
+                    string picture = row[2].ToString().Trim();
+                    using (var db = new EcommerceDbContext())
+                    {
+                        db.UserDetails.Add(new UserDetail
                         {
-                            db.UserDetails.Add(new UserDetail
-                            {
-                               AddressId = addressId,
-                               Email = email,
-                               PhoneNumber = phoneNumber,
-                               Picture = picture
-                               
-                            });
-                            db.SaveChanges();
-                        }
+                            AddressId = addressId,
+                            Email = email,
+                            PhoneNumber = phoneNumber,
+                            Picture = picture
+
+                        });
+                        db.SaveChanges();
                     }
-                    
                 }
+
             }
+        }
+
+
     }
-
-
-
-
-
-
-
-
-
-    
 }
+
+
+
+
+
+
+
+  
