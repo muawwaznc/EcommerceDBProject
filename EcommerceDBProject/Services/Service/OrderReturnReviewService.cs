@@ -1,5 +1,4 @@
 ﻿using EcommerceDBProject.DatabaseContext;
-using EcommerceDBProject.NewDatabase;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 

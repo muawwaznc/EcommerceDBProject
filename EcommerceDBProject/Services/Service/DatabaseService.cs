@@ -1,43 +1,55 @@
 ﻿using EcommerceDBProject.NewDatabase;
 using EcommerceDBProject.Services.Interface;
 using IronXL;
+using Microsoft.Data.SqlClient;
 using Syncfusion.ExcelExport;
 using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace EcommerceDBProject.Services.Service
 {
     public class DatabaseService : IDatabaseInterface
     {
+        #region Excel To SQL
+
         public void ConvertCategoryExcelToSQL(string filePath)
         {
             WorkBook workBook = WorkBook.Load(filePath);
             DataSet dataSet = workBook.ToDataSet();
-
+            int count = 0;
             foreach (DataTable table in dataSet.Tables)
             {
+
                 Console.WriteLine(table.TableName);
                 foreach (DataRow row in table.Rows)
                 {
-                    string categoryName = row[1].ToString().Trim();
-                    string categoryDescription = row[2].ToString().Trim();
-                    DateTime dateCreated;
-
-                    if (DateTime.TryParse(row[3].ToString().Trim(), out dateCreated))
+                    if (count == 0)
                     {
-                        using (var db = new EcommerceDbContext())
-                        {
-                            db.ProductCategories.Add(new ProductCategory
-                            {
-                                CategoryName = categoryName,
-                                CategoryDescription = categoryDescription,
-                                DateCreated = dateCreated
-                            });
-                            db.SaveChanges();
-                        }
+                        count = 1;
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid date format in row {row}");
+                        string categoryName = row[1].ToString().Trim();
+                        string categoryDescription = row[2].ToString().Trim();
+                        DateTime dateCreated;
+
+                        if (DateTime.TryParse(row[3].ToString().Trim(), out dateCreated))
+                        {
+                            using (var db = new EcommerceDbContext())
+                            {
+                                db.ProductCategories.Add(new ProductCategory
+                                {
+                                    CategoryName = categoryName,
+                                    CategoryDescription = categoryDescription,
+                                    DateCreated = dateCreated
+                                });
+                                //db.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Invalid date format in row {row}");
+                        }
                     }
                 }
             }
@@ -47,32 +59,74 @@ namespace EcommerceDBProject.Services.Service
         {
             WorkBook workBook = WorkBook.Load(filePath);
             DataSet dataSet = workBook.ToDataSet();
-
+            int count = 0;
             foreach (DataTable table in dataSet.Tables)
             {
                 Console.WriteLine(table.TableName);
                 foreach (DataRow row in table.Rows)
                 {
-                    string houseNumber = row[1].ToString().Trim();
-                    string street = row[2].ToString().Trim();
-                    string city = row[3].ToString().Trim();
-                    string country = row[4].ToString().Trim();
-                    string region = row[5].ToString().Trim();
-                    string zipCode = row[6].ToString().Trim();
-
-                    using (var db = new EcommerceDbContext())
+                    if (count == 0)
                     {
-                        db.Addresses.Add(new Address
-                        {
-                            HouseNumber = houseNumber,
-                            Street = street,
-                            City = city,
-                            Country = country,
-                            Region = region,
-                            ZipCode = zipCode
-                        });
-                        db.SaveChanges();
+                        count = 1;
                     }
+                    else
+                    {
+                        string houseNumber = row[1].ToString().Trim();
+                        string street = row[2].ToString().Trim();
+                        string city = row[3].ToString().Trim();
+                        string country = row[4].ToString().Trim();
+                        string region = row[5].ToString().Trim();
+                        string zipCode = row[6].ToString().Trim();
+
+                        using (var db = new EcommerceDbContext())
+                        {
+                            db.Addresses.Add(new Address
+                            {
+                                HouseNumber = houseNumber,
+                                Street = street,
+                                City = city,
+                                Country = country,
+                                Region = region,
+                                ZipCode = zipCode
+                            });
+                            //db.SaveChanges();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ConvertUserDetailExcelToSQL(string filePath)
+        {
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
+            int count = 0;
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    if (count == 0)
+                    {
+                        count = 1;
+                    }
+                    else
+                    {
+                        string addressId = row[1].ToString().Trim();
+                        string email = row[2].ToString().Trim();
+                        string phoneNumber = row[3].ToString().Trim();
+                        using (var db = new EcommerceDbContext())
+                        {
+                            db.UserDetails.Add(new UserDetail
+                            {
+                                AddressId = addressId,
+                                Email = email,
+                                PhoneNumber = phoneNumber
+                            });
+                            db.SaveChanges();
+                        }
+                    }
+
                 }
             }
         }
@@ -81,47 +135,393 @@ namespace EcommerceDBProject.Services.Service
         {
             WorkBook workBook = WorkBook.Load(filePath);
             DataSet dataSet = workBook.ToDataSet();
-
+            int count = 0;
             foreach (DataTable table in dataSet.Tables)
             {
                 Console.WriteLine(table.TableName);
                 foreach (DataRow row in table.Rows)
                 {
-                    string userDetailId = row[1].ToString().Trim();
-                    string firstName = row[2].ToString().Trim();
-                    string LastName = row[3].ToString().Trim();
-                    string password = row[4].ToString().Trim();
-                    DateTime dateOfBirth;
-                    DateTime lastLoginDate;
-                    DateTime registrationDate;
-
-                    if (DateTime.TryParse(row[5].ToString().Trim(), out dateOfBirth))
-
-
+                    if (count == 0)
                     {
-                        using (var db = new EcommerceDbContext())
-                        {
-                            db.Customers.Add(new Customer
-                            {
-                                UserDetailId = userDetailId,
-                                FirstName = firstName,
-                                LastName = LastName,
-                                Password = password,
-                                RegistrationDate = registrationDate,
-                                LastLoginDate = lastLoginDate,
-                                DateOfBirth = dateOfBirth
-                            });
-                            db.SaveChanges();
-                        }
+                        count = 1;
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid date format in row {row}");
+                        string firstName = row[1].ToString().Trim();
+                        string LastName = row[2].ToString().Trim();
+                        string userDetailId = row[4].ToString().Trim();
+                        string password = row[7].ToString().Trim();
+                        DateTime dateOfBirth;
+                        DateTime lastLoginDate;
+                        DateTime registrationDate;
+
+                        if (DateTime.TryParse(row[5].ToString().Trim(), out dateOfBirth) &&
+                            DateTime.TryParse(row[6].ToString().Trim(), out lastLoginDate) &&
+                            DateTime.TryParse(row[3].ToString().Trim(), out registrationDate))
+                        {
+                            using (var db = new EcommerceDbContext())
+                            {
+                                db.Customers.Add(new Customer
+                                {
+                                    UserDetailId = userDetailId,
+                                    FirstName = firstName,
+                                    LastName = LastName,
+                                    Password = password,
+                                    RegistrationDate = registrationDate,
+                                    LastLoginDate = lastLoginDate,
+                                    DateOfBirth = new DateOnly(dateOfBirth.Year, dateOfBirth.Month, dateOfBirth.Day)
+                                });
+                                db.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Invalid date format in row {row}");
+                        }
                     }
 
                 }
             }
         }
+
+        public void ConvertSellerExcelToSQL(string filePath)
+        {
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
+            int count = 0;
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    if (count == 0)
+                    {
+                        count = 1;
+                    }
+                    else
+                    {
+                        string firstName = row[1].ToString().Trim();
+                        string LastName = row[2].ToString().Trim();
+                        DateTime registrationDate;
+                        string userDetailId = row[5].ToString().Trim();
+                        string password = row[6].ToString().Trim();
+
+                        if (DateTime.TryParse(row[3].ToString().Trim(), out registrationDate))
+                        {
+                            using (var db = new EcommerceDbContext())
+                            {
+                                db.Sellers.Add(new Seller
+                                {
+                                    UserDetailId = userDetailId,
+                                    FirstName = firstName,
+                                    LastName = LastName,
+                                    Password = password,
+                                    RegistrationDate = registrationDate
+                                });
+                                db.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Invalid date format in row {row}");
+                        }
+                    }
+
+                }
+            }
+        }
+
+        public void ConvertSupplierExcelToSQL(string filePath)
+        {
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
+            int count = 0;
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    if (count == 0)
+                    {
+                        count = 1;
+                    }
+                    else
+                    {
+                        string firstName = row[1].ToString().Trim();
+                        string LastName = row[2].ToString().Trim();
+                        string supplierName = row[3].ToString().Trim();
+                        string contactPersonPhoneNumber = row[4].ToString().Trim();
+                        string userDetailId = row[5].ToString().Trim();
+
+                        using (var db = new EcommerceDbContext())
+                        {
+                            db.Suppliers.Add(new Supplier
+                            {
+                                UserDetailId = userDetailId,
+                                ContactPersonName = LastName + ", " + firstName,
+                                SupplierName = supplierName,
+                                ContactPersonPhoneNumber = contactPersonPhoneNumber
+                            });
+                            db.SaveChanges();
+                        }
+                    }
+
+                }
+            }
+        }
+
+        public void ConvertProductExcelToSQL(string filePath)
+        {
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
+            int count = 0;
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                foreach (DataRow row in table.Rows)
+                {
+                    if (count == 0)
+                    {
+                        count = 1;
+                    }
+                    else
+                    {
+                        string productName = row[1].ToString().Trim();
+                        string productDescription = row[2].ToString().Trim();
+                        double productPrice;
+                        double productWeight;
+                        string supplierId = row[5].ToString().Trim();
+                        string categoryId = row[6].ToString().Trim();
+
+                        if (double.TryParse(row[3].ToString().Trim(), out productPrice))
+                        {
+                            if (supplierId == "")
+                            {
+                                if (double.TryParse(row[4].ToString().Trim(), out productWeight))
+                                {
+                                    using (var db = new EcommerceDbContext())
+                                    {
+                                        db.Products.Add(new Product
+                                        {
+                                            ProductName = productName,
+                                            ProductDescription = productDescription,
+                                            Price = productPrice,
+                                            ProductWeight = productWeight,
+                                            CategoryId = categoryId
+                                        });
+                                        db.SaveChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    using (var db = new EcommerceDbContext())
+                                    {
+                                        db.Products.Add(new Product
+                                        {
+                                            ProductName = productName,
+                                            ProductDescription = productDescription,
+                                            Price = productPrice,
+                                            CategoryId = categoryId
+                                        });
+                                        db.SaveChanges();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (double.TryParse(row[4].ToString().Trim(), out productWeight))
+                                {
+                                    using (var db = new EcommerceDbContext())
+                                    {
+                                        db.Products.Add(new Product
+                                        {
+                                            ProductName = productName,
+                                            ProductDescription = productDescription,
+                                            Price = productPrice,
+                                            ProductWeight = productWeight,
+                                            SupplierId = supplierId,
+                                            CategoryId = categoryId
+                                        });
+                                        db.SaveChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    using (var db = new EcommerceDbContext())
+                                    {
+                                        db.Products.Add(new Product
+                                        {
+                                            ProductName = productName,
+                                            ProductDescription = productDescription,
+                                            Price = productPrice,
+                                            SupplierId = supplierId,
+                                            CategoryId = categoryId
+                                        });
+                                        db.SaveChanges();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        #endregion
+
+        #region Random Generate Functions
+
+        public void GenerateRandomInventoryItems()
+        {
+            using (var db = new EcommerceDbContext())
+            {
+                var productsList = db.Products.ToList();
+                var sellersList = db.Sellers.ToList();
+                Random random = new Random();
+                int count = 0;
+                while (true)
+                {
+                    if(count == 1000 || count == 1000000000)
+                    {
+                        break;
+                    }
+                    var randomProduct = productsList[random.Next(productsList.Count)];
+                    var randomSeller = sellersList[random.Next(sellersList.Count)];
+
+                    if(!IsInventoryItemAlreadyExist(randomProduct, randomSeller))
+                    {
+                        int randomStockAmount = random.Next(100, 1101);
+                        int randomPrice = random.Next(100, 500);
+                        string randomCondition = random.Next(2) == 0 ? "Old" : "New";
+                        db.InventoryItems.Add(new InventoryItem { 
+                            SellerId = randomSeller.SellerId,
+                            ProductId = randomProduct.ProductId,
+                            SalePrice = randomProduct.Price + randomPrice,
+                            StockAmount = randomStockAmount,
+                            Condition = randomCondition
+                        });
+                        db.SaveChanges();
+                        count++;
+                    }
+                }
+            }
+        }
+
+        public void GenerateRandomOrders()
+        {
+            using (var db = new EcommerceDbContext())
+            {
+                var inventoryItemList = db.InventoryItems.ToList();
+                var customerList = db.Customers.ToList();
+                Random random = new Random();
+
+                for (int i = 0; i < 3000; i++)
+                {
+                    var randomCustomer = customerList[random.Next(customerList.Count)];
+                    DateTime randomOrderDate = DateTime.Now.AddDays(-random.Next(1, 720));
+                    var shippingAddressId = db.UserDetails.FirstOrDefault(x => x.UserDetailId == randomCustomer.UserDetailId).AddressId;
+                    
+                    var newOrder = new Order
+                    {
+                        CustomerId = randomCustomer.CustomerId,
+                        OrderDate = randomOrderDate,
+                        TotalPrice = 0,
+                        ShippingAddressId = shippingAddressId,
+                        PaymentMethod = GetRandomPaymentMethod(random),
+                        ShippingMethod = GetRandomShippingMethod(random)
+                    };
+
+                    double totalPrice = 0;
+                    List<OrderItem> orderItems = new List<OrderItem>();
+                    foreach (var inventoryItem in inventoryItemList.OrderBy(x => Guid.NewGuid()).Take(random.Next(1, 6)))
+                    {
+                        int randomQuantity = random.Next(1, 11);
+                        if(randomQuantity > inventoryItem.StockAmount)
+                        {
+                            randomQuantity = inventoryItem.StockAmount - 1;
+                        }
+
+                        double unitPrice = inventoryItem.SalePrice;
+                        DateTime? shippingDate = randomOrderDate.AddDays(random.Next(3, 11)) < DateTime.Now ? randomOrderDate.AddDays(random.Next(3, 11)) : null;
+                        if(shippingDate == null)
+                        {
+                            var orderItem = new OrderItem
+                            {
+                                InventoryItemId = inventoryItem.InventoryItemId,
+                                Quantity = randomQuantity,
+                                UnitPrice = unitPrice,
+                                IsReturned = false,
+                                RequiredShippingDate = randomOrderDate.AddDays(7),
+                                OrderStatus = "Pending"
+                            };
+                            orderItems.Add(orderItem);
+                        }
+                        else
+                        {
+                            var orderItem = new OrderItem
+                            {
+                                InventoryItemId = inventoryItem.InventoryItemId,
+                                Quantity = randomQuantity,
+                                UnitPrice = unitPrice,
+                                IsReturned = false,
+                                RequiredShippingDate = randomOrderDate.AddDays(7),
+                                ShippingDate = shippingDate,
+                                OrderStatus = "Delivered"
+                            };
+                            orderItems.Add(orderItem);
+                        }
+                        totalPrice += randomQuantity * unitPrice;
+                    }
+
+                    newOrder.TotalPrice = totalPrice;
+
+                    db.Orders.Add(newOrder);
+                    db.SaveChanges();
+
+                    foreach (var orderItem in orderItems)
+                    {
+                        orderItem.OrderId = newOrder.OrderId;
+                        db.OrderItems.Add(orderItem);
+                    }
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Helper Functions
+
+        private bool IsInventoryItemAlreadyExist(Product product, Seller seller)
+        {
+            using(var db = new EcommerceDbContext())
+            {
+                var inventoryItem = db.InventoryItems.
+                    FirstOrDefault(x => x.ProductId == product.ProductId && x.SellerId == seller.SellerId);
+                if(inventoryItem == null)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        private string GetRandomPaymentMethod(Random random)
+        {
+            string[] paymentMethods = { "Credit Card", "Cash On Delivery", "PayPal" };
+            return paymentMethods[random.Next(paymentMethods.Length)];
+        }
+
+        private string GetRandomShippingMethod(Random random)
+        {
+            string[] shippingMethods = { "Express", "Standard", "Dhl" };
+            return shippingMethods[random.Next(shippingMethods.Length)];
+        }
+
+        #endregion
+
+        #region Extra Functions
 
         public void ConvertInventoryItemExcelToSQL(string filePath)
         {
@@ -146,8 +546,8 @@ namespace EcommerceDBProject.Services.Service
                         {
                             SellerId = sellerId,
                             ProductId = productId,
-                            SalePrice = salePrice,
-                            StockAmount = stockAmount,
+                            SalePrice = 0,//replace later
+                            StockAmount = 1, //replace later
                             Condition = condition
 
                         });
@@ -158,7 +558,7 @@ namespace EcommerceDBProject.Services.Service
             }
         }
 
-        public void ConvertInvetoryItemPictureExcelToSQL(string filePath)
+        public void ConvertInventoryItemPictureExcelToSQL(string filePath)
         {
             WorkBook workBook = WorkBook.Load(filePath);
             DataSet dataSet = workBook.ToDataSet();
@@ -178,7 +578,6 @@ namespace EcommerceDBProject.Services.Service
                             PictureUrl = pictureUrl,
                             InventoryItemId = inventoryItemId
                         });
-
                     }
 
                 }
@@ -212,7 +611,7 @@ namespace EcommerceDBProject.Services.Service
                                 PaymentMethod = paymentMehod,
                                 ShippingAddressId = shippingAddressId,
                                 ShippingMethod = shippingMethod,
-                                TotalPrice = totalPrice,
+                                TotalPrice = 0,//replace later
                                 CustomerId = customerId
 
                             });
@@ -220,7 +619,7 @@ namespace EcommerceDBProject.Services.Service
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid data format: {line}");
+                        Console.WriteLine($"Invalid data format: {row}");
                     }
                 }
             }
@@ -243,7 +642,7 @@ namespace EcommerceDBProject.Services.Service
                     string isReturned = row[5].ToString().Trim();
                     string orderStatus = row[6].ToString().Trim();
                     DateTime shippingDate;
-                    DateTime requiredShippingDate;
+                    DateTime requiredShippingDate = new DateTime();//replace later
 
                     if (DateTime.TryParse(row[7].ToString().Trim(), out shippingDate))
                     {
@@ -254,9 +653,9 @@ namespace EcommerceDBProject.Services.Service
                             {
                                 OrderId = orderId,
                                 InventoryItemId = inventoryItemId,
-                                Quantity = quantity,
-                                UnitPrice = unitPrice,
-                                IsReturned = isReturned,
+                                Quantity = int.Parse(quantity),
+                                UnitPrice = double.Parse(unitPrice),
+                                IsReturned = bool.Parse(isReturned),
                                 OrderStatus = orderStatus,
                                 ShippingDate = shippingDate,
                                 RequiredShippingDate = requiredShippingDate
@@ -266,39 +665,7 @@ namespace EcommerceDBProject.Services.Service
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid data format: {line}");
-                    }
-                }
-            }
-        }
-
-        public void ConvertProductExcelToSQL(string filePath)
-        {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] fields = line.Split(',');
-
-                    if (fields.Length == 7)
-                    {
-                        using (var db = new EcommerceDbContext())
-                        {
-                            db.Products.Add(new Product
-                            {
-                                ProductName = fields[1],
-                                ProductDescription = fields[2],
-                                ProductWeight = Double.Parse(fields[3]),
-                                SupplierId = fields[4],
-                                CategoryId = fields[5],
-                                Price = double.Parse(fields[6])
-                            });
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Invalid data format: {line}");
+                        Console.WriteLine($"Invalid data format: {row}");
                     }
                 }
             }
@@ -357,7 +724,7 @@ namespace EcommerceDBProject.Services.Service
                                 ReturnStatus = returnStatus,
                                 ReturnDate = returnDate,
                                 ReturnReason = returnReason,
-                                Quantity = quantity
+                                Quantity = 0//replace later
                             });
                         }
                     }
@@ -393,7 +760,7 @@ namespace EcommerceDBProject.Services.Service
                                 OrderItemId = orderItemId,
                                 ReviewText = reviewText,
                                 ReviewDate = reviewDate,
-                                Rating = rating
+                                Rating = 0//replace later
                             });
                         }
                     }
@@ -421,7 +788,8 @@ namespace EcommerceDBProject.Services.Service
                     DateTime startDate;
                     DateTime endDate;
 
-                    if (DateTime.TryParse(row[4].ToString().Trim(), out startDate))
+                    if (DateTime.TryParse(row[4].ToString().Trim(), out startDate) &&
+                        DateTime.TryParse(row[5].ToString().Trim(), out endDate))
                     {
                         using (var db = new EcommerceDbContext())
                         {
@@ -432,47 +800,7 @@ namespace EcommerceDBProject.Services.Service
                                 PromotionDescription = promotionDescription,
                                 StartDate = startDate,
                                 EndDate = endDate,
-                                DiscountPercentage = discountPercentage
-                            });
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Invalid date format in row {row}");
-                    }
-                }
-            }
-
-
-        }
-
-        public void ConvertSellerExcelToSQL(string filePath)
-        {
-            WorkBook workBook = WorkBook.Load(filePath);
-            DataSet dataSet = workBook.ToDataSet();
-
-            foreach (DataTable table in dataSet.Tables)
-            {
-                Console.WriteLine(table.TableName);
-                foreach (DataRow row in table.Rows)
-                {
-                    string userDetailId = row[1].ToString().Trim();
-                    string firstName = row[2].ToString().Trim();
-                    string lastName = row[3].ToString().Trim();
-                    string sellerRating = row[4].ToString().Trim();
-                    string password = row[5].ToString().Trim();
-                    DateTime registrationDate;
-                    if (DateTime.TryParse(row[3].ToString().Trim(), out registrationDate))
-                    {
-                        using (var db = new EcommerceDbContext())
-                        {
-                            db.Sellers.Add(new Seller
-                            {
-                                UserDetailId = userDetailId,
-                                FirstName = firstName,
-                                LastName = lastName,
-                                RegistrationDate = registrationDate,
-                                Password = password
+                                DiscountPercentage = 0//replace later
                             });
                         }
                     }
@@ -484,72 +812,9 @@ namespace EcommerceDBProject.Services.Service
             }
         }
 
-        public void ConvertSupplierExcelToSQL(string filePath)
-        {
-            WorkBook workBook = WorkBook.Load(filePath);
-            DataSet dataSet = workBook.ToDataSet();
-
-            foreach (DataTable table in dataSet.Tables)
-            {
-                Console.WriteLine(table.TableName);
-                foreach (DataRow row in table.Rows)
-                {
-                    string userDetailId = row[1].ToString().Trim();
-                    string supplierName = row[2].ToString().Trim();
-                    string contactPersonName = row[2].ToString().Trim();
-                    string contactPersonNumber = row[2].ToString().Trim();
-                    using (var db = new EcommerceDbContext())
-                    {
-                        db.Suppliers.Add(new Supplier
-                        {
-                            UserDetailId = userDetailId,
-                            SupplierName = supplierName,
-                            ContactPersonName = contactPersonName,
-                            ContactPersonPhoneNumber = contactPersonNumber
-                        });
-
-                    }
-
-                }
-            }
-        }
-
-        public void ConvertUserDetailExcelToSQL(string filePath)
-        {
-            WorkBook workBook = WorkBook.Load(filePath);
-            DataSet dataSet = workBook.ToDataSet();
-
-            foreach (DataTable table in dataSet.Tables)
-            {
-                Console.WriteLine(table.TableName);
-                foreach (DataRow row in table.Rows)
-                {
-                    string addressId = row[1].ToString().Trim();
-                    string email = row[2].ToString().Trim();
-                    string phoneNumber = row[2].ToString().Trim();
-                    string picture = row[2].ToString().Trim();
-                    using (var db = new EcommerceDbContext())
-                    {
-                        db.UserDetails.Add(new UserDetail
-                        {
-                            AddressId = addressId,
-                            Email = email,
-                            PhoneNumber = phoneNumber,
-                            Picture = picture
-
-                        });
-                        db.SaveChanges();
-                    }
-                }
-
-            }
-        }
-
-
+        #endregion
     }
 }
-
-
 
 
 

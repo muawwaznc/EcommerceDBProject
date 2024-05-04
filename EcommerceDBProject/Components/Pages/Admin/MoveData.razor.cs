@@ -29,37 +29,47 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected void OnAddressButtonClick()
         {
-
+            DatabaseService.ConvertAddressExcelToSQL(filePath + "Addresses.xlsx");
         }
 
         protected void OnUserDetailButtonClick()
         {
-
+            DatabaseService.ConvertUserDetailExcelToSQL(filePath + "UserDetails.xlsx");
         }
 
         protected void OnSupplierButtonClick()
         {
-
+            DatabaseService.ConvertSupplierExcelToSQL(filePath + "Suppliers.xlsx");
         }
 
         protected void OnCustomerButtonClick()
         {
-
+            DatabaseService.ConvertCustomerExcelToSQL(filePath + "Customers.xlsx");
         }
 
         protected void OnSellerButtonClick()
         {
-
+            DatabaseService.ConvertSellerExcelToSQL(filePath + "Sellers.xlsx");
         }
 
         protected void OnProductButtonClick()
         {
-
+            DatabaseService.ConvertProductExcelToSQL(filePath + "Products.xlsx");
         }
 
         protected void OnPromotionButtonClick()
         {
 
+        }
+
+        protected void OnInventoryItemButtonClick()
+        {
+            DatabaseService.GenerateRandomInventoryItems();
+        }
+
+        protected void OnOrderButtonClick()
+        {
+            DatabaseService.GenerateRandomInventoryItems();
         }
 
         #endregion

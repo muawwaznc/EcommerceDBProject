@@ -6,7 +6,7 @@
         void ConvertAddressExcelToSQL(string filePath);
         void ConvertCustomerExcelToSQL(string filePath);
         void ConvertInventoryItemExcelToSQL(string filePath);
-        void ConvertInvetoryItemPictureExcelToSQL(string filePath);
+        void ConvertInventoryItemPictureExcelToSQL(string filePath);
         void ConvertOrderExcelToSQL(string filePath);
         void ConvertOrderItemExcelToSQL(string filePath);
         void ConvertProductExcelToSQL(string filePath);
@@ -17,5 +17,7 @@
         void ConvertSellerExcelToSQL(string filePath);
         void ConvertSupplierExcelToSQL(string filePath);
         void ConvertUserDetailExcelToSQL(string filePath);
+        void GenerateRandomInventoryItems();
+        void GenerateRandomOrders();
     }
 }
