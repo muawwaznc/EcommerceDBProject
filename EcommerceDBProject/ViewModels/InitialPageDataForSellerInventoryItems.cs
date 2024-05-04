@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using Microsoft.AspNetCore.Components;
 
 namespace EcommerceDBProject.ViewModels

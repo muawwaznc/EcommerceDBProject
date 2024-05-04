@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using EcommerceDBProject.Enum;
@@ -9,7 +9,7 @@ namespace EcommerceDBProject.Services.Service
     {
         public UserDetail IsAuthenicated(string email, string password)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var userDetail = db.UserDetails.FirstOrDefault(x => x.Email == email);
                 if (userDetail != null)
@@ -36,7 +36,7 @@ namespace EcommerceDBProject.Services.Service
         {
             try
             {
-                using (var db = new EcommerceDbprojectContext())
+                using (var db = new EcommerceDbContext())
                 {
                     var address = signUpModel.Address;
                     if (IsAddressCorrect(address))
@@ -103,7 +103,7 @@ namespace EcommerceDBProject.Services.Service
 
         public UserRole GetUserRoleByUserDetailId(string userDetailId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 if (seller == null)
@@ -121,7 +121,7 @@ namespace EcommerceDBProject.Services.Service
 
         public Customer GetCustomerFromUserDetailId(string userDetailId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 return customer;
@@ -130,7 +130,7 @@ namespace EcommerceDBProject.Services.Service
 
         public Address GetAddressByUserDetailId(string userDetailId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var addressId = db.UserDetails.FirstOrDefault(x => x.UserDetailId == userDetailId).AddressId;
                 if(addressId != null)
@@ -144,7 +144,7 @@ namespace EcommerceDBProject.Services.Service
 
         public Seller GetSellerFromSellerId(string sellerId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.SellerId == sellerId);
                 return seller;
@@ -153,7 +153,7 @@ namespace EcommerceDBProject.Services.Service
 
         public string GetSellerFullNameFromSellerId(string sellerId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.SellerId == sellerId);
                 return seller.LastName + ", " + seller.FirstName;
@@ -162,7 +162,7 @@ namespace EcommerceDBProject.Services.Service
 
         public Seller GetSellerFromUserDetailId(string userDetailId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 return seller;
@@ -171,7 +171,7 @@ namespace EcommerceDBProject.Services.Service
 
         public Customer GetCustomerFromCustomerId(string customerId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var customer = db.Customers.FirstOrDefault(x => x.CustomerId == customerId);
                 return customer;
@@ -180,7 +180,7 @@ namespace EcommerceDBProject.Services.Service
 
         public UserDetail GetUserDetailFromUserDetailId(string userDetailId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var userDetail = db.UserDetails.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 return userDetail;
@@ -189,7 +189,7 @@ namespace EcommerceDBProject.Services.Service
 
         public void UpdateSellerDetails(InitialPageDataForSellerProfile sellerData)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var existingSeller = db.Sellers.FirstOrDefault(s => s.SellerId == sellerData.Seller.SellerId);
                 if (existingSeller != null)
@@ -222,7 +222,7 @@ namespace EcommerceDBProject.Services.Service
 
         public void UpdateCustomerDetails(InitialPageDataForCustomerProfile customerData)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var existingCustomer = db.Customers.FirstOrDefault(s => s.CustomerId == customerData.Customer.CustomerId);
                 if (existingCustomer != null)
@@ -258,7 +258,7 @@ namespace EcommerceDBProject.Services.Service
         {
             try
             {
-                using (var db = new EcommerceDbprojectContext())
+                using (var db = new EcommerceDbContext())
                 {
                     var address = supplierViewModel.SupplierAddress;
                     if (IsAddressCorrect(address))

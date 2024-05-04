@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 
@@ -61,7 +61,7 @@ namespace EcommerceDBProject.Services.Service
 
         private Address AddShippingAddress(Address address)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 if (address.AddressId != null)
                 {
@@ -99,7 +99,7 @@ namespace EcommerceDBProject.Services.Service
 
         private Order AddOrder(Order order)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.Orders.Add(order);
                 db.SaveChanges();
@@ -109,7 +109,7 @@ namespace EcommerceDBProject.Services.Service
 
         private void AddOrderItem(OrderItem orderItem)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.OrderItems.Add(orderItem);
                 db.SaveChanges();
@@ -117,7 +117,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public void UpdateOrderItemReturnStatus(string orderItemId,bool isReturned)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var orderItem = db.OrderItems.Where(x => x.OrderItemId == orderItemId).FirstOrDefault();
                 orderItem.IsReturned = isReturned;
@@ -128,7 +128,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<CustomerOrdersViewModel> GetCustomerOrdersViewModelList(string userDetailId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 var customersOrdersList = db.Orders.Where(x => x.CustomerId == customer.CustomerId).ToList();
@@ -169,7 +169,7 @@ namespace EcommerceDBProject.Services.Service
     
         public List<Order> GetOrdersListFromCustomerId(string customerId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var orders = db.Orders.Where(x => x.CustomerId == customerId).ToList();
                 return orders;
@@ -178,7 +178,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<OrderItem> GetOrderItemsListFromOrderId(string orderId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var orderItems = db.OrderItems.Where(x => x.OrderId == orderId).ToList();
                 return orderItems;
@@ -186,7 +186,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public List<SellerOrdersViewModel> GetSellerOrdersViewModelList(string userDetailId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 var sellerInventoryItems = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
@@ -218,7 +218,7 @@ namespace EcommerceDBProject.Services.Service
         
         public void ShipOrder(string orderItemId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var orderItem = db.OrderItems.FirstOrDefault(x => x.OrderItemId == orderItemId);
                 orderItem.ShippingDate = DateTime.Now;

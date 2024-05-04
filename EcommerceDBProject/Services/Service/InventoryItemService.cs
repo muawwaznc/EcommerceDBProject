@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using System;
 
@@ -8,7 +8,7 @@ namespace EcommerceDBProject.Services.Service
     {
         public List<InventoryItem> GetAllInventoryItemsList()
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var inventoryItemList = db.InventoryItems.ToList();
                 return inventoryItemList;
@@ -17,7 +17,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<InventoryItem> GetAllInventoryItemsOfSpecifcCetagory(string categoryId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var inventoryItems = db.InventoryItems
                    .Where(x => x.Product.CategoryId == categoryId)
@@ -29,7 +29,7 @@ namespace EcommerceDBProject.Services.Service
     
         public InventoryItem GetInventoryItemFromInventoryItemId(string inventoryItemId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == inventoryItemId);
                 return inventoryItem;
@@ -38,7 +38,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<InventoryItem> GetSellerInventoryItemsListFromSellerId(string sellerId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var inventoryItemsList = db.InventoryItems.Where(x => x.SellerId == sellerId).ToList();
                 return inventoryItemsList;
@@ -47,7 +47,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<InventoryItem> GetSellerInventoryItemsOfSpecifcCetagory(string categoryId, string sellerId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var inventoryItems = db.InventoryItems
                    .Where(x => x.Product.CategoryId == categoryId && x.SellerId == sellerId)
@@ -58,7 +58,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public void AddInventoryItem(InventoryItem inventoryItem)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.InventoryItems.Add(inventoryItem);
                 db.SaveChanges();

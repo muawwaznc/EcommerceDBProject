@@ -1,5 +1,5 @@
 ﻿using Blazored.Toast.Services;
-using EcommerceDBProject.DatabaseContext;
+using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using Microsoft.AspNetCore.Components;
 

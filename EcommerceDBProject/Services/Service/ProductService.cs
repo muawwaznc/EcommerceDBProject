@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 
@@ -8,7 +8,7 @@ namespace EcommerceDBProject.Services.Service
     {
         public List<ComboBoxItemsViewModel> GetAllCategoriesForDropDown()
         {
-            var db = new EcommerceDbprojectContext();
+            var db = new EcommerceDbContext();
             var ProductCategories = db.ProductCategories.ToList();
             var ProductCategoriesList = new List<ComboBoxItemsViewModel>();
             foreach (var category in ProductCategories)
@@ -24,14 +24,14 @@ namespace EcommerceDBProject.Services.Service
 
         public List<ProductCategory> GetAllProductCategories()
         {
-            var db = new EcommerceDbprojectContext();
+            var db = new EcommerceDbContext();
             var ProductCategories = db.ProductCategories.ToList();
             return ProductCategories;
         }
         
         public Product GetProductFromProductId(string productId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var product = db.Products.FirstOrDefault(x => x.ProductId == productId);
                 return product;
@@ -40,7 +40,7 @@ namespace EcommerceDBProject.Services.Service
 
         public Product GetProductFromInventoryItemId(string inventoryItemId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var inventoryItem = db.InventoryItems.FirstOrDefault(x => x.InventoryItemId == inventoryItemId);
                 var product = db.Products.FirstOrDefault(x => x.ProductId == inventoryItem.ProductId);
@@ -50,7 +50,7 @@ namespace EcommerceDBProject.Services.Service
         
         public void AddProductCategory(ProductCategory category)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.ProductCategories.Add(category);
                 db.SaveChanges();
@@ -72,7 +72,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<Supplier> GetAllSuppliers()
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var suppliersList = db.Suppliers.ToList();
                 return suppliersList;
@@ -81,7 +81,7 @@ namespace EcommerceDBProject.Services.Service
 
         public void AddProduct(Product product)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 db.Products.Add(product);
                 db.SaveChanges();
@@ -90,7 +90,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<Product> GetAllProducts()
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var products = db.Products.ToList();
                 return products;
@@ -98,7 +98,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public List<Product> GetAllProductsByCategoryId(string categoryId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var products = db.Products.Where(x => x.CategoryId == categoryId).ToList();
                 return products;
@@ -107,7 +107,7 @@ namespace EcommerceDBProject.Services.Service
 
         public ProductCategory GetProductCategoryByCategoryId(string categoryId)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 var category = db.ProductCategories.FirstOrDefault(x => x.CategoryId == categoryId);
                 return category;
@@ -116,7 +116,7 @@ namespace EcommerceDBProject.Services.Service
 
         public Supplier GetSupplierBySupplierId(string supplierId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var supplier = db.Suppliers.FirstOrDefault(x => x.SupplierId == supplierId);
                 return supplier;
@@ -125,7 +125,7 @@ namespace EcommerceDBProject.Services.Service
 
         public void UpdateProduct(Product product)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.Products.Update(product);
                 db.SaveChanges();
@@ -133,7 +133,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public void UpdateProductCategory(ProductCategory productCategory)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.ProductCategories.Update(productCategory);
                 db.SaveChanges();
@@ -142,7 +142,7 @@ namespace EcommerceDBProject.Services.Service
 
         public bool DeleteProduct(Product product)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 try
                 {
@@ -159,7 +159,7 @@ namespace EcommerceDBProject.Services.Service
 
         public bool DeleteProductCategory(ProductCategory productCategory)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 try
                 {

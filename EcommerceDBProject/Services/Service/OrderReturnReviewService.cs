@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 
@@ -15,7 +15,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public bool IsReturnAvailable(string orderItemId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var produtReturn = db.ProductReturns.FirstOrDefault(x => x.OrderItemId == orderItemId);
                 if (produtReturn != null)
@@ -28,7 +28,7 @@ namespace EcommerceDBProject.Services.Service
 
         public bool IsReviewAvailable(string orderItemId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var produtReview = db.ProductReviews.FirstOrDefault(x => x.OrderItemId == orderItemId);
                 if (produtReview != null)
@@ -40,7 +40,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public void AddReturn(ProductReturn productReturn)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.ProductReturns.Add(productReturn);
                 db.SaveChanges();
@@ -48,7 +48,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public void UpdateReturnSatatus(string orderItemId,string returnStatus)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var returnOrder = db.ProductReturns.Where(x => x.OrderItemId == orderItemId).FirstOrDefault();
                 returnOrder.ReturnStatus = returnStatus;
@@ -58,7 +58,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public void AddReview(ProductReview productReview)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.ProductReviews.Add(productReview);
                 db.SaveChanges();
@@ -66,7 +66,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public List<SellerReturnsViewModel> GetSellerReturns(string userDetailId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 var allSellerProduct = db.InventoryItems.Where(x => x.SellerId == seller.SellerId).ToList();
@@ -97,7 +97,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public List<CustomerReviewsViewModel> GetCustomerReviewsViewModelListFromUserDetailId(string userDetailId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 var customersOrders = db.Orders.Where(x => x.CustomerId == customer.CustomerId).ToList();
@@ -131,7 +131,7 @@ namespace EcommerceDBProject.Services.Service
 
         public List<CustomerReturnsViewModel> GetCustomerReturnsViewModelListFromUserDetailId(string userDetailId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var customer = db.Customers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 var customersOrders = db.Orders.Where(x => x.CustomerId == customer.CustomerId).ToList();

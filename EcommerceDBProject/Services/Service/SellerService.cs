@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 
 namespace EcommerceDBProject.Services.Service
@@ -7,7 +7,7 @@ namespace EcommerceDBProject.Services.Service
     {
         public Seller GetSellerFromSellerId(string sellerId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.SellerId == sellerId);
                 return seller;
@@ -16,7 +16,7 @@ namespace EcommerceDBProject.Services.Service
 
         public string GetSellerFullNameFromSellerId(string sellerId)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.SellerId == sellerId);
                 return seller.LastName + ", " + seller.FirstName;

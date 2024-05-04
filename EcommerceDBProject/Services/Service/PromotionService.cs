@@ -1,4 +1,4 @@
-﻿using EcommerceDBProject.DatabaseContext;
+﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 
 namespace EcommerceDBProject.Services.Service
@@ -7,7 +7,7 @@ namespace EcommerceDBProject.Services.Service
     {
         public void AddPromotion(Promotion promotion)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 db.Promotions.Add(promotion);
                 db.SaveChanges();
@@ -15,7 +15,7 @@ namespace EcommerceDBProject.Services.Service
         }
         public List<Promotion> GetAllPromotionList()
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 var promotionList = db.Promotions.ToList();
                 return promotionList;
@@ -44,7 +44,7 @@ namespace EcommerceDBProject.Services.Service
 
         public void UpdatePromotion(Promotion promotion)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 db.Promotions.Update(promotion);
                 db.SaveChanges();
@@ -53,7 +53,7 @@ namespace EcommerceDBProject.Services.Service
 
         public void DeletePromotion(Promotion promotion)
         {
-            using (var db = new EcommerceDbprojectContext())
+            using (var db = new EcommerceDbContext())
             {
                 try
                 {
@@ -73,7 +73,7 @@ namespace EcommerceDBProject.Services.Service
 
         public bool AddProductPromotion(ProductPromotion productPromotion)
         {
-            using(var db = new EcommerceDbprojectContext())
+            using(var db = new EcommerceDbContext())
             {
                 try
                 {
