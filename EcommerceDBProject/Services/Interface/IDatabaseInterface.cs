@@ -19,5 +19,6 @@
         void ConvertUserDetailExcelToSQL(string filePath);
         void GenerateRandomInventoryItems();
         void GenerateRandomOrders();
+        void GenerateProductPromotions();
     }
 }

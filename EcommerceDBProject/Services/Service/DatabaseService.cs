@@ -368,6 +368,76 @@ namespace EcommerceDBProject.Services.Service
             }
         }
 
+        public void ConvertPromotionExcelToSQL(string filePath)
+        {
+            WorkBook workBook = WorkBook.Load(filePath);
+            DataSet dataSet = workBook.ToDataSet();
+
+            foreach (DataTable table in dataSet.Tables)
+            {
+                Console.WriteLine(table.TableName);
+                int count = 0;
+                foreach (DataRow row in table.Rows)
+                {
+                    if (count == 0)
+                    {
+                        count = 1;
+                    }
+                    else
+                    {
+                        string promotionName = row[1].ToString().Trim();
+                        string promotionDescription = row[2].ToString().Trim();
+                        string startDateTemp = ConvertToSqlDateTime(row[3].ToString().Trim());
+                        DateTime startDate;
+                        DateTime endDate;
+                        double discountPercentage;
+                        if (double.TryParse(row[5].ToString().Trim(), out discountPercentage))
+                        {
+                            if (DateTime.TryParse(startDateTemp, out startDate))
+                            {
+                                using (var db = new EcommerceDbContext())
+                                {
+                                    if (DateTime.TryParse(row[4].ToString().Trim(), out endDate))
+                                    {
+
+                                        db.Promotions.Add(new Promotion
+                                        {
+                                            PromotionName = promotionName,
+                                            PromotionDescription = promotionDescription,
+                                            StartDate = startDate,
+                                            EndDate = endDate,
+                                            DiscountPercentage = discountPercentage
+                                        });
+                                    }
+                                    else
+                                    {
+                                        db.Promotions.Add(new Promotion
+                                        {
+                                            PromotionName = promotionName,
+                                            PromotionDescription = promotionDescription,
+                                            StartDate = startDate,
+                                            EndDate = GetRandomEndDateFromStartDateOfPromotion(startDate),
+                                            DiscountPercentage = discountPercentage
+                                        });
+                                    }
+                                    db.SaveChanges();
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Invalid start date format in row {row}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Invalid Discount Percentage format in row {row}");
+                        }
+                    }
+                }
+            }
+        }
+
+
         #endregion
 
         #region Random Generate Functions
@@ -410,84 +480,139 @@ namespace EcommerceDBProject.Services.Service
 
         public void GenerateRandomOrders()
         {
+            List<InventoryItem> inventoryItemList = new List<InventoryItem>();
+            List<Customer> customerList = new List<Customer>();
             using (var db = new EcommerceDbContext())
             {
-                var inventoryItemList = db.InventoryItems.ToList();
-                var customerList = db.Customers.ToList();
-                Random random = new Random();
+                inventoryItemList = db.InventoryItems.ToList();
+                customerList = db.Customers.ToList();
+            }
+            Random random = new Random();
 
-                for (int i = 0; i < 3000; i++)
+            for (int i = 0; i < 3000; i++)
+            {
+                var randomCustomer = customerList[random.Next(customerList.Count)];
+                DateTime randomOrderDate = DateTime.Now.AddDays(-random.Next(1, 720));
+                
+                string shippingAddressId;
+                using (var db = new EcommerceDbContext())
                 {
-                    var randomCustomer = customerList[random.Next(customerList.Count)];
-                    DateTime randomOrderDate = DateTime.Now.AddDays(-random.Next(1, 720));
-                    var shippingAddressId = db.UserDetails.FirstOrDefault(x => x.UserDetailId == randomCustomer.UserDetailId).AddressId;
-                    
-                    var newOrder = new Order
-                    {
-                        CustomerId = randomCustomer.CustomerId,
-                        OrderDate = randomOrderDate,
-                        TotalPrice = 0,
-                        ShippingAddressId = shippingAddressId,
-                        PaymentMethod = GetRandomPaymentMethod(random),
-                        ShippingMethod = GetRandomShippingMethod(random)
-                    };
+                    shippingAddressId = db.UserDetails.FirstOrDefault(x => x.UserDetailId == randomCustomer.UserDetailId).AddressId;
+                }
 
-                    double totalPrice = 0;
-                    List<OrderItem> orderItems = new List<OrderItem>();
-                    foreach (var inventoryItem in inventoryItemList.OrderBy(x => Guid.NewGuid()).Take(random.Next(1, 6)))
-                    {
-                        int randomQuantity = random.Next(1, 11);
-                        if(randomQuantity > inventoryItem.StockAmount)
-                        {
-                            randomQuantity = inventoryItem.StockAmount - 1;
-                        }
+                var newOrder = new Order
+                {
+                    CustomerId = randomCustomer.CustomerId,
+                    OrderDate = randomOrderDate,
+                    TotalPrice = 0,
+                    ShippingAddressId = shippingAddressId,
+                    PaymentMethod = GetRandomPaymentMethod(random),
+                    ShippingMethod = GetRandomShippingMethod(random)
+                };
 
-                        double unitPrice = inventoryItem.SalePrice;
-                        DateTime? shippingDate = randomOrderDate.AddDays(random.Next(3, 11)) < DateTime.Now ? randomOrderDate.AddDays(random.Next(3, 11)) : null;
-                        if(shippingDate == null)
-                        {
-                            var orderItem = new OrderItem
-                            {
-                                InventoryItemId = inventoryItem.InventoryItemId,
-                                Quantity = randomQuantity,
-                                UnitPrice = unitPrice,
-                                IsReturned = false,
-                                RequiredShippingDate = randomOrderDate.AddDays(7),
-                                OrderStatus = "Pending"
-                            };
-                            orderItems.Add(orderItem);
-                        }
-                        else
-                        {
-                            var orderItem = new OrderItem
-                            {
-                                InventoryItemId = inventoryItem.InventoryItemId,
-                                Quantity = randomQuantity,
-                                UnitPrice = unitPrice,
-                                IsReturned = false,
-                                RequiredShippingDate = randomOrderDate.AddDays(7),
-                                ShippingDate = shippingDate,
-                                OrderStatus = "Delivered"
-                            };
-                            orderItems.Add(orderItem);
-                        }
-                        totalPrice += randomQuantity * unitPrice;
+                double totalPrice = 0;
+                List<OrderItem> orderItems = new List<OrderItem>();
+                foreach (var inventoryItem in inventoryItemList.OrderBy(x => Guid.NewGuid()).Take(random.Next(1, 6)))
+                {
+                    int randomQuantity = random.Next(1, 11);
+                    if (randomQuantity > inventoryItem.StockAmount)
+                    {
+                        randomQuantity = inventoryItem.StockAmount - 1;
                     }
+                    double unitPrice = inventoryItem.SalePrice;
 
-                    newOrder.TotalPrice = totalPrice;
+                    using(var db = new EcommerceDbContext())
+                    {
+                        var productPromotions = db.ProductPromotions.Where(x => x.InventoryItemId == inventoryItem.InventoryItemId).ToList();
+                        foreach (var productPromotion in productPromotions)
+                        {
+                            var promotion = db.Promotions.FirstOrDefault(x => x.PromotionId == productPromotion.PromotionId);
+                            if (promotion.StartDate <= DateTime.Now && promotion.EndDate >= DateTime.Now)
+                            {
+                                unitPrice -= unitPrice * (promotion.DiscountPercentage / 100);
+                                break;
+                            }
+                        }
+                    }                    
 
+                    DateTime? shippingDate = randomOrderDate.AddDays(random.Next(3, 11)) < DateTime.Now ? randomOrderDate.AddDays(random.Next(3, 11)) : null;
+                    if (shippingDate == null)
+                    {
+                        var orderItem = new OrderItem
+                        {
+                            InventoryItemId = inventoryItem.InventoryItemId,
+                            Quantity = randomQuantity,
+                            UnitPrice = unitPrice,
+                            IsReturned = false,
+                            RequiredShippingDate = randomOrderDate.AddDays(7),
+                            OrderStatus = "Pending"
+                        };
+                        orderItems.Add(orderItem);
+                    }
+                    else
+                    {
+                        var orderItem = new OrderItem
+                        {
+                            InventoryItemId = inventoryItem.InventoryItemId,
+                            Quantity = randomQuantity,
+                            UnitPrice = unitPrice,
+                            IsReturned = false,
+                            RequiredShippingDate = randomOrderDate.AddDays(7),
+                            ShippingDate = shippingDate,
+                            OrderStatus = "Delivered"
+                        };
+                        orderItems.Add(orderItem);
+                    }
+                    totalPrice += randomQuantity * unitPrice;
+                }
+
+                newOrder.TotalPrice = totalPrice;
+                using (var db = new EcommerceDbContext())
+                {
                     db.Orders.Add(newOrder);
                     db.SaveChanges();
-
                     foreach (var orderItem in orderItems)
                     {
                         orderItem.OrderId = newOrder.OrderId;
                         db.OrderItems.Add(orderItem);
+                        db.SaveChanges();
                     }
-                    db.SaveChanges();
                 }
             }
         }
+
+        public void GenerateProductPromotions()
+        {
+            using (var db = new EcommerceDbContext())
+            {
+                var inventoryItemList = db.InventoryItems.ToList();
+                var promotionList = db.Promotions.ToList();
+                Random random = new Random();
+                int count = 0;
+                while(true)
+                {
+                    if(count == 1000 && count == 1000000000)
+                    {
+                        break;
+                    }
+                    var randomInventoryItem = inventoryItemList[random.Next(inventoryItemList.Count)];
+                    var randomPromotion = promotionList[random.Next(promotionList.Count)];
+
+                    var existingPromotion = db.ProductPromotions.FirstOrDefault(x => x.InventoryItemId == randomInventoryItem.InventoryItemId && x.PromotionId == randomPromotion.PromotionId);
+
+                    if (existingPromotion == null)
+                    {
+                        db.ProductPromotions.Add(new ProductPromotion
+                        {
+                            PromotionId = randomPromotion.PromotionId,
+                            InventoryItemId = randomInventoryItem.InventoryItemId
+                        });
+                        db.SaveChanges();
+                    }
+                }
+            }
+        }
+
 
         #endregion
 
@@ -517,6 +642,22 @@ namespace EcommerceDBProject.Services.Service
         {
             string[] shippingMethods = { "Express", "Standard", "Dhl" };
             return shippingMethods[random.Next(shippingMethods.Length)];
+        }
+
+        private DateTime GetRandomEndDateFromStartDateOfPromotion(DateTime startDate)
+        {
+            Random random = new Random();
+            int randomDays = random.Next(7, 21);
+            DateTime endDate = startDate.AddDays(randomDays);
+            return endDate;
+        }
+
+        private string ConvertToSqlDateTime(string input)
+        {
+            string cleanedInput = input.Trim('{', '}', ' ');
+            DateTime dateTime = DateTime.ParseExact(cleanedInput, "M/d/yyyy h:mm:ss tt", null);
+            string sqlDateTime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            return sqlDateTime;
         }
 
         #endregion
@@ -761,46 +902,6 @@ namespace EcommerceDBProject.Services.Service
                                 ReviewText = reviewText,
                                 ReviewDate = reviewDate,
                                 Rating = 0//replace later
-                            });
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Invalid date format in row {row}");
-                    }
-                }
-            }
-        }
-
-        public void ConvertPromotionExcelToSQL(string filePath)
-        {
-            WorkBook workBook = WorkBook.Load(filePath);
-            DataSet dataSet = workBook.ToDataSet();
-
-            foreach (DataTable table in dataSet.Tables)
-            {
-                Console.WriteLine(table.TableName);
-                foreach (DataRow row in table.Rows)
-                {
-                    string promotionName = row[1].ToString().Trim();
-                    string promotionDescription = row[2].ToString().Trim();
-                    string discountPercentage = row[3].ToString().Trim();
-                    DateTime startDate;
-                    DateTime endDate;
-
-                    if (DateTime.TryParse(row[4].ToString().Trim(), out startDate) &&
-                        DateTime.TryParse(row[5].ToString().Trim(), out endDate))
-                    {
-                        using (var db = new EcommerceDbContext())
-                        {
-
-                            db.Promotions.Add(new Promotion
-                            {
-                                PromotionName = promotionName,
-                                PromotionDescription = promotionDescription,
-                                StartDate = startDate,
-                                EndDate = endDate,
-                                DiscountPercentage = 0//replace later
                             });
                         }
                     }
