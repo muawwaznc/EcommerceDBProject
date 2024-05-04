@@ -6,7 +6,7 @@
 
 <style>
     .container {
-        width: 90%;
+        width: 95%;
         margin: 30px 20px 20px 30px;
         background-color: #fff;
         padding: 20px;
@@ -19,14 +19,21 @@
         color: #fff;
     }
 
+    .label-style {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        margin: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
     .hover-design {
-        background-color: #dae7f5;
+        background-color: #eef6ff;
         border-bottom: 1px solid black
     }
 
     .button-style {
         background-color: #cf889d;
-        width: 150px;
+        width: 200px;
         border-radius: 6px;
         box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
         color: #FFFFFF;
@@ -63,7 +70,6 @@
             <h1 style="color:#234b6e;font-weight:bold;font-family:Arial, Helvetica, sans-serif">All Promotion</h1>
         </div>
         <div class="col-4">
-            <button type="button" class="button-style">Apply Promotion</button>
         </div>
     </div>
     <div class="col-12">
@@ -88,7 +94,7 @@
                             <td>@promotion.DiscountPercentage</td>
                             <td>@promotion.StartDate</td>
                             <td>@promotion.EndDate</td>
-                            <td><button @onclick="() => OpenApplyPromotionDialogBox(promotion)">Apply Promotion</button></td>
+                            <td><button class="button-style" @onclick="() => OpenApplyPromotionDialogBox(promotion)">Apply Promotion</button></td>
                         </tr>
                     }
 
@@ -107,60 +113,62 @@
         </Header>
         <Content>
             <form class="row g-3 m-3">
-
-                <div class="col-md-6 row">
-                    <div class="col-4">
-                        <label for="paymentMethod" class="form-label label-style">Category</label>
+                <div class="col-12 m-0 p-0 row">
+                    <div class="col-12 m-0 p-0 row">
+                        <div class="col-6 row">
+                            <div class="col-3">
+                                <label for="paymentMethod" class="label-style">Category :</label>
+                            </div>
+                            <div class="col-7">
+                                <select class="form-control" style="border:2px solid darkgrey;margin:3px" @onchange="OnProductCategoryChanged">
+                                    <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
+                                        Select Category
+                                    </option>
+                                    @foreach (var productCategory in InitialPageData.ProductCategoriesList)
+                                    {
+                                        <option class="category-option" style="border:1px solid lightgrey;"
+                                                value="@productCategory.CategoryId">
+                                            @productCategory.CategoryName
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-1"></div>
+                        </div>
+                        <div class="col-6 row">
+                            <div class="col-3">
+                                <label for="paymentMethod" class="label-style">Product : </label>
+                            </div>
+                            <div class="col-7">
+                                <select class="form-control" style="border:2px solid darkgrey;margin:3px" @onchange="OnInventoryItemChanged">
+                                    <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
+                                        Select Product
+                                    </option>
+                                    @foreach (var inventoryItem in InitialPageData.InventoryItemsList)
+                                    {
+                                        var productName = ProductService.GetProductFromInventoryItemId(inventoryItem.InventoryItemId).ProductName;
+                                        <option class="category-option" style="border:1px solid lightgrey;"
+                                                value="@inventoryItem.InventoryItemId">
+                                            @productName
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-1"></div>
+                        </div>
                     </div>
-                    <div class="col-8">
-                        <select class="form-control" style="border:2px solid darkgrey;margin:3px" @onchange="OnProductCategoryChanged">
-                            <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
-                                Select Category
-                            </option>
-                            @foreach (var productCategory in InitialPageData.ProductCategoriesList)
-                            {
-                                <option class="category-option" style="border:1px solid lightgrey;"
-                                        value="@productCategory.CategoryId">
-                                    @productCategory.CategoryName
-                                </option>
-                            }
-                        </select>
+                    <div class="col-12 mt-3 text-center">
+                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:200px;height:40px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:200px;height:40px;margin:3px;" class="btn btn-success p-1" @onclick="() => ApplyPromotionOnProduct()">
+                            Apply Promotion
+                        </button>
 
                     </div>
                 </div>
-
-                <div class="col-md-6 row">
-                    <div class="col-4">
-                        <label for="paymentMethod" class="form-label label-style">Product</label>
-                    </div>
-                    <div class="col-8">
-                        <select class="form-control" style="border:2px solid darkgrey;margin:3px" @onchange="OnInventoryItemChanged">
-                            <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
-                                Select Product
-                            </option>
-                            @foreach (var inventoryItem in InitialPageData.InventoryItemsList)
-                            {
-                                var productName = ProductService.GetProductFromInventoryItemId(inventoryItem.InventoryItemId).ProductName;
-                                <option class="category-option" style="border:1px solid lightgrey;"
-                                        value="@inventoryItem.InventoryItemId">
-                                    @productName
-                                </option>
-                            }
-                        </select>
-
-                    </div>
-                </div>
-
-                <div class="col-12 mt-3 text-center">
-                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:35px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
-                        Close
-                    </button>
-
-                    <button type="button" style="width:200px;" class="button-style p-1" @onclick="() => ApplyPromotionOnProduct()">
-                        Apply Promotion
-                    </button>
-
-                </div>
+                
             </form>
         </Content>
     </DialogTemplates>
