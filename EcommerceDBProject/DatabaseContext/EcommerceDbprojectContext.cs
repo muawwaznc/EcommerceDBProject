@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerceDBProject.EcomDbContext;
+namespace EcommerceDBProject.DatabaseContext;
 
 public partial class EcommerceDbprojectContext : DbContext
 {
@@ -324,7 +324,7 @@ public partial class EcommerceDbprojectContext : DbContext
 
             entity.ToTable("ProductPromotion");
 
-            entity.HasIndex(e => e.ProductPromotionId, "UQ__ProductP__9E52F8C2C8E2FE82").IsUnique();
+            entity.HasIndex(e => e.ProductPromotionId, "UQ__ProductP__9E52FB227618C807").IsUnique();
 
             entity.Property(e => e.PromotionId)
                 .HasMaxLength(15)
@@ -335,8 +335,10 @@ public partial class EcommerceDbprojectContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("InventoryItemID");
             entity.Property(e => e.ProductPromotionId)
-                .HasMaxLength(15)
-                .IsUnicode(false);
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasDefaultValueSql("('PR_PROM-'+CONVERT([varchar](10),NEXT VALUE FOR [ProductPromotionIDSequence]))")
+                .HasColumnName("ProductPromotionID");
 
             entity.HasOne(d => d.InventoryItem).WithMany(p => p.ProductPromotions)
                 .HasPrincipalKey(p => p.InventoryItemId)
@@ -543,6 +545,7 @@ public partial class EcommerceDbprojectContext : DbContext
         modelBuilder.HasSequence("OrderItemIDSequence");
         modelBuilder.HasSequence("PictureIDSequence");
         modelBuilder.HasSequence("ProductIDSequence");
+        modelBuilder.HasSequence("ProductPromotionIDSequence");
         modelBuilder.HasSequence("PromotionIDSequence");
         modelBuilder.HasSequence("ReturnIDSequence");
         modelBuilder.HasSequence("ReviewIDSequence");

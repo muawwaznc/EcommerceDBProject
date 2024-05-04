@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.EcomDbContext;
+namespace EcommerceDBProject.DatabaseContext;
 
-public partial class Seller
+public partial class Customer
 {
-    public string SellerId { get; set; } = null!;
+    public string CustomerId { get; set; } = null!;
 
     public string UserDetailId { get; set; } = null!;
 
@@ -13,13 +13,15 @@ public partial class Seller
 
     public string LastName { get; set; } = null!;
 
-    public int? SellerRating { get; set; }
+    public DateOnly DateOfBirth { get; set; }
 
     public DateTime? RegistrationDate { get; set; }
 
+    public DateTime? LastLoginDate { get; set; }
+
     public string Password { get; set; } = null!;
 
-    public virtual ICollection<InventoryItem> InventoryItems { get; set; } = new List<InventoryItem>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual UserDetail UserDetail { get; set; } = null!;
 }

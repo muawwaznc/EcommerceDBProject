@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.EcomDbContext;
+namespace EcommerceDBProject.DatabaseContext;
 
 public partial class ProductCategory
 {

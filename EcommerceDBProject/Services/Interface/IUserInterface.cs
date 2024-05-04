@@ -1,5 +1,5 @@
 ﻿using EcommerceDBProject.Enum;
-using EcommerceDBProject.EcomDbContext;
+using EcommerceDBProject.DatabaseContext;
 using EcommerceDBProject.ViewModels;
 
 namespace EcommerceDBProject.Services.Interface
