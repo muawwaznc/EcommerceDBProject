@@ -1,0 +1,106 @@
+﻿@page "/admin/move-data/"
+@layout AdminLayout
+@rendermode InteractiveServer
+@using Blazored.Toast
+@using Blazored.Toast.Configuration
+@using EcommerceDBProject.Components.Layout
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Inputs;
+
+<div class="container">
+    <div class="col-12 mt-3 mb-3 text-center">
+        <h3 class="heading">Move Data</h3>
+    </div>
+
+    <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnProductCategoryButtonClick()">Move Category</SfButton>
+            </div>
+
+        </div>
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnAddressButtonClick()">Move Address</SfButton>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnUserDetailButtonClick()">Move User Detail</SfButton>
+            </div>
+
+        </div>
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnSupplierButtonClick()">Move Supplier</SfButton>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnCustomerButtonClick()">Move Category</SfButton>
+            </div>
+
+        </div>
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnSellerButtonClick()">Move Address</SfButton>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 row mt-2 p-0">
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnProductButtonClick()">Move Category</SfButton>
+            </div>
+
+        </div>
+
+        <div class="col-6 row">
+
+            <div class="col-7 m-1">
+                <SfButton CssClass="btn btn-primary" OnClick="() => OnPromotionButtonClick()">Move Address</SfButton>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
+                Timeout="9999999"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="error_outline"
+                InfoIcon="school"
+                SuccessIcon="done_outline"
+                WarningIcon="warning" />

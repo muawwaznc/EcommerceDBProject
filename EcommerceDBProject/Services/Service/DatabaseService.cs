@@ -3,7 +3,7 @@ using EcommerceDBProject.Services.Interface;
 
 namespace EcommerceDBProject.Services.Service
 {
-    public class DatabaseService : IDatabaseInterfae
+    public class DatabaseService : IDatabaseInterface
     {
         public void ConvertCategoryExcelToSQL(string filePath)
         {
