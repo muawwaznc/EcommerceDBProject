@@ -61,11 +61,15 @@ namespace EcommerceDBProject.Components.Pages.Customer
         {
             args.MaxHeight = null;
         }
+        public void CloseDialog()
+        {
+            IsDialogBoxOpen = false;
+        }
 
         #endregion
 
         #region Confirm Return Function
-        
+
         public void ConfirmReturn()
         {
             if(string.IsNullOrEmpty(ReturnReason))

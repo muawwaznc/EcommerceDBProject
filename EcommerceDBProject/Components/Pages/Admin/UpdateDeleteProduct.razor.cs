@@ -86,6 +86,10 @@ namespace EcommerceDBProject.Components.Pages.Admin
         {
             args.MaxHeight = null;
         }
+        public void CloseDialog()
+        {
+            InitialPageData.IsEditDialogBoxOpen = false;
+        }
 
         #endregion
 

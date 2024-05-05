@@ -133,7 +133,10 @@ namespace EcommerceDBProject.Components.Pages.Customer
         {
             args.MaxHeight = null;
         }
-
+        public void CloseDialog()
+        {
+            InitialPageData.IsOrderModelShow = false;
+        }
         #endregion
 
         #region Confirm Order Functions

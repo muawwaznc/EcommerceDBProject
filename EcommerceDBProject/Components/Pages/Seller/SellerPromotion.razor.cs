@@ -47,6 +47,11 @@ namespace EcommerceDBProject.Components.Pages.Seller
         {
             args.MaxHeight = null;
         }
+        public void CloseDialog()
+        {
+            InitialPageData.ApplyPromotionDialogBox = false;
+        }
+
 
         #endregion
 
