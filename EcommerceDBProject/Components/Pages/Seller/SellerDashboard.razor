@@ -4,45 +4,44 @@
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.DropDowns;
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f4f7;
-        color: #333;
-        margin: 0;
-        padding: 0;
-    }
-
-   
-    .main-content {
+    .container {
+        width: 900px;
+        height: auto;
+        margin-top: 70px;
+        /* Center horizontally */
+        background-color: #eef7fc;
         padding: 20px;
-        background-color: #fff;
-        color: #333;
-        border-radius: 10px;
-        margin: 20px auto;
-        max-width: 1000px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border: 3px solid #355c7d;
+        border-radius: 20px;
+        box-shadow: 0 20px 20px rgba(223, 214, 214);
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
     }
 
-        .main-content h1 {
-            color: black;
-            margin-top: 0;
-            text-align : left;
-        }
+    .heading {
+        font-family: sans-serif;
+        color: #355c7d;
+        text-align: center;
+        text-decoration: underline;
+        font-weight: bold;
+    }
 
-        .main-content label {
-            color:black;
-            font-family:'Franklin Gothic Medium';
-            font-size:30px;
-            text-align:left;
-            margin:10px;
-            
-        }
+    .label-style {
+        font-size: 18px;
+        font-family: inherit;
+        color: black;
+        font-weight: bold;
+        text-align: left
+    }
 
+    .text-box {
+        border: 2px solid #355c7d;
+    }
     .profile-picture {
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        border-color:black;
+        border-color: black;
         background-color: #c6b4b4;
         margin: 0 auto 20px;
         overflow: hidden;
@@ -56,84 +55,79 @@
             height: auto;
             border-radius: 50%;
         }
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-        ul li {
-            margin-bottom: 10px;
-        }
-
-            ul li strong {
-                font-weight: bold;
-            }
-
-    a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-    .row {
-        margin-bottom: 20px;
-    }
-
-    .col-md-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
 </style>
-<div class="col-12 m-2 p-2 row">
-    <div class="col-2">
-        </div>
-    <div class="col-10 main-content row">
-        <h3>Seller Dashboard</h3>
-        <div class="col-12 m-2 p-2 row">
-            <div class="col-4 text-center">
-                <div class="profile-picture">
-                    <img src="user.png" alt="Profile Picture" />
-                </div>
-            </div>
-            <div class="col-8 ">
-                <div>
-                    <label>HELLO @InitialPageData.SellerName</label>
-                </div>
+<div class="container col-12">
+    <div class="col-12 m-2 p-0 row">
+        <div class="col-4 text-center">
+            <div class="profile-picture">
+                <img src="user.png" alt="Profile Picture" />
             </div>
         </div>
-        <div class="col-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <h3 style="font-weight:bold">Personal Details</h3>
-                    <ul>
-                        <li><strong>Email:</strong>@InitialPageData.Email</li>
-                        <li><strong>Phone Number:</strong>@InitialPageData.PhoneNumber</li>
-                    </ul>
+        <div class="col-8">
+            <div class="col-12">
+                <h2 class="text-left" style="font-weight:bold;font-family:inherit;text-align:left;margin-top:45px;">Hello @InitialPageData.SellerName</h2>
+            </div>
+            <div class="col-12">
+                <lable style="text-align:left;color:grey;font-size:18px;">@InitialPageData.Email</lable>
+            </div>
+            <div class="col-12">
+                <lable style="text-align:left;color:grey;font-size:18px;">@InitialPageData.PhoneNumber</lable>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2 mb-2" style="border-bottom:1px solid lightgrey"> </div>
+    <div class="col-12 row">
+        <div class="col-8 row">
+            <div class="col-12 mt-3 p-0 mb-2">
+                <h3 style="margin-left:10px;font-weight:bold;">Account Details</h3>
+            </div>
+            <div class="col-12 row">
+                <div class="col-4">
+                    <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Password : </label>
                 </div>
-                <div class="col-md-6">
-                    <h3 style="font-weight:bold">Account Details</h3>
-                    <ul>
-                        <li><strong>Password:</strong> ********** <a href="#">(change)</a></li>
-                        <li><strong>Registration Date:</strong>@InitialPageData.RegistrationDate</li>
-                        <li><strong>Seller Rating:</strong>@InitialPageData.SellerRating</li>
-                    </ul>
+                <div class="col-7">
+                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-20px;">**********</label>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <h3 style="font-weight:bold">Address</h3>
-                    <ul>
-                        <li><strong>City:</strong>@InitialPageData.City</li>
-                        <li><strong>Country:</strong>@InitialPageData.Country</li>
-                    </ul>
+            <div class="col-12 row">
+                <div class="col-5">
+                    <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Registration date: </label>
+                </div>
+                <div class="col-7">
+                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-22px">@InitialPageData.RegistrationDate</label>
+                </div>
+            </div>
+            <div class="col-12 row">
+                <div class="col-4">
+                    <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Seller Rating : </label>
+                </div>
+                <div class="col-8">
+                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-20px;">@InitialPageData.SellerRating</label>
                 </div>
             </div>
         </div>
-        
+        <div class="col-4 row">
+            <div class="col-12 mt-3 p-0 mb-2">
+                <h3 style="margin-left:10px;font-weight:bold;">Address</h3>
+            </div>
+            <div class="col-12 row">
+                <div class="col-4">
+                    <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">City : </label>
+                </div>
+                <div class="col-8">
+                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-20px;">@InitialPageData.City</label>
+                </div>
+            </div>
+            <div class="col-12 row">
+                <div class="col-4">
+                    <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Country: </label>
+                </div>
+                <div class="col-7">
+                    <label class="text-left" style="text-align:left;font-size:18px;">@InitialPageData.Country</label>
+                </div>
+            </div>
+       
+        </div>
+       
     </div>
 </div>
