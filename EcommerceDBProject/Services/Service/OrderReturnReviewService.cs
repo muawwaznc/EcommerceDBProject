@@ -46,6 +46,16 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+        public void UpdateReturnSatatus(string orderItemId,string returnStatus)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                var returnOrder = db.ProductReturns.Where(x => x.OrderItemId == orderItemId).FirstOrDefault();
+                returnOrder.ReturnStatus = returnStatus;
+                db.ProductReturns.Update(returnOrder);
+                db.SaveChanges();
+            }
+        }
         public void AddReview(ProductReview productReview)
         {
             using (var db = new EcommerceDbprojectContext())
@@ -64,8 +74,8 @@ namespace EcommerceDBProject.Services.Service
                 foreach(var inventoryItem in allSellerProduct)
                 {
                     var OnlyReturnOrder = db.OrderItems.Where(x => x.InventoryItemId == inventoryItem.InventoryItemId && x.IsReturned == true).FirstOrDefault();
-                    var customerId = db.Orders.Where(x => x.OrderId == OnlyReturnOrder.OrderId).Select(x => x.CustomerId).FirstOrDefault();
-                    var customerName = db.Customers.Where(x => x.CustomerId == customerId).Select(x => x.FirstName +" "+ x.LastName).FirstOrDefault();
+                    var order = db.Orders.Where(x => x.OrderId == OnlyReturnOrder.OrderId).FirstOrDefault();
+                    var customerName = db.Customers.Where(x => x.CustomerId == order.CustomerId).Select(x => x.FirstName +" "+ x.LastName).FirstOrDefault();
                     var productName = db.Products.Where(x => x.ProductId == inventoryItem.ProductId).Select(x => x.ProductName).FirstOrDefault();
                     var returnProduct = db.ProductReturns.Where(x => x.OrderItemId == OnlyReturnOrder.OrderItemId).FirstOrDefault();
                     if(returnProduct != null)

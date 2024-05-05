@@ -79,7 +79,6 @@
                     <tr>
                         <th scope="col">Customer NAME</th>
                         <th scope="col">Product Name</th>
-                        <th scope="col">Quantity</th>
                         <th scope="col">Return Date</th>
                         <th scope="col">Return Reason</th>
                         <th scope="col">Return Status</th>
@@ -88,26 +87,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @* @foreach (var orderItem in OrdersList)
+                    @foreach (var item in sellerReturnList)
                     {
                         <tr class="hover-design">
-                            <th scope="row">@orderItem.OrderId</th>
-                            <td>@orderItem.InventoryItemName</td>
-                            <td>@orderItem.OrderQuantity</td>
-                            <td>@orderItem.TotalPrice</td>
-                            <td>@orderItem.OrderStatus</td>
+                            <th scope="row">@item.CustomerName</th>
+                            <td>@item.InventoryItemName</td>
+                            <td>@item.ReturnDate</td>
+                            <td>@item.ReturnReason</td>
+                            <td>@item.ReturnStatus</td>
                             <td>
-                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                <SfButton CssClass="button-style" @onclick="() => CompleteOrCancelreturn(item.OrderItemId,true,false)">
                                     Cancel
                                 </SfButton>
                             </td>
                             <td>
-                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                <SfButton CssClass="button-style" @onclick="() => CompleteOrCancelreturn(item.OrderItemId,false,true)">
                                     completed
                                 </SfButton>
                             </td>
                         </tr>
-                    } *@
+                    }
 
                 </tbody>
             </table>

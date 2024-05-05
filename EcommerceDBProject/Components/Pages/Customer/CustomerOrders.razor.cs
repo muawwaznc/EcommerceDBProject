@@ -87,7 +87,7 @@ namespace EcommerceDBProject.Components.Pages.Customer
                 productReturn.ReturnDate = DateTime.Now;
                 productReturn.ReturnStatus = "Pending";
                 productReturn.Quantity = ReturnQuantity;
-                OrderService.UpdateOrderItemReturnStatus(OrderItemId);
+                OrderService.UpdateOrderItemReturnStatus(OrderItemId,true);
                 ReturnReviewService.AddReturn(productReturn);
                 toastService.ShowSuccess("Request for return added Successfully");
             }

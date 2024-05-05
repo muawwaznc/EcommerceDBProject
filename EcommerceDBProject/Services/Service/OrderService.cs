@@ -115,12 +115,12 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
-        public void UpdateOrderItemReturnStatus(string orderItemId)
+        public void UpdateOrderItemReturnStatus(string orderItemId,bool isReturned)
         {
             using (var db = new EcommerceDbprojectContext())
             {
                 var orderItem = db.OrderItems.Where(x => x.OrderItemId == orderItemId).FirstOrDefault();
-                orderItem.IsReturned = true;
+                orderItem.IsReturned = isReturned;
                 db.OrderItems.Update(orderItem);
                 db.SaveChanges();
             }
