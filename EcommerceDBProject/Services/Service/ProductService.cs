@@ -96,6 +96,7 @@ namespace EcommerceDBProject.Services.Service
                 return products;
             }
         }
+
         public List<Product> GetAllProductsByCategoryId(string categoryId)
         {
             using (var db = new EcommerceDbContext())
@@ -131,6 +132,7 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+
         public void UpdateProductCategory(ProductCategory productCategory)
         {
             using (var db = new EcommerceDbContext())
@@ -172,6 +174,22 @@ namespace EcommerceDBProject.Services.Service
                     return false;
                 }
             }
+        }
+
+        public List<ProductViewModel> RefreshProductsList()
+        {
+            var products = GetAllProducts();
+            var productsList = new List<ProductViewModel>();
+            foreach (var product in products)
+            {
+                productsList.Add(new ProductViewModel
+                {
+                    Product = product,
+                    Category = GetProductCategoryByCategoryId(product.CategoryId),
+                    Supplier = product.SupplierId != null ? GetSupplierBySupplierId(product.SupplierId) : null
+                });
+            }
+            return productsList;
         }
     }
 }

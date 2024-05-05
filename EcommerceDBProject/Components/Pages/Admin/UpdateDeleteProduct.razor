@@ -104,56 +104,62 @@
     }
 </style>
 
-<div class="container">
-    <div class="col-12 text-center">
-        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL PRODUCTS</h1>
-    </div>
-    <div class="col-12">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead class="head">
-                    <tr>
-                        <th scope="col">Product ID</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Category Name</th>
-                        <th scope="col">Product Description</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Weight</th>
-                        <th scope="col">Supplier Name</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Products)
-                    {
+@if(Products != null)
+{
+    <div class="container">
+        <div class="col-12 text-center">
+            <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL PRODUCTS</h1>
+        </div>
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="head">
                         <tr>
-                            <th scope="row">@product.Product.ProductId</th>
-                            <td>@product.Product.ProductName</td>
-                            <td>@product.Category.CategoryName</td>
-                            <td>@product.Product.ProductDescription</td>
-                            <td>$@System.Math.Round(product.Product.Price, 2)</td>
-                            <td>@product.Product.ProductWeight</td>
-                            <td>@product.Supplier?.SupplierName</td>
-                            <td>
-                                <SfButton CssClass="button-style" OnClick="() => OpenEditProductDialogBox(product)">
-                                    Edit
-                                </SfButton>
-                            </td>
-                            <td>
-                                <SfButton CssClass="button-style" OnClick="() => DeleteProduct(product)">
-                                    Delete
-                                </SfButton>
-                            </td>
+                            <th scope="col">Product ID</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Category Name</th>
+                            <th scope="col">Product Description</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Weight</th>
+                            <th scope="col">Supplier Name</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Products)
+                        {
+                            <tr>
+                                <th scope="row">@product.Product.ProductId</th>
+                                <td>@product.Product.ProductName</td>
+                                <td>@product.Category.CategoryName</td>
+                                <td>@product.Product.ProductDescription</td>
+                                <td>$@System.Math.Round(product.Product.Price, 2)</td>
+                                <td>@product.Product.ProductWeight</td>
+                                <td>@product.Supplier?.SupplierName</td>
+                                <td>
+                                    <SfButton CssClass="button-style" OnClick="() => OpenEditProductDialogBox(product)">
+                                        Edit
+                                    </SfButton>
+                                </td>
+                                <td>
+                                    <SfButton CssClass="button-style" OnClick="() => DeleteProduct(product)">
+                                        Delete
+                                    </SfButton>
+                                </td>
+                            </tr>
+                        }
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-
+}
+else
+{
+    <p>Loading...</p>
+}
 <SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
     <DialogTemplates>
         <Header>
@@ -211,14 +217,20 @@
                             <div class="dropdown">
 
                                 <select class="form-control input-style"
-                                        @bind="@InitialPageData.SelectedProductCategoryId">
-
-                                    @foreach (var category in CategoriesList)
+                                    @bind="@InitialPageData.SelectedProductCategoryId">
+                                    @if(CategoriesList != null)
                                     {
-                                        <option class="category-option" style="border:1px solid lightgrey;"
-                                                value="@category.CategoryId">
-                                            @category.CategoryName
-                                        </option>
+                                        @foreach (var category in CategoriesList)
+                                        {
+                                            <option class="category-option" style="border:1px solid lightgrey;"
+                                                    value="@category.CategoryId">
+                                                @category.CategoryName
+                                            </option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option class="category-option" style="border:1px solid lightgrey;" value="no-select">No Category Found</option>
                                     }
                                 </select>
 
@@ -238,15 +250,22 @@
                             <div class="dropdown">
 
                                 <select class="category-select"
-                                        @bind="@InitialPageData.SelectedSupplierId">
+                                    @bind="@InitialPageData.SelectedSupplierId">
 
-                                    <option class="category-option" style="border:1px solid lightgrey;" value="no-select">Select Supplier</option>
-                                    @foreach (var supplier in SuppliersList)
+                                    @if(SuppliersList != null)
                                     {
-                                        <option class="category-option" style="border:1px solid lightgrey;"
-                                                value="@supplier.SupplierId">
-                                            @supplier.SupplierName
-                                        </option>
+                                        <option class="category-option" style="border:1px solid lightgrey;" value="no-select">Select Supplier</option>
+                                        @foreach (var supplier in SuppliersList)
+                                        {
+                                            <option class="category-option" style="border:1px solid lightgrey;"
+                                                    value="@supplier.SupplierId">
+                                                @supplier.SupplierName
+                                            </option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option class="category-option" style="border:1px solid lightgrey;" value="no-select">No Supplier Found</option>
                                     }
                                 </select>
 
@@ -288,7 +307,7 @@
     </DialogButtons>
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
-</SfDialog>
+    </SfDialog>
 
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
                 Timeout="9999999"

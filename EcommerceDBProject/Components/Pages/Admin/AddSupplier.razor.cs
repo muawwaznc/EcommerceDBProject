@@ -26,6 +26,17 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         #endregion
 
+        #region Load Initials
+
+        protected override void OnInitialized()
+        {
+            InitialPageData.SupplierAddress = SupplierAddress;
+            InitialPageData.SupplierDetails = SupplierDetails;
+            InitialPageData.Supplier = Supplier;
+        }
+
+        #endregion
+
         #region OnClick Functions
 
         public void AddSupplierIntoDatabase()
@@ -33,6 +44,7 @@ namespace EcommerceDBProject.Components.Pages.Admin
             if (FormValidation())
             {
                 UserService.AddSupplier(InitialPageData);
+                ToastService.ShowSuccess("Supplier Added Successfully");
             }
         }
 

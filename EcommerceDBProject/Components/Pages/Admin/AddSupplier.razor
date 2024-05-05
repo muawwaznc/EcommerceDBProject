@@ -90,30 +90,45 @@
         <h3 class="heading">ADD SUPPLIER</h3>
     </div>
     <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
+
     <div class="col-12 row mt-2 p-0">
 
-        <div class="col-6 row m-0 p-0">
+        <div class="col-12 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Supplier Name</label>
             </div>
-            <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@Supplier.SupplierName" CssClass="form-control text-box" Placeholder="Enter First Name"></SfTextBox>
+            <div class="col-12 m-1">
+                <SfTextBox @bind-Value="@Supplier.SupplierName" CssClass="form-control text-box" Placeholder="Enter Supplier Name"></SfTextBox>
             </div>
         </div>
+
+    </div>
+
+    <div class="col-12 row mt-2 p-0">
 
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Contact Person Name</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@Supplier.ContactPersonName" CssClass="form-control text-box" Placeholder="Enter Last Name"></SfTextBox>
+                <SfTextBox @bind-Value="@Supplier.ContactPersonName" CssClass="form-control text-box" Placeholder="Enter Name"></SfTextBox>
+            </div>
+        </div>
+
+        <div class="col-6 row m-0 p-0">
+            <div class="col-4 m-1 text-left">
+                <label class="label-style">Contact Person Phone Number</label>
+            </div>
+            <div class="col-7 m-1">
+                <SfTextBox @bind-Value="@Supplier.ContactPersonPhoneNumber" CssClass="form-control text-box" Placeholder="Enter Phone Number"></SfTextBox>
             </div>
         </div>
     </div>
+
     <div class="col-12 row mt-2 p-0">
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
-                <label class="label-style">Email</label>
+                <label class="label-style">Supplier Email</label>
             </div>
             <div class="col-7 m-1">
                 <SfTextBox @bind-Value="@SupplierDetails.Email" Type="InputType.Email" CssClass=" text-box" Placeholder="Enter Email"></SfTextBox>
@@ -121,21 +136,22 @@
         </div>
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
-                <label class="label-style">Phone Number</label>
+                <label class="label-style">Supplier Phone Number</label>
             </div>
             <div class="col-7 m-1">
                 <SfTextBox @bind-Value="@SupplierDetails.PhoneNumber" Type="InputType.Tel" CssClass="form-control text-box" Placeholder="Enter Phone Number"></SfTextBox>
             </div>
         </div>
     </div>
+
     <div class="col-12 row mt-2 p-0">
         
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
-                <label class="label-style">House Number</label>
+                <label class="label-style">Factory Plot Number</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@SupplierAddress.HouseNumber" CssClass="form-control text-box" Placeholder="Enter House Number"></SfTextBox>
+                <SfTextBox @bind-Value="@SupplierAddress.HouseNumber" CssClass="form-control text-box" Placeholder="Enter Plot Number"></SfTextBox>
             </div>
         </div>
 
@@ -149,6 +165,7 @@
         </div>
 
     </div>
+
     <div class="col-12 row mt-2 p-0">
         
         <div class="col-6 row m-0 p-0">

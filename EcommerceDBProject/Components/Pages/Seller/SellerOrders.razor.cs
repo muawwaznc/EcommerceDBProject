@@ -1,4 +1,5 @@
-﻿using EcommerceDBProject.DBContext;
+﻿using Blazored.Toast.Services;
+using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
 using Microsoft.AspNetCore.Components;
@@ -14,6 +15,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] ISellerInterface SellerService { get; set; }
         [Inject] IOrderInterface OrderService { get; set; }
+        [Inject] IToastService ToastService { get; set; }
 
         #endregion
 
@@ -55,7 +57,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
         {
             OrderService.ShipOrder(orderItemViewModel.OrderItemId);
             orderItemViewModel.IsCompleteOrderButtonDisabled = true;
-            //ToastService.ShowMessage("Order Shipped Successfully");
+            ToastService.ShowSuccess("Order Shipped Successfully");
         }
 
         #endregion

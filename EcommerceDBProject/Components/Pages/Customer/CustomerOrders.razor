@@ -4,6 +4,7 @@
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
+
 <style>
     .container {
         width: 90%;
@@ -65,6 +66,7 @@
             box-shadow: #355c7d 0 3px 8px;
         }
 </style>
+
 <div class="container">
     <div class="col-12 text-center">
         <h1 style="color:#234b6e;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Your Orders</h1>
@@ -72,7 +74,7 @@
     <div class="col-12">
         <div class="table-responsive">
             <table class="table table-striped">
-                <thead class="head"> @* class="table-light" *@
+                <thead class="head">
                     <tr>
                         <th scope="col">Order ID</th>
                         <th scope="col">Product Name</th>
@@ -93,12 +95,12 @@
                             <td>@orderItem.TotalPrice</td>
                             <td>@orderItem.OrderStatus</td>
                             <td>
-                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                <SfButton Disabled="@orderItem.IsReviewButtonDisabled" CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
                                     Review
                                 </SfButton>
                             </td>
                             <td>
-                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                <SfButton Disabled="@orderItem.IsReturnButtonDisabled" CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
                                     Return
                                 </SfButton>
                             </td>

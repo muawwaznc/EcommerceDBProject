@@ -21,5 +21,6 @@ namespace EcommerceDBProject.Services.Interface
         bool DeleteProduct(Product product);
         bool DeleteProductCategory(ProductCategory productCategory);
         List<Product> GetAllProductsByCategoryId(string categoryId);
+        List<ProductViewModel> RefreshProductsList();
     }
 }

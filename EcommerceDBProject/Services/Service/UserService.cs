@@ -284,10 +284,18 @@ namespace EcommerceDBProject.Services.Service
                 using (var db = new EcommerceDbContext())
                 {
                     var address = supplierViewModel.SupplierAddress;
+                    var duplicateAddress = IsDuplicateAddress(address);
                     if (IsAddressCorrect(address))
                     {
-                        db.Addresses.Add(address);
-                        db.SaveChanges();
+                        if (duplicateAddress == null)
+                        {
+                            db.Addresses.Add(address);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            address = duplicateAddress;
+                        }
                     }
                     var userDetail = new UserDetail
                     {
@@ -302,7 +310,8 @@ namespace EcommerceDBProject.Services.Service
                     {
                         UserDetailId = userDetail.UserDetailId,
                         SupplierName = supplierViewModel.Supplier.SupplierName,
-                        ContactPersonName = supplierViewModel.Supplier.ContactPersonName
+                        ContactPersonName = supplierViewModel.Supplier.ContactPersonName,
+                        ContactPersonPhoneNumber = supplierViewModel.Supplier.ContactPersonPhoneNumber
                     };
                     db.Suppliers.Add(supplier);
                     db.SaveChanges();

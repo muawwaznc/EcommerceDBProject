@@ -152,7 +152,8 @@ namespace EcommerceDBProject.Services.Service
                     };
                     if(orderItem.ShippingDate != null)
                     {
-                        if (!orderItem.IsReturned)
+                        DateTime shippingDate = orderItem.ShippingDate.HasValue ? orderItem.ShippingDate.Value : DateTime.Now;
+                        if (!orderItem.IsReturned && shippingDate.AddDays(7) > DateTime.Now)
                         {
                             customerOrdersViewModel.IsReturnButtonDisabled = false;
                         }
@@ -191,9 +192,9 @@ namespace EcommerceDBProject.Services.Service
                 var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
                 var sellerInventoryItems = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
                 var sellerOrdersViewModelList = new List<SellerOrdersViewModel>();
-                foreach (var invenoryItem in sellerInventoryItems)
+                foreach (var inventoryItem in sellerInventoryItems)
                 {
-                    var orderItemsList = db.OrderItems.Where(x => x.InventoryItemId == invenoryItem.InventoryItemId).ToList();
+                    var orderItemsList = db.OrderItems.Where(x => x.InventoryItemId == inventoryItem.InventoryItemId).ToList();
                     foreach(var orderItem in orderItemsList)
                     {
                         var order = db.Orders.FirstOrDefault(x => x.OrderId == orderItem.OrderId);
@@ -212,6 +213,7 @@ namespace EcommerceDBProject.Services.Service
                         });
                     }
                 }
+                sellerOrdersViewModelList = sellerOrdersViewModelList.OrderByDescending(x => x.OrderStatus).ThenByDescending(x => x.OrderDate).ToList();
                 return sellerOrdersViewModelList;
             }
         }
@@ -222,7 +224,7 @@ namespace EcommerceDBProject.Services.Service
             {
                 var orderItem = db.OrderItems.FirstOrDefault(x => x.OrderItemId == orderItemId);
                 orderItem.ShippingDate = DateTime.Now;
-                orderItem.OrderStatus = "Completed";
+                orderItem.OrderStatus = "Delivered";
                 db.OrderItems.Update(orderItem);
                 db.SaveChanges();
             }

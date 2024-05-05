@@ -14,10 +14,9 @@ namespace EcommerceDBProject.Components.Pages.Customer
         [Inject] ICommonInterface CommonService { get; set; }
         [Inject] IInventoryItemInterface InventoryItemService { get; set; }
         [Inject] IProductInterface ProductService { get; set; }
-        [Inject] ISellerInterface SellerService { get; set; }
         [Inject] IUserInterface UserService { get; set; }
         [Inject] IOrderInterface OrderService { get; set; }
-        [Inject] IToastService toastService { get; set; }
+        [Inject] IToastService ToastService { get; set; }
         #endregion
 
         #region Properties
@@ -50,6 +49,7 @@ namespace EcommerceDBProject.Components.Pages.Customer
 
         protected void OnProductCategoryChanged(ChangeEventArgs e)
         {
+            ToastService.ShowInfo("Loading... Please Wait");
             var productCategory = ProductService.GetProductCategoryByCategoryId(e.Value.ToString());
 
             if (productCategory == null)
@@ -60,6 +60,7 @@ namespace EcommerceDBProject.Components.Pages.Customer
             {
                 InventoryItemsList = InventoryItemService.GetAllInventoryItemsOfSpecifcCetagory(productCategory.CategoryId);
             }
+            ToastService.ClearAll();
         }
 
         protected void OnSelectedInventoryItemQuantityChange(InventoryItem inventoryItem, ChangeEventArgs e)
@@ -125,7 +126,7 @@ namespace EcommerceDBProject.Components.Pages.Customer
             }
             else
             {
-                toastService.ShowError("Please Select Product First");
+                ToastService.ShowError("Please Select Product First");
             }            
         }
 
@@ -143,11 +144,14 @@ namespace EcommerceDBProject.Components.Pages.Customer
 
         protected void ConfirmOrder()
         {
+            ToastService.ShowInfo("Loading... Please Wait.");
             InitialPageData.IsOrderProcessing = true;
             OrderService.PlaceOrder(BuyInventoryItemList, CustomerDetailViewModel);
             InitialPageData.IsOrderModelShow = false;
             InitialPageData.IsOrderProcessing = false;
             BuyInventoryItemList.Clear();
+            CloseDialog();
+            ToastService.ShowSuccess("Order Submitted Successfully");
         }
 
         #endregion

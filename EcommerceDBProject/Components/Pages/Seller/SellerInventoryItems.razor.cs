@@ -14,6 +14,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
         [Inject] IInventoryItemInterface InventoryItemService { get; set; }
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] IUserInterface UserService { get; set; }
+        [Inject] IToastService ToastService { get; set; }
 
         #endregion
 
@@ -41,6 +42,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         protected void OnProductCategoryChanged(ChangeEventArgs e)
         {
+            ToastService.ShowInfo("Loading.. Please Wait.");
             var productCategory = ProductService.GetProductCategoryByCategoryId(e.Value.ToString());
 
             if (productCategory == null)
@@ -51,6 +53,7 @@ namespace EcommerceDBProject.Components.Pages.Seller
             {
                 InventoryItemsList = InventoryItemService.GetSellerInventoryItemsOfSpecifcCetagory(productCategory.CategoryId, InitialPageData.Seller.SellerId);
             }
+            ToastService.ClearAll();
         }
 
         #endregion

@@ -64,10 +64,8 @@ namespace EcommerceDBProject.Components.Pages.Admin
             InitialPageData.IsEditDialogBoxOpen = false;
             ToastService.ShowSuccess("Product Updated Successfully");
 
-            InitialPageData = CommonService.GetInitialPageDataForUpdateDeleteProduct();
+            InitialPageData.Products = ProductService.RefreshProductsList();
             Products = InitialPageData.Products;
-            CategoriesList = InitialPageData.CategoriesList;
-            SuppliersList = InitialPageData.SuppliersList;
         }
 
         #endregion
@@ -109,7 +107,10 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         protected void OnCategoryChanged(ChangeEventArgs e)
         {
-            InitialPageData.SelectedProduct.Category = ProductService.GetProductCategoryByCategoryId(e.Value.ToString());
+            if (e.Value.ToString() != "no-select")
+            {
+                InitialPageData.SelectedProduct.Category = ProductService.GetProductCategoryByCategoryId(e.Value.ToString());
+            }
         }
 
         #endregion
