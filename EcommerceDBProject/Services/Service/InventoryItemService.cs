@@ -56,5 +56,13 @@ namespace EcommerceDBProject.Services.Service
                 return inventoryItems;
             }
         }
+        public void AddInventoryItem(InventoryItem inventoryItem)
+        {
+            using (var db = new EcommerceDbprojectContext())
+            {
+                db.InventoryItems.Add(inventoryItem);
+                db.SaveChanges();
+            }
+        }
     }
 }

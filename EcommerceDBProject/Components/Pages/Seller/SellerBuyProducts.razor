@@ -163,27 +163,21 @@
                         <th scope="col">Product Description</th>
                         <th scope="col">Supplier</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Select Quantity</th>
                         <th scope="col">Buy Products</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var product in ProductList)
                     {
+                        var supplier = ProductService.GetSupplierBySupplierId(product.SupplierId);
                         <tr>
                             <th scope="row">@product.ProductId</th>
                             <td>@product.ProductName</td>
                             <td>@product.ProductDescription</td>
-                            <td>@product.Supplier</td>
+                            <td>@supplier.SupplierName</td>
                             <td>@product.Price</td>
-                            <td style="width:100px;">
-                                <input @* readonly="@(!IsInventoryItemCheckboxChecked(inventoryItem))" *@
-                                       @* @onchange="(e) => OnSelectedInventoryItemQuantityChange(inventoryItem, e)" *@
-                                       type="number"  id="quantity" name="quantity" min="1"
-                                        value="1">
-                            </td>
                             <td>
-                                <SfButton CssClass="button-style">
+                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(product.ProductId)">
                                     Buy product
                                 </SfButton>
                             </td>
@@ -195,6 +189,60 @@
         </div>
     </div>
 </div>
+<SfDialog CssClass="col-6" Width="60%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@Visibility">
+    <DialogTemplates>
+        <Content>
+            <form class="row g-3 m-3">
+                    <div class="col-12 text-center mt-2 mb-2">
+                        <label class="text-center" style="font-size:30px;text-align:center;font-family:sans-serif;font-weight:bold">Buy Product</label>
+                    </div>
+                    <div class="col-12 row mb-2 p-0">
+                        <div class="col-6 row">
+                            <div class="col-4 text-left">
+                                <label class="label-style">Quantity :</label>
+                            </div>
+                            <div class="col-7">
+                                <input class="text-box w-100" style="margin-left:-15px;" type="number" id="inputDescription"  @bind="@Quantity"></input>
+                            </div>
+                        </div>
+                    <div class="col-6 row">
+                        <div class="col-4 text-left">
+                            <label class="label-style">Condition : </label>
+                        </div>
+                        <div class="col-7">
+                            <select class="text-box w-100" @bind="Condition">
+                                <option value="New">New</option>
+                                <option value="Old">Old</option>
+                            </select>
+                        </div>
+                    </div>
+                        
+                    </div>
+                    <div class="col-12 row p-0">
+                    <div class="col-5 text-left">
+                        <label class="label-style">Select your desired selling price for the product</label>
+                    </div>
+                    <div class="col-6">
+                        <input class="text-box w-100" style="margin-left:-15px;" type="number" id="inputDescription" @bind="@SalePrice"></input>
+                    </div>
+                    </div>
+                    <div class="col-12 mt-3 text-center">
+                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-secondary p-1" @onclick="() => CloseDialog()" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-success p-1" @onclick="() => BuyProducts()">
+                            Buy
+                        </button>
+                    </div>
+            </form>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+
+    </DialogButtons>
+    <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+</SfDialog>
 
 
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
