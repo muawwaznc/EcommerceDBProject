@@ -7,6 +7,16 @@
 <PageTitle>Home Page</PageTitle>
 
 <style>
+     url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+/* Custom CSS */
+.checked {
+    color: orange; /* Color for filled stars */
+}
+.fa-star {
+    color: #ccc;
+    cursor: pointer; 
+}
     .container {
         width: 900px;
         height: auto;
@@ -16,11 +26,10 @@
         padding: 20px;
         border: 3px solid #355c7d;
         border-radius: 20px;
-        box-shadow: 0 20px 20px rgba(223, 214, 214);
+        box-shadow: 10px 20px 20px rgba(223, 214, 214);
         justify-content: center; /* Center horizontally */
         align-items: center; /* Center vertically */
     }
-
     .heading {
         font-family: sans-serif;
         color: #355c7d;
@@ -78,9 +87,9 @@
             </div>
         </div>
     </div>
-    <div class="col-12 mt-2 mb-2" style="border-bottom:1px solid lightgrey"> </div>
-    <div class="col-12 row">
-        <div class="col-8 row">
+    <div class="col-12 mt-2 mb-2" style="border-bottom:2px solid lightgrey"> </div>
+    <div class="col-12 mb-3 row">
+        <div class="col-7 row">
             <div class="col-12 mt-3 p-0 mb-2">
                 <h3 style="margin-left:10px;font-weight:bold;">Account Details</h3>
             </div>
@@ -89,7 +98,7 @@
                     <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Password : </label>
                 </div>
                 <div class="col-7">
-                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-20px;">**********</label>
+                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-25px;">@InitialPageData.Password</label>
                 </div>
             </div>
             <div class="col-12 row">
@@ -97,7 +106,7 @@
                     <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Registration date: </label>
                 </div>
                 <div class="col-7">
-                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-22px">@InitialPageData.RegistrationDate</label>
+                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-27px">@InitialPageData.RegistrationDate</label>
                 </div>
             </div>
             <div class="col-12 row">
@@ -105,27 +114,37 @@
                     <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Seller Rating : </label>
                 </div>
                 <div class="col-8">
-                    <label class="text-left" style="text-align:left;font-size:18px;margin-left:-20px;">@InitialPageData.SellerRating</label>
+                    @for(int i =0; i<=5;i++)
+                    {
+                        if(i <= @InitialPageData.SellerRating)
+                        {
+                            <span style="border:1px solid black" class="fa fa-star checked"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    }
                 </div>
             </div>
         </div>
-        <div class="col-4 row">
+        <div class="col-5 row">
             <div class="col-12 mt-3 p-0 mb-2">
                 <h3 style="margin-left:10px;font-weight:bold;">Address</h3>
             </div>
             <div class="col-12 row">
-                <div class="col-4">
+                <div class="col-3">
                     <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">City : </label>
                 </div>
-                <div class="col-8">
+                <div class="col-9">
                     <label class="text-left" style="text-align:left;font-size:18px;margin-left:-20px;">@InitialPageData.City</label>
                 </div>
             </div>
-            <div class="col-12 row">
-                <div class="col-4">
+            <div class="col-12  row">
+                <div class="col-3">
                     <label class="text-left" style="text-align:left;font-size:18px;font-weight:bold">Country: </label>
                 </div>
-                <div class="col-7">
+                <div class="col-9">
                     <label class="text-left" style="text-align:left;font-size:18px;">@InitialPageData.Country</label>
                 </div>
             </div>

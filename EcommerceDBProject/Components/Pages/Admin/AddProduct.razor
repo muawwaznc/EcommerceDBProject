@@ -53,11 +53,13 @@
 
     .text-box {
         border: 2px solid #355c7d;
+        width:100%;
     }
     /* CSS */
     .button-style {
         background-color: #cf889d;
         width: 200px;
+        border: 1px solid #355c7d;
         border-radius: 6px;
         box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
         color: #FFFFFF;
@@ -102,7 +104,7 @@
                 <label class="label-style">Product Name</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-value="@Product.ProductName" CssClass="form-control text-box" Placeholder="Enter Product Name"></SfTextBox>
+                <SfTextBox @bind-value="@Product.ProductName" class="text-box" style="height:40px;" Placeholder="Enter Product Name"></SfTextBox>
             </div>
 
         </div>
@@ -112,7 +114,7 @@
                 <label class="label-style">Product Price</label>
             </div>
             <div class="col-7 m-1">
-                <SfNumericTextBox TValue="double" @bind-Value="@Product.Price" CssClass="form-control text-box" Placeholder="Enter Price"></SfNumericTextBox>
+                <SfNumericTextBox TValue="double" @bind-Value="@Product.Price" class="text-box" style="height:40px;" Placeholder="Enter Price"></SfNumericTextBox>
             </div>
         </div>
 
@@ -122,10 +124,10 @@
 
         <div class="col-6 row">
             <div class="col-4 m-1 text-left">
-                <label class="label-style">Product Weight</label>
+                <label class="label-style" style="margin-right:-10px;">Product Weight</label>
             </div>
             <div class="col-7 m-1">
-                <SfNumericTextBox TValue="double?" @bind-Value="@Product.ProductWeight" CssClass="form-control text-box" Placeholder="Enter Weight"></SfNumericTextBox>
+                <SfNumericTextBox TValue="double?" @bind-Value="@Product.ProductWeight" class="text-box" style="height:40px;" Placeholder="Enter Weight"></SfNumericTextBox>
             </div>
         </div>
 
@@ -135,8 +137,8 @@
             </div>
             <div class="col-7 m-1">
                 <div class="dropdown">
-                    <select class="category-select" id="category" name="category" @onchange="OnProductCategoryChanged">
-                        <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
+                    <select class="category-select" id="category" name="category" style="border: 2px solid #355c7d;" @onchange="OnProductCategoryChanged">
+                        <option class="category-option"  value="no-select">
                             Select Category
                         </option>
                         @foreach (var productCategory in ProductCategoriesList)
@@ -153,7 +155,7 @@
 
     </div>
 
-    <div class="col-12 row mb-2 p-0">
+    <div class="col-12 row mb-2 p-0" style="margin-top:-7px;"> 
 
         <div class="col-6 row">
             <div class="col-4 m-1 text-left">
@@ -161,8 +163,8 @@
             </div>
             <div class="col-7 m-1">
                 <div class="dropdown">
-                    <select class="category-select" id="category" name="category">
-                        <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
+                    <select class="category-select" id="category" name="category" style="border: 2px solid #355c7d;">
+                        <option class="category-option" value="no-select">
                             Select Supplier
                         </option>
                         @foreach (var supplier in SuppliersList)
@@ -182,7 +184,7 @@
                 <label class="label-style">Description</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@Product.ProductDescription" Multiline=true CssClass="form-control text-box" Placeholder="Enter Product Description"></SfTextBox>
+                <SfTextBox @bind-Value="@Product.ProductDescription" Multiline=true class="text-box" style="height:40px;" Placeholder="Enter Product Description"></SfTextBox>
             </div>
         </div>
 

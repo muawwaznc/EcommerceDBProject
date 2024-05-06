@@ -112,6 +112,7 @@ namespace EcommerceDBProject.Services.Service
                 City = address.City,
                 Country = address.Country,
                 RegistrationDate = seller.RegistrationDate.Value.Date,
+                Password = seller.Password,
                 SellerRating = seller.SellerRating
             };
             return initialPageData;
