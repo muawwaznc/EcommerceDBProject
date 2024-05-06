@@ -92,7 +92,7 @@
         }
 
     .hover-design {
-        background-color: #dae7f5;
+        background-color: #f0f6fc;
         border-bottom: 1px solid black
     }
 
@@ -111,7 +111,7 @@
 
 <div class="container" style="border: 2px solid #355c7d;">
     <div class="col-12 text-center">
-        <h1 style="color:#1a2939;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL PROMOTION</h1>
+        <h1 style="color:#355c7d;font-weight:bold;font-family:Arial, Helvetica, sans-serif">ALL PROMOTION</h1>
     </div>
     <div class="col-12">
         <div class="table-responsive">
@@ -131,7 +131,7 @@
                 <tbody>
                     @foreach (var promotion in @InitialPageData.PromotionsList)
                     {
-                        <tr>
+                        <tr class="hover-design">
                             <th scope="row">@promotion.PromotionId</th>
                             <td>@promotion.PromotionName</td>
                             <td>@promotion.PromotionDescription</td>
