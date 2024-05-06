@@ -23,7 +23,7 @@
     }
 
     .hover-design {
-        background-color: #dae7f5;
+        background-color: #f0f6fc;
         border-bottom: 1px solid black
     }
 
@@ -79,7 +79,7 @@
                 <tbody>
                     @foreach (var orderItem in OrdersList)
                     {
-                        <tr>
+                        <tr class="hover-design">
                             <th scope="row">@orderItem.OrderId</th>
                             <td>@orderItem.InventoryItemName</td>
                             <td>@orderItem.CustomerName</td>

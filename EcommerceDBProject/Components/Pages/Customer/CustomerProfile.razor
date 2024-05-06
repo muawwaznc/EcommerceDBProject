@@ -45,14 +45,15 @@
 
     .label-style {
         font-size: 18px;
-        font-family: 'Sans Serif';
+        font-family: inherit;
         color: black;
         font-weight: bold;
         text-align: left
     }
 
     .text-box {
-        border: 1px solid #355c7d;
+        border: 2px solid #355c7d;
+        width:100%;
     }
     /* CSS */
     .button-style {
@@ -89,17 +90,17 @@
 
 <div class="container">
     <div class="col-12 mt-3 mb-3 text-center">
-        <h3 class="heading">Profile Setting</h3>
+        <h3 class="heading">PROFILE SETTING</h3>
     </div>
     <div class="col-12 mb-3" style="border:1px solid lightgrey"></div>
-    <div class="col-12 row mt-2 p-0">
+    <div class="col-12 row p-0">
 
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">First Name</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@Customer.FirstName" CssClass="form-control text-box" Placeholder="Enter First Name"></SfTextBox>
+                <SfTextBox @bind-Value="@Customer.FirstName" class="text-box" style="height:40px;" Placeholder="Enter First Name"></SfTextBox>
             </div>
         </div>
         <div class="col-6 row m-0 p-0">
@@ -107,11 +108,11 @@
                 <label class="label-style">Last Name</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@Customer.LastName" CssClass="form-control text-box" Placeholder="Enter First Name"></SfTextBox>
+                <SfTextBox @bind-Value="@Customer.LastName" class="text-box" style="height:40px;" Placeholder="Enter First Name"></SfTextBox>
             </div>
         </div>
     </div>
-    <div class="col-12 row mt-2 p-0">
+    <div class="col-12 row p-0">
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Email</label>
@@ -125,18 +126,18 @@
                 <label class="label-style">Phone Number</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@CustomerDetail.PhoneNumber" Type="InputType.Tel" CssClass="form-control text-box" Placeholder="Enter Phone Number"></SfTextBox>
+                <SfTextBox @bind-Value="@CustomerDetail.PhoneNumber" Type="InputType.Tel" class="text-box" style="height:40px;" Placeholder="Enter Phone Number"></SfTextBox>
             </div>
         </div>
     </div>
-    <div class="col-12 row mt-2 p-0">
+    <div class="col-12 row p-0">
 
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">House Number</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@CustomerAddress.HouseNumber" CssClass="form-control text-box" Placeholder="Enter House Number"></SfTextBox>
+                <SfTextBox @bind-Value="@CustomerAddress.HouseNumber" class="text-box" style="height:40px;" Placeholder="Enter House Number"></SfTextBox>
             </div>
         </div>
 
@@ -145,19 +146,19 @@
                 <label class="label-style">Street</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@CustomerAddress.Street" CssClass="form-control text-box" Placeholder="Enter Street"></SfTextBox>
+                <SfTextBox @bind-Value="@CustomerAddress.Street" class="text-box" style="height:40px;" Placeholder="Enter Street"></SfTextBox>
             </div>
         </div>
 
     </div>
-    <div class="col-12 row mt-2 p-0">
+    <div class="col-12 row p-0">
 
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">City</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@CustomerAddress.City" CssClass="form-control text-box" Placeholder="Enter City"></SfTextBox>
+                <SfTextBox @bind-Value="@CustomerAddress.City" class="text-box" style="height:40px;" Placeholder="Enter City"></SfTextBox>
             </div>
         </div>
 
@@ -166,20 +167,20 @@
                 <label class="label-style">Country</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@CustomerAddress.Country" CssClass="form-control text-box" Placeholder="Enter Country"></SfTextBox>
+                <SfTextBox @bind-Value="@CustomerAddress.Country" class="text-box" style="height:40px;" Placeholder="Enter Country"></SfTextBox>
             </div>
         </div>
 
     </div>
 
-    <div class="col-12 row mt-2 p-0">
+    <div class="col-12 row p-0">
 
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Region</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@CustomerAddress.Region" CssClass="form-control text-box" Placeholder="Enter Region"></SfTextBox>
+                <SfTextBox @bind-Value="@CustomerAddress.Region" class="text-box" style="height:40px;" Placeholder="Enter Region"></SfTextBox>
             </div>
         </div>
 
@@ -188,19 +189,19 @@
                 <label class="label-style">Zip Code</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@CustomerAddress.ZipCode" CssClass="form-control text-box" Placeholder="Enter Zip Code"></SfTextBox>
+                <SfTextBox @bind-Value="@CustomerAddress.ZipCode" class="text-box" style="height:40px;" Placeholder="Enter Zip Code"></SfTextBox>
             </div>
         </div>
 
     </div>
-    <div class="col-12 row mt-2 p-0">
+    <div class="col-12 row p-0">
 
         <div class="col-6 row m-0 p-0">
             <div class="col-4 m-1 text-left">
                 <label class="label-style">Password</label>
             </div>
             <div class="col-7 m-1">
-                <SfTextBox @bind-Value="@Customer.Password" CssClass="form-control text-box" Placeholder="Enter Password"></SfTextBox>
+                <SfTextBox @bind-Value="@Customer.Password" class="text-box" style="height:40px;" Placeholder="Enter Password"></SfTextBox>
             </div>
         </div>
         <div class="col-6 row m-0 p-0">          
