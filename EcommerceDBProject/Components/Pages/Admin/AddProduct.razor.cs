@@ -69,6 +69,7 @@ namespace EcommerceDBProject.Components.Pages.Admin
                 }
                 ProductService.AddProduct(InitialPageData.Product);
                 ToastService.ShowSuccess("Product Added Successfully");
+                InitialPageData.Product = new();
             }            
         }
 

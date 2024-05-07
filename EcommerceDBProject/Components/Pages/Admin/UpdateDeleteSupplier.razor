@@ -121,25 +121,23 @@
                         <th scope="col">Supplier Id</th>
                         <th scope="col">Supplier Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Password</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Contact person Name</th>
-                        <th></th>
-                        <th></th>
+                        <th scope ="col">Edit</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
-                   @*  @foreach (var promotion in @InitialPageData.PromotionsList)
+                    @foreach (var supplier in @InitialPageData.SupplierList)
                     {
                         <tr>
-                            <th scope="row">@promotion.PromotionId</th>
-                            <td>@promotion.PromotionName</td>
-                            <td>@promotion.PromotionDescription</td>
-                            <td>@promotion.StartDate</td>
-                            <td>@promotion.EndDate</td>
-                            <td>@promotion.DiscountPercentage</td>
+                            <th scope="row">@supplier.SupplierId</th>
+                            <td>@supplier.SupplierName</td>
+                            <td>@supplier.Email</td>
+                            <td>@supplier.PhoneNumber</td>
+                            <td>@supplier.ContactPersonName</td>
                             <td>
-                                <SfButton CssClass="button-style" >
+                                <SfButton CssClass="button-style" @onclick="() => OpenEditSupplierDialogBox(supplier)">
                                     Edit
                                 </SfButton>
                             </td>
@@ -148,7 +146,7 @@
                                     Delete
                                 </SfButton>
                             </td>
-                        </tr> *@
+                        </tr> 
                     }
 
                 </tbody>
@@ -157,7 +155,7 @@
     </div>
 </div>
 
-<SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" >
+<SfDialog CssClass="col-6" Width="70%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.IsEditDialogBoxOpen">
     <DialogTemplates>
         <Header>
             <div class="text-center">

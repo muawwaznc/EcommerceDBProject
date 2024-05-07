@@ -66,6 +66,14 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
         }
+        public InitialPageDataforUpdateDeleteSupplier GetInitialPageDataforUpdateDeleteSupplier()
+        {
+            var initialPageData = new InitialPageDataforUpdateDeleteSupplier
+            {
+                SupplierList = _productService.GetAllSupplierDetails()
+            };
+            return initialPageData;
+        }
 
         public InitialPageDataForCustomerReviews GetInitialPageDataForCustomerReviews(string userDetailId)
         {

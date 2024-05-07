@@ -4,6 +4,7 @@ namespace EcommerceDBProject.Services.Interface
 {
     public interface ICommonInterface
     {
+        InitialPageDataforUpdateDeleteSupplier GetInitialPageDataforUpdateDeleteSupplier();
         InitialPageDataForCustomerDashboard GetInitialPageDataForCustomerDashboard(string userDetailId);
         InitialPageDataForCustomerOrders GetInitialPageDataForCustomerOrders(string userDetailId);
         InitialPageDataForCustomerReturns GetInitialPageDataForCustomerReturns(string userDetailId);

@@ -1,6 +1,7 @@
 ﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.Services.Interface;
 using EcommerceDBProject.ViewModels;
+using static EcommerceDBProject.ViewModels.InitialPageDataforUpdateDeleteSupplier;
 
 namespace EcommerceDBProject.Services.Service
 {
@@ -28,7 +29,28 @@ namespace EcommerceDBProject.Services.Service
             var ProductCategories = db.ProductCategories.ToList();
             return ProductCategories;
         }
-        
+      
+        public List<SupplierInfoViewModel> GetAllSupplierDetails()
+        {
+            var db = new EcommerceDbContext();
+            var supplierList = db.Suppliers.ToList();
+            List<SupplierInfoViewModel> supplierInfo = new();
+            foreach(var supplier in supplierList)
+            {
+                var newSupplier = new SupplierInfoViewModel
+                {
+                    SupplierId = supplier.SupplierId,
+                    SupplierName = supplier.SupplierName,
+                    ContactPersonName = supplier.ContactPersonName,
+                    ContactPersonPhoneNumber = supplier.ContactPersonPhoneNumber,
+                    Email = db.UserDetails.Where(x => x.UserDetailId == supplier.UserDetailId).Select(x => x.Email).FirstOrDefault(),
+                    PhoneNumber = db.UserDetails.Where(x => x.UserDetailId == supplier.UserDetailId).Select(x => x.PhoneNumber).FirstOrDefault(),
+                };
+                supplierInfo.Add(newSupplier);
+            }
+            return supplierInfo;
+        }
+
         public Product GetProductFromProductId(string productId)
         {
             using (var db = new EcommerceDbContext())
@@ -190,6 +212,11 @@ namespace EcommerceDBProject.Services.Service
                 });
             }
             return productsList;
+        }
+
+        public void UpdateSupplier(SupplierInfoViewModel supplierInfoViewModel)
+        {
+
         }
     }
 }

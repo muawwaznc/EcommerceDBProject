@@ -1,5 +1,6 @@
 ﻿using EcommerceDBProject.DBContext;
 using EcommerceDBProject.ViewModels;
+using static EcommerceDBProject.ViewModels.InitialPageDataforUpdateDeleteSupplier;
 
 namespace EcommerceDBProject.Services.Interface
 {
@@ -7,6 +8,7 @@ namespace EcommerceDBProject.Services.Interface
     {
         List<ComboBoxItemsViewModel> GetAllCategoriesForDropDown();
         List<ProductCategory> GetAllProductCategories();
+        List<SupplierInfoViewModel> GetAllSupplierDetails();
         Product GetProductFromProductId(string productId);
         Product GetProductFromInventoryItemId(string inventoryItemId);
         void AddProductCategory(ProductCategory category);
@@ -22,5 +24,6 @@ namespace EcommerceDBProject.Services.Interface
         bool DeleteProductCategory(ProductCategory productCategory);
         List<Product> GetAllProductsByCategoryId(string categoryId);
         List<ProductViewModel> RefreshProductsList();
+        void UpdateSupplier(SupplierInfoViewModel supplierInfoViewModel);
     }
 }

@@ -41,6 +41,7 @@ namespace EcommerceDBProject.Components.Pages.Admin
                 {
                     ProductService.AddProductCategory(ProductCategory);
                     ToastService.ShowSuccess("Category Added Succesfully");
+                    ProductCategory = new();
                 }
                 else
                 {
