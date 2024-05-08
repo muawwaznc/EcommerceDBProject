@@ -58,10 +58,17 @@ namespace EcommerceDBProject.Services.Service
         }
         public void AddInventoryItem(InventoryItem inventoryItem)
         {
-            using (var db = new EcommerceDbContext())
+            try
             {
-                db.InventoryItems.Add(inventoryItem);
-                db.SaveChanges();
+                using (var db = new EcommerceDbContext())
+                {
+                    db.InventoryItems.Add(inventoryItem);
+                    db.SaveChanges();
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
     }

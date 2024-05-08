@@ -230,5 +230,21 @@ namespace EcommerceDBProject.Services.Service
             }
 
         }
+
+        public List<ProductViewModel> GetProductViewModelList()
+        {
+            var products = GetAllProducts();
+            var productsList = new List<ProductViewModel>();
+            foreach (var product in products)
+            {
+                productsList.Add(new ProductViewModel
+                {
+                    Product = product,
+                    Category = GetProductCategoryByCategoryId(product.CategoryId),
+                    Supplier = product.SupplierId != null ? GetSupplierBySupplierId(product.SupplierId) : null
+                });
+            }
+            return productsList;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+
         public List<Promotion> GetAllPromotionList()
         {
             using (var db = new EcommerceDbContext())
@@ -21,6 +22,16 @@ namespace EcommerceDBProject.Services.Service
                 return promotionList;
             }
         }
+
+        public List<Promotion> GetAllActivePromotionsList()
+        {
+            using (var db = new EcommerceDbContext())
+            {
+                var promotionList = db.Promotions.Where(x => x.EndDate >= DateTime.Now).ToList();
+                return promotionList;
+            }
+        }
+
         public bool IsPromotionNameAlreadyExist(Promotion promotion)
         {
             var promotionList = GetAllPromotionList();

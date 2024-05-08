@@ -11,77 +11,84 @@ namespace EcommerceDBProject.Components.Pages.Seller
     {
         #region Injection
 
+        [Inject] ICommonInterface CommonService { get; set; }
         [Inject] IInventoryItemInterface InventoryItemService { get; set; }
         [Inject] IProductInterface ProductService { get; set; }
         [Inject] IUserInterface UserService { get; set; }
         [Inject] IToastService toastService { get; set; }
+
         #endregion
 
         #region Properties
 
         [Parameter] public string UserDetailId { get; set; }
-        List<Product> ProductList { get; set; } = new();
-        List<ProductCategory> ProductCategories { get; set; }
-        public int Quantity { get; set; }
-        public string ProductId { get; set; }
-        public int SalePrice { get; set; }
-        public string Condition { get; set; }
-        public bool Visibility { get; set; }
+        InitialPageDataForSellerBuyProducts InitialPageData { get; set; } = new();
+        BuyProductViewModel BuyProductViewModel { get; set; } = new();
 
         #endregion
+
         #region Load Initials
 
         protected override void OnInitialized()
         {
-            ProductCategories = ProductService.GetAllProductCategories();
+            InitialPageData = CommonService.GetInitaialPageDataForSellerBuyProducts();
+            BuyProductViewModel = InitialPageData.BuyProductViewModel;
         }
 
         #endregion
-
         
         #region BuyProducts
+
         public void BuyProducts()
         {
             InventoryItem inventory = new();
-            inventory.ProductId = ProductId;
-            inventory.Seller = UserService.GetSellerFromUserDetailId(UserDetailId);
-            inventory.SalePrice = SalePrice;
-            inventory.Condition = Condition;
+            inventory.ProductId = BuyProductViewModel.ProductId;
+            inventory.SellerId = UserService.GetSellerFromUserDetailId(UserDetailId).SellerId;
+            inventory.SalePrice = BuyProductViewModel.SalePrice;
+            inventory.Condition = BuyProductViewModel.Condition;
+            inventory.StockAmount = BuyProductViewModel.Quantity;
             InventoryItemService.AddInventoryItem(inventory);
+            CloseDialog();
             toastService.ShowSuccess("Product bought successfully");
         }
 
         #endregion
-        #region OnChange
+
+        #region OnChange Functions
+
         protected void OnProductCategoryChanged(ChangeEventArgs e)
         {
-            var productCategory = ProductService.GetProductCategoryByCategoryId(e.Value.ToString());
-
-            if (productCategory == null)
+            if(e.Value.ToString() == "no-select")
             {
-                ProductList = ProductService.GetAllProducts();
+                InitialPageData.ProductList = ProductService.GetProductViewModelList();
             }
             else
             {
-                ProductList = ProductService.GetAllProductsByCategoryId(productCategory.CategoryId);
+                InitialPageData.ProductList = (ProductService.GetProductViewModelList()).Where(x => x.Product.CategoryId == e.Value.ToString()).ToList();
             }
         }
+
         #endregion
+
         #region DialogFunction
-        public void OpenDialog(string productId)
+
+        public void OpenBuyProductDialogBox(string productId)
         {
-            ProductId = productId;
-            Visibility = true;
+            BuyProductViewModel.ProductId = productId;
+            InitialPageData.BuyProductDialogBoxOpen = true;
         }
+
         public void CloseDialog()
         {
-            Visibility = false;
+            InitialPageData.BuyProductDialogBoxOpen = false;
+            BuyProductViewModel = new();
         }
 
         protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
         {
             args.MaxHeight = null;
         }
+
         #endregion
     }
 }

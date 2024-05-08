@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.DBContextFolder;
+namespace EcommerceDBProject.DBContext;
 
 public partial class ProductReview
 {

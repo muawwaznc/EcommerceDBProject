@@ -66,6 +66,7 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
         }
+        
         public InitialPageDataforUpdateDeleteSupplier GetInitialPageDataforUpdateDeleteSupplier()
         {
             var initialPageData = new InitialPageDataforUpdateDeleteSupplier
@@ -206,11 +207,12 @@ namespace EcommerceDBProject.Services.Service
             var seller = _userService.GetSellerFromUserDetailId(userDetailId);
             var initialPageData = new InitialPageDataForSellerPromotion();
             initialPageData.SellerId = seller.SellerId;
-            initialPageData.PromotionList = _promotionService.GetAllPromotionList();
+            initialPageData.PromotionList = _promotionService.GetAllActivePromotionsList();
             initialPageData.ProductCategoriesList = _productService.GetAllProductCategories();
             initialPageData.InventoryItemsList = _inventoryItemService.GetSellerInventoryItemsListFromSellerId(seller.SellerId);
             return initialPageData;
         }
+        
         public InitialPageDataForUpdateCategory GetInitialPageDataForUpdateCategory()
         {
             InitialPageDataForUpdateCategory initialPageData = new();
@@ -220,17 +222,7 @@ namespace EcommerceDBProject.Services.Service
 
         public InitialPageDataForUpdateDeleteProduct GetInitialPageDataForUpdateDeleteProduct()
         {
-            var products = _productService.GetAllProducts();
-            var productsList = new List<ProductViewModel>();
-            foreach (var product in products)
-            {
-                productsList.Add(new ProductViewModel
-                {
-                    Product = product,
-                    Category = _productService.GetProductCategoryByCategoryId(product.CategoryId),
-                    Supplier = product.SupplierId != null ? _productService.GetSupplierBySupplierId(product.SupplierId) : null
-                });
-            }
+            var productsList = _productService.GetProductViewModelList();
             var initialPageData = new InitialPageDataForUpdateDeleteProduct {
                 Products = productsList,
                 CategoriesList = _productService.GetAllProductCategories(),
@@ -247,6 +239,16 @@ namespace EcommerceDBProject.Services.Service
             };
             return initialPageData;
 
+        }
+   
+        public InitialPageDataForSellerBuyProducts GetInitaialPageDataForSellerBuyProducts()
+        {
+            var initialPageData = new InitialPageDataForSellerBuyProducts 
+            {
+                ProductList = _productService.GetProductViewModelList(),
+                ProductCategories = _productService.GetAllProductCategories()
+            };
+            return initialPageData;
         }
     }
 }

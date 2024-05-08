@@ -25,5 +25,6 @@ namespace EcommerceDBProject.Services.Interface
         List<Product> GetAllProductsByCategoryId(string categoryId);
         List<ProductViewModel> RefreshProductsList();
         void UpdateSupplier(SupplierInfoViewModel supplierInfoViewModel);
+        List<ProductViewModel> GetProductViewModelList();
     }
 }

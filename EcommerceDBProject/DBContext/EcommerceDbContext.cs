@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerceDBProject.DBContextFolder;
+namespace EcommerceDBProject.DBContext;
 
 public partial class EcommerceDbContext : DbContext
 {

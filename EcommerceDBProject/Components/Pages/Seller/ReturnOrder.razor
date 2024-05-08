@@ -1,5 +1,5 @@
 ﻿@page "/seller-dashboard/{UserDetailId}/return-orders/"
-@layout CustomerLayout
+@layout SellerLayout
 @rendermode InteractiveServer
 @using EcommerceDBProject.Components.Layout
 @using Syncfusion.Blazor.Popups;
@@ -71,15 +71,15 @@
             box-shadow: #355c7d 0 3px 8px;
         }
 </style>
+
 <div class="container">
     <div class="col-12 text-center">
-        <h1 style="color:#234b6e;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Your Orders</h1>
+        <h1 style="color:#234b6e;font-weight:bold;font-family:Arial, Helvetica, sans-serif">Your Returns</h1>
     </div>
     <div class="col-12">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead class="head">
-                    @* class="table-light" *@
                     <tr>
                         <th scope="col">Customer NAME</th>
                         <th scope="col">Product Name</th>
@@ -100,13 +100,13 @@
                             <td>@item.ReturnReason</td>
                             <td>@item.ReturnStatus</td>
                             <td>
-                                <SfButton CssClass="button-style" @onclick="() => CompleteOrCancelreturn(item.OrderItemId,true,false)">
-                                    Cancel
+                                <SfButton CssClass="button-style" @onclick="() => RejectReturn(item.ReturnId)">
+                                    Reject
                                 </SfButton>
                             </td>
                             <td>
-                                <SfButton CssClass="button-style" @onclick="() => CompleteOrCancelreturn(item.OrderItemId,false,true)">
-                                    completed
+                                <SfButton CssClass="button-style" @onclick="() => CompleteReturn(item.ReturnId)">
+                                    Return
                                 </SfButton>
                             </td>
                         </tr>

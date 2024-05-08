@@ -142,7 +142,7 @@
                     <option class="category-option" style="border:1px solid lightgrey;" value="no-select">
                         Select Category
                     </option>
-                    @foreach (var productCategory in ProductCategories)
+                    @foreach (var productCategory in InitialPageData.ProductCategories)
                     {
                         <option class="category-option" style="border:1px solid lightgrey;"
                                 value="@productCategory.CategoryId">
@@ -163,23 +163,24 @@
                         <th scope="col">Product Id</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">Product Description</th>
-                        <th scope="col">Supplier</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Supplier Name</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Buy Products</th>
+                        <th scope="col">Buy Product</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var product in ProductList)
+                    @foreach (var product in InitialPageData.ProductList)
                     {
-                        var supplier = ProductService.GetSupplierBySupplierId(product.SupplierId);
                         <tr>
-                            <th scope="row">@product.ProductId</th>
-                            <td>@product.ProductName</td>
-                            <td>@product.ProductDescription</td>
-                            <td>@supplier.SupplierName</td>
-                            <td>@product.Price</td>
+                            <th scope="row">@product.Product.ProductId</th>
+                            <td>@product.Product.ProductName</td>
+                            <td>@product.Product.ProductDescription</td>
+                            <td>@product.Category.CategoryName</td>
+                            <td>@product.Supplier?.SupplierName</td>
+                            <td>@product.Product.Price</td>
                             <td>
-                                <SfButton CssClass="button-style" @onclick="() => OpenDialog(product.ProductId)">
+                                <SfButton CssClass="button-style" @onclick="() => OpenBuyProductDialogBox(product.Product.ProductId)">
                                     Buy product
                                 </SfButton>
                             </td>
@@ -191,7 +192,7 @@
         </div>
     </div>
 </div>
-<SfDialog CssClass="col-6" Width="60%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@Visibility">
+<SfDialog CssClass="col-6" Width="60%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.BuyProductDialogBoxOpen">
     <DialogTemplates>
         <Content>
             <form class="row g-3 m-3">
@@ -204,7 +205,7 @@
                                 <label class="label-style">Quantity :</label>
                             </div>
                             <div class="col-7">
-                                <input class="text-box w-100" style="margin-left:-15px;" type="number" id="inputDescription"  @bind="@Quantity"></input>
+                                <input class="text-box w-100" style="margin-left:-15px;"min="1" type="number" @bind="@BuyProductViewModel.Quantity"></input>
                             </div>
                         </div>
                     <div class="col-6 row">
@@ -212,7 +213,7 @@
                             <label class="label-style">Condition : </label>
                         </div>
                         <div class="col-7">
-                            <select class="text-box w-100" @bind="Condition">
+                            <select class="text-box w-100" @bind="BuyProductViewModel.Condition">
                                 <option value="New">New</option>
                                 <option value="Old">Old</option>
                             </select>
@@ -225,7 +226,7 @@
                         <label class="label-style">Select your desired selling price for the product</label>
                     </div>
                     <div class="col-6">
-                        <input class="text-box w-100" style="margin-left:-15px;" type="number" id="inputDescription" @bind="@SalePrice"></input>
+                        <input class="text-box w-100" style="margin-left:-15px;" type="number" id="inputDescription" @bind="@BuyProductViewModel.SalePrice"></input>
                     </div>
                     </div>
                     <div class="col-12 mt-3 text-center">

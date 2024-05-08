@@ -46,16 +46,48 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
-        public void UpdateReturnSatatus(string orderItemId,string returnStatus)
+
+        public void UpdateProductReturn(string returnId)
         {
             using (var db = new EcommerceDbContext())
             {
-                var returnOrder = db.ProductReturns.Where(x => x.OrderItemId == orderItemId).FirstOrDefault();
-                returnOrder.ReturnStatus = returnStatus;
-                db.ProductReturns.Update(returnOrder);
+                var productReturn = db.ProductReturns.FirstOrDefault(x => x.ReturnId == returnId);
+                productReturn.ReturnStatus = "Returned";
+                db.ProductReturns.Update(productReturn);
                 db.SaveChanges();
             }
         }
+
+        public void RejectReturnRequest(string returnId)
+        {
+            using(var db = new EcommerceDbContext())
+            {
+                var productReturn = db.ProductReturns.FirstOrDefault(x => x.ReturnId == returnId);
+                var orderItem = db.OrderItems.FirstOrDefault(x => x.OrderItemId == productReturn.OrderItemId);
+                orderItem.IsReturned = false;
+                UpdateOrderItem(orderItem);
+                DeleteReturnRequest(productReturn);
+            }
+        }
+
+        private void DeleteReturnRequest(ProductReturn productReturn)
+        {
+            using(var db = new EcommerceDbContext())
+            {
+                db.ProductReturns.Remove(productReturn);
+                db.SaveChanges();
+            }
+        }
+
+        private void UpdateOrderItem(OrderItem orderItem)
+        {
+            using(var db = new EcommerceDbContext())
+            {
+                db.OrderItems.Update(orderItem);
+                db.SaveChanges();
+            }
+        }
+        
         public void AddReview(ProductReview productReview)
         {
             using (var db = new EcommerceDbContext())
@@ -64,37 +96,45 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
+        
         public List<SellerReturnsViewModel> GetSellerReturns(string userDetailId)
         {
             using (var db = new EcommerceDbContext())
             {
                 var seller = db.Sellers.FirstOrDefault(x => x.UserDetailId == userDetailId);
-                var allSellerProduct = db.InventoryItems.Where(x => x.SellerId == seller.SellerId).ToList();
+                var sellerInventoryItemsList = db.InventoryItems.Where(x => x.SellerId == seller.SellerId).ToList();
                 List<SellerReturnsViewModel> sellerReturnList = new();
-                foreach(var inventoryItem in allSellerProduct)
+                foreach (var inventoryItem in sellerInventoryItemsList)
                 {
-                    var OnlyReturnOrder = db.OrderItems.Where(x => x.InventoryItemId == inventoryItem.InventoryItemId && x.IsReturned == true).FirstOrDefault();
-                    var order = db.Orders.Where(x => x.OrderId == OnlyReturnOrder.OrderId).FirstOrDefault();
-                    var customerName = db.Customers.Where(x => x.CustomerId == order.CustomerId).Select(x => x.FirstName +" "+ x.LastName).FirstOrDefault();
-                    var productName = db.Products.Where(x => x.ProductId == inventoryItem.ProductId).Select(x => x.ProductName).FirstOrDefault();
-                    var returnProduct = db.ProductReturns.Where(x => x.OrderItemId == OnlyReturnOrder.OrderItemId).FirstOrDefault();
-                    if(returnProduct != null)
+                    var returnOrderItemsList = db.OrderItems.Where(x => x.InventoryItemId == inventoryItem.InventoryItemId && x.IsReturned == true).ToList();
+                    foreach (var orderItem in returnOrderItemsList)
                     {
-                        sellerReturnList.Add(new SellerReturnsViewModel
+                        var order = db.Orders.FirstOrDefault(x => x.OrderId == orderItem.OrderId);
+                        var customer = _userService.GetCustomerFromCustomerId(order.CustomerId);
+                        var product = _productService.GetProductFromInventoryItemId(inventoryItem.InventoryItemId);
+                        var productReturn = db.ProductReturns.FirstOrDefault(x => x.OrderItemId == orderItem.OrderItemId);
+                        var sellerReturnsViewModel = new SellerReturnsViewModel
                         {
-                            CustomerName = customerName,
-                            InventoryItemName = productName,
-                            ReturnDate = returnProduct.ReturnDate,
-                            ReturnReason = returnProduct.ReturnReason,
-                            ReturnStatus = returnProduct.ReturnStatus,
-                        });
+                            ReturnId = productReturn.ReturnId,
+                            OrderItemId = orderItem.OrderItemId,
+                            CustomerName = customer.FirstName + " " + customer.LastName,
+                            InventoryItemName = product.ProductName,
+                            ReturnReason = productReturn.ReturnReason,
+                            ReturnDate = productReturn.ReturnDate,
+                            ReturnStatus = productReturn.ReturnStatus,
+                        };
+                        if (sellerReturnsViewModel.ReturnStatus == "Rejected" || sellerReturnsViewModel.ReturnStatus == "Returned")
+                        {
+                            sellerReturnsViewModel.IsButtonDisabled = true;
+                        }
+                        sellerReturnList.Add(sellerReturnsViewModel);
                     }
-
                 }
                 return sellerReturnList;
             }
 
         }
+        
         public List<CustomerReviewsViewModel> GetCustomerReviewsViewModelListFromUserDetailId(string userDetailId)
         {
             using (var db = new EcommerceDbContext())

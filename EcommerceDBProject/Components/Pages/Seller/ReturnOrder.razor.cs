@@ -12,38 +12,39 @@ namespace EcommerceDBProject.Components.Pages.Seller
 
         [Inject] IOrderInterface OrderService { get; set; }
         [Inject] IOrderReturnReviewInterface ReturnReviewService { get; set; }
-        [Inject] IToastService toastService { get; set; }
+        [Inject] IToastService ToastService { get; set; }
+
         #endregion
 
         #region Properties
 
         [Parameter] public string UserDetailId { get; set; }
-        List<SellerReturnsViewModel> sellerReturnList = new();
+        List<SellerReturnsViewModel> sellerReturnList { get; set; } = new();
 
         #endregion
 
         #region Load Initials
+
         protected override void OnInitialized()
         {
             sellerReturnList = ReturnReviewService.GetSellerReturns(UserDetailId);
         }
+
         #endregion
-        #region OtherFunction
-        public void CompleteOrCancelreturn(string orderItemId,bool cancelReturn,bool completeReturn)
+
+        #region Return Functions
+
+        public void CompleteReturn(string productReturnId)
         {
-            if(cancelReturn)
-            {
-                OrderService.UpdateOrderItemReturnStatus(orderItemId, false);
-                ReturnReviewService.UpdateReturnSatatus(orderItemId, "Cancelled");
-                toastService.ShowSuccess("Returned Request Cancelled successfully");
-            }
-            else
-            {
-                OrderService.UpdateOrderItemReturnStatus(orderItemId, true);
-                ReturnReviewService.UpdateReturnSatatus(orderItemId, "Completed");
-                toastService.ShowSuccess("Returned Request Completed successfully");
-            }
+            ReturnReviewService.UpdateProductReturn(productReturnId);
+            ToastService.ShowSuccess("Returned Request Cancelled successfully");
         }
+
+        public void RejectReturn(string productReturnId)
+        {
+            ReturnReviewService.RejectReturnRequest(productReturnId);
+        }
+
         #endregion
     }
 }

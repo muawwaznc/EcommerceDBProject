@@ -10,5 +10,6 @@ namespace EcommerceDBProject.Services.Interface
         void UpdatePromotion(Promotion promotion);
         void DeletePromotion(Promotion promotion);
         bool AddProductPromotion(ProductPromotion productPromotion);
+        List<Promotion> GetAllActivePromotionsList();
     }
 }
