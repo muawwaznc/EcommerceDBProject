@@ -5,7 +5,7 @@
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
 
-<PageTitle>CustmomerOrders</PageTitle>
+<PageTitle>Custmomer Orders</PageTitle>
 
 <style>
     .container {
@@ -97,12 +97,12 @@
                             <td>@orderItem.TotalPrice</td>
                             <td>@orderItem.OrderStatus</td>
                             <td>
-                                <SfButton Disabled="@orderItem.IsReviewButtonDisabled" CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                <SfButton Disabled="@orderItem.IsReviewButtonDisabled" CssClass="button-style" @onclick="() => OpenReviewDialog(orderItem)">
                                     Review
                                 </SfButton>
                             </td>
                             <td>
-                                <SfButton Disabled="@orderItem.IsReturnButtonDisabled" CssClass="button-style" @onclick="() => OpenDialog(orderItem)">
+                                <SfButton Disabled="@orderItem.IsReturnButtonDisabled" CssClass="button-style" @onclick="() => OpenReturnDialog(orderItem)">
                                     Return
                                 </SfButton>
                             </td>
@@ -114,72 +114,43 @@
         </div>
     </div>
 </div>
-<SfDialog CssClass="col-6" Width="40%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@IsDialogBoxOpen">
+
+<SfDialog CssClass="col-6" Width="40%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.ShowReturnDialogBox">
     <DialogTemplates>
         <Content>
             <form class="row g-3 m-3">
-                @if (DialogBoxTitle == "Return")
-                {
-                    <div class="col-12">
-                        <label class="text-center" style="font-size:25px;text-align:center;font-family:sans-serif;font-weight:bold">Return Product</label>
+                <div class="col-12">
+                    <label class="text-center" style="font-size:25px;text-align:center;font-family:sans-serif;font-weight:bold">Return Product</label>
+                </div>
+                <div class="col-12 row p-0">
+                    <div class="col-4 text-left">
+                        <label class="label-style">Return Reason</label>
                     </div>
-                    <div class="col-12 row p-0">
-                        <div class="col-4 text-left">
-                            <label class="label-style">Return Reason</label>
-                        </div>
-                        <div class="col-7">
-                            <textarea class="text-box w-100" style="margin-left:-15px;" id="inputDescription" placeholder="Return Reason" @bind="@ReturnReason"></textarea>
-                        </div>
+                    <div class="col-7">
+                        <textarea class="text-box w-100" style="margin-left:-15px;" placeholder="Enter Reason" @bind="@ProductReturn.ReturnReason"></textarea>
                     </div>
-                    <div class="col-12 row p-0">
-                        <div class="col-4 text-left">
-                            <label class="label-style">Quantity : </label>
-                        </div>
-                        <div class="col-7">
-                            <input class="text-box w-100" style="margin-left:-15px;" type="number" min="1" max="@OrderQuantity" id="inputDescription" placeholder="1" @bind="@ReturnQuantity"></input>
-                        </div>
+                </div>
+                <div class="col-12 row p-0">
+                    <div class="col-4 text-left">
+                        <label class="label-style">Quantity : </label>
                     </div>
-                    <div class="col-12 mt-3 text-center">
-                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-success p-1" @onclick="() => ConfirmReturn()">
-                            Confirm Return
-                        </button>
+                    <div class="col-7">
+                        <input class="text-box w-100" style="margin-left:-15px;" type="number" min="1" max="@InitialPageData.OrderQuantityForReturn" @bind="@ProductReturn.Quantity"></input>
                     </div>
+                </div>
 
-                }
-                else
-                {
-                    <div class="col-12 text-center mb-2 mt-2">
-                        <label class="text-center" style="font-size:25px;text-align:center;font-family:sans-serif;font-weight:bold">Review Product</label>
-                    </div>
-                    <div class="col-12 row p-0">
-                        <div class="col-4 text-left">
-                            <label class="label-style">Describe your Experience:</label>
-                        </div>
-                        <div class="col-7">
-                            <textarea class="text-box w-100" style="margin-left:-15px;" id="inputDescription" placeholder="Return Reason" @bind="@ReviewText"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-12 row p-0">
-                        <div class="col-4 text-left">
-                            <label class="label-style">Rating(1-5) : </label>
-                        </div>
-                        <div class="col-7">
-                            <input class="text-box w-100" style="margin-left:-15px;" type="number" min="0" max="5" id="inputDescription" placeholder="1" @bind="@Rating"></input>
-                        </div>
-                    </div>
-                    <div class="col-12 mt-3 text-center">
-                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal" @onclick="() => CloseDialog()">
-                            Close
-                        </button>
-                        <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-success p-1" @onclick="() => AddCustomerReview()">
-                            Okays
-                        </button>
-                    </div>
+                <div class="col-12 mt-3 text-center">
 
-                }
+                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-success p-1" @onclick="() => ConfirmReturn()">
+                        Confirm Return
+                    </button>
+
+                </div>
+
             </form>
         </Content>
     </DialogTemplates>
@@ -189,6 +160,52 @@
     <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
     <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
 </SfDialog>
+
+<SfDialog CssClass="col-6" Width="40%" Target="#target1" IsModal="true" ShowCloseIcon="true" @bind-Visible="@InitialPageData.ShowReviewDialogBox">
+    <DialogTemplates>
+        <Content>
+            <form class="row g-3 m-3">
+                <div class="col-12 text-center mb-2 mt-2">
+                    <label class="text-center" style="font-size:25px;text-align:center;font-family:sans-serif;font-weight:bold">Review Product</label>
+                </div>
+                <div class="col-12 row p-0">
+                    <div class="col-4 text-left">
+                        <label class="label-style">Describe your Experience:</label>
+                    </div>
+                    <div class="col-7">
+                        <textarea class="text-box w-100" style="margin-left:-15px;" placeholder="Write Experience" @bind="@ProductReview.ReviewText"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 row p-0">
+                    <div class="col-4 text-left">
+                        <label class="label-style">Rating(1-5) : </label>
+                    </div>
+                    <div class="col-7">
+                        <input class="text-box w-100" style="margin-left:-15px;" type="number" min="0" max="5" @bind="@ProductReview.Rating"></input>
+                    </div>
+                </div>
+                <div class="col-12 mt-3 text-center">
+
+                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-secondary p-1" data-bs-dismiss="modal" @onclick="() => CloseDialog()">
+                        Close
+                    </button>
+
+                    <button type="button" style="text-align:center;border-radius: 16px;border-width: 0 0 4px;width:150px;height:40px;margin:3px;" class="btn btn-success p-1" @onclick="() => AddCustomerReview()">
+                        Add Review
+                    </button>
+
+                </div>
+            </form>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+
+    </DialogButtons>
+    <DialogEvents OnOpen="@OnDialogOpenHandler"></DialogEvents>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+</SfDialog>
+
+
 <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight"
                 Timeout="9999999"
                 IconType="IconType.FontAwesome"

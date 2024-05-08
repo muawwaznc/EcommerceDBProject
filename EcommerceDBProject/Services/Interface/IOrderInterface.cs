@@ -11,6 +11,5 @@ namespace EcommerceDBProject.Services.Interface
         List<OrderItem> GetOrderItemsListFromOrderId(string orderId);
         List<SellerOrdersViewModel> GetSellerOrdersViewModelList(string userDetailId);
         void ShipOrder(string orderItemId);
-        void UpdateOrderItemReturnStatus(string orderItemId,bool isReturned);
     }
 }

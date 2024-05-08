@@ -115,16 +115,6 @@ namespace EcommerceDBProject.Services.Service
                 db.SaveChanges();
             }
         }
-        public void UpdateOrderItemReturnStatus(string orderItemId,bool isReturned)
-        {
-            using (var db = new EcommerceDbContext())
-            {
-                var orderItem = db.OrderItems.Where(x => x.OrderItemId == orderItemId).FirstOrDefault();
-                orderItem.IsReturned = isReturned;
-                db.OrderItems.Update(orderItem);
-                db.SaveChanges();
-            }
-        }
 
         public List<CustomerOrdersViewModel> GetCustomerOrdersViewModelList(string userDetailId)
         {
@@ -144,6 +134,7 @@ namespace EcommerceDBProject.Services.Service
                     var customerOrdersViewModel = new CustomerOrdersViewModel
                     {
                         OrderId = orderItem.OrderId,
+                        OrderItemId = orderItem.OrderItemId,
                         InventoryItemName = _productService.GetProductFromInventoryItemId(orderItem.InventoryItemId).ProductName,
                         OrderQuantity = orderItem.Quantity,
                         TotalPrice = orderItem.Quantity * _inventoryItemService.GetInventoryItemFromInventoryItemId(orderItem.InventoryItemId).SalePrice,
@@ -164,6 +155,7 @@ namespace EcommerceDBProject.Services.Service
                     }
                     customerOrdersViewModelList.Add(customerOrdersViewModel);
                 }
+                customerOrdersViewModelList = customerOrdersViewModelList.OrderByDescending(x => x.OrderDate).ThenByDescending(x => x.OrderStatus).ToList();
                 return customerOrdersViewModelList;
             }
         }
@@ -185,6 +177,7 @@ namespace EcommerceDBProject.Services.Service
                 return orderItems;
             }
         }
+        
         public List<SellerOrdersViewModel> GetSellerOrdersViewModelList(string userDetailId)
         {
             using (var db = new EcommerceDbContext())

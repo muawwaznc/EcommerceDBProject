@@ -26,15 +26,9 @@ namespace EcommerceDBProject.Components.Pages.Customer
         [Parameter] public string UserDetailId { get; set; }
         InitialPageDataForCustomerOrders InitialPageData { get; set; } = new();
         List<CustomerOrdersViewModel> OrdersList { get; set; } = new();
+        ProductReturn ProductReturn { get; set; } = new();
+        ProductReview ProductReview { get; set; } = new();
 
-        public bool IsDialogBoxOpen { get; set; }
-        public string OrderItemId { get; set; }
-        public string ReturnReason { get; set; }
-        public int ReturnQuantity { get; set; }
-        public int OrderQuantity { get; set; }
-        public string DialogBoxTitle { get; set; } = "Review";
-        public string ReviewText { get; set; }
-        public int Rating { get; set; }
         #endregion
 
         #region Load Initials
@@ -43,27 +37,37 @@ namespace EcommerceDBProject.Components.Pages.Customer
         {
             InitialPageData = CommonService.GetInitialPageDataForCustomerOrders(UserDetailId);
             OrdersList = InitialPageData.CustomerOrdersViewModelList;
+            ProductReturn = InitialPageData.ProductReturn;
+            ProductReview = InitialPageData.ProductReview;
         }
 
         #endregion
 
         #region Dialogue Box Functions
 
-        public void OpenDialog(CustomerOrdersViewModel orderItem)
+        public void OpenReturnDialog(CustomerOrdersViewModel orderItem)
         {
-            OrderItemId = orderItem.OrderItemId;
-            OrderQuantity = orderItem.OrderQuantity;
-            IsDialogBoxOpen = true;
+            ProductReturn.OrderItemId = orderItem.OrderItemId;
+            InitialPageData.OrderQuantityForReturn = orderItem.OrderQuantity;
+            InitialPageData.ShowReturnDialogBox = true;
 
+        }
+
+        public void OpenReviewDialog(CustomerOrdersViewModel orderItem)
+        {
+            ProductReview.OrderItemId = orderItem.OrderItemId;
+            InitialPageData.ShowReviewDialogBox = true;
         }
 
         protected void OnDialogOpenHandler(Syncfusion.Blazor.Popups.BeforeOpenEventArgs args)
         {
             args.MaxHeight = null;
         }
+
         public void CloseDialog()
         {
-            IsDialogBoxOpen = false;
+            InitialPageData.ShowReturnDialogBox = false;
+            InitialPageData.ShowReviewDialogBox = false;
         }
 
         #endregion
@@ -72,49 +76,45 @@ namespace EcommerceDBProject.Components.Pages.Customer
 
         public void ConfirmReturn()
         {
-            if(string.IsNullOrEmpty(ReturnReason))
+            if(string.IsNullOrEmpty(ProductReturn.ReturnReason))
             {
                 toastService.ShowError("Enter Return Reason");
             }
-            else if(ReturnQuantity <= 0)
+            else if(ProductReturn.Quantity <= 0)
             {
                 toastService.ShowError("Enter Return quantity");
             }
-            else if(ReturnQuantity > OrderQuantity)
+            else if(ProductReturn.Quantity > InitialPageData.OrderQuantityForReturn)
             {
                 toastService.ShowError("Return Quantity must be less than order Quantity");
             }
             else
             {
-                ProductReturn productReturn = new();
-                productReturn.ReturnReason = ReturnReason;
-                productReturn.ReturnDate = DateTime.Now;
-                productReturn.ReturnStatus = "Pending";
-                productReturn.Quantity = ReturnQuantity;
-                OrderService.UpdateOrderItemReturnStatus(OrderItemId,true);
-                ReturnReviewService.AddReturn(productReturn);
+                ProductReturn.ReturnDate = DateTime.Now;
+                ProductReturn.ReturnStatus = "Pending";
+                ReturnReviewService.AddReturn(ProductReturn);
                 toastService.ShowSuccess("Request for return added Successfully");
+                InitialPageData.ProductReturn = new();
+                InitialPageData.ShowReturnDialogBox = false;
             }
-            
-
         }
+        
         public void AddCustomerReview()
         {
-            if(Rating < 0 )
+            if(ProductReview.Rating < 0 )
             {
                 toastService.ShowError("Please Rate the Product from 0-5");
             }
             else
             {
-                ProductReview review = new();
-                review.ReviewText = ReviewText;
-                review.ReviewDate = DateTime.Now;
-                review.OrderItemId = OrderItemId;
-                review.Rating = Rating;
-                ReturnReviewService.AddReview(review);
+                ProductReview.ReviewDate = DateTime.Now;
+                ReturnReviewService.AddReview(ProductReview);
                 toastService.ShowSuccess("Review added Successfully");
+                InitialPageData.ProductReview = new();
+                InitialPageData.ShowReviewDialogBox = false;
             }
         }
+        
         #endregion
     }
 }

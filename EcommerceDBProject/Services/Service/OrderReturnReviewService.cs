@@ -13,6 +13,7 @@ namespace EcommerceDBProject.Services.Service
             _productService = productService;
             _userService = userService;
         }
+
         public bool IsReturnAvailable(string orderItemId)
         {
             using (var db = new EcommerceDbContext())
@@ -38,6 +39,7 @@ namespace EcommerceDBProject.Services.Service
                 return true;
             }
         }
+        
         public void AddReturn(ProductReturn productReturn)
         {
             using (var db = new EcommerceDbContext())
@@ -65,6 +67,7 @@ namespace EcommerceDBProject.Services.Service
                 var productReturn = db.ProductReturns.FirstOrDefault(x => x.ReturnId == returnId);
                 var orderItem = db.OrderItems.FirstOrDefault(x => x.OrderItemId == productReturn.OrderItemId);
                 orderItem.IsReturned = false;
+                orderItem.Quantity += productReturn.Quantity;
                 UpdateOrderItem(orderItem);
                 DeleteReturnRequest(productReturn);
             }
