@@ -214,8 +214,20 @@ namespace EcommerceDBProject.Services.Service
             return productsList;
         }
 
-        public void UpdateSupplier(SupplierInfoViewModel supplierInfoViewModel)
+        public void UpdateSupplier(SupplierInfoViewModel supplierData)
         {
+            using (var db = new EcommerceDbContext())
+            {
+                var existingSupplier = db.Suppliers.FirstOrDefault(s => s.SupplierId == supplierData.SupplierId);
+                if (existingSupplier != null)
+                {
+                    existingSupplier.SupplierName = supplierData.SupplierName;
+                    existingSupplier.ContactPersonPhoneNumber = supplierData.ContactPersonPhoneNumber;
+                    existingSupplier.ContactPersonName = supplierData.ContactPersonName;
+                    db.Suppliers.Update(existingSupplier);
+                }
+                db.SaveChanges();
+            }
 
         }
     }

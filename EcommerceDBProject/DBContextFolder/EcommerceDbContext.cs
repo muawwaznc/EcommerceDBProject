@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerceDBProject.DBContext;
+namespace EcommerceDBProject.DBContextFolder;
 
 public partial class EcommerceDbContext : DbContext
 {
@@ -47,13 +47,13 @@ public partial class EcommerceDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-MCULFKD\\SQLEXPRESS;Initial Catalog=ECommerceDB;Trusted_Connection=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-4DBGA3F\\SQLEXPRESS;Initial Catalog=ECommerceDB;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>(entity =>
         {
-            entity.HasKey(e => e.AddressId).HasName("PK__Address__091C2A1B729DBEB6");
+            entity.HasKey(e => e.AddressId).HasName("PK__Address__091C2A1BDE2CCF16");
 
             entity.ToTable("Address");
 
@@ -84,11 +84,11 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.UserDetailId).HasName("PK__Customer__564F56D21C57B035");
+            entity.HasKey(e => e.UserDetailId).HasName("PK__Customer__564F56D2FBC0FB70");
 
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.CustomerId, "UQ__Customer__A4AE64B92996154A").IsUnique();
+            entity.HasIndex(e => e.CustomerId, "UQ__Customer__A4AE64B9A1F9C1BA").IsUnique();
 
             entity.Property(e => e.UserDetailId)
                 .HasMaxLength(15)
@@ -125,7 +125,7 @@ public partial class EcommerceDbContext : DbContext
 
             entity.ToTable("InventoryItem", tb => tb.HasTrigger("TRG_UpdateQuantityAndPriceWhenInventoryItemAlreadyExist"));
 
-            entity.HasIndex(e => e.InventoryItemId, "UQ__Inventor__3BB2ACA12D8E1F05").IsUnique();
+            entity.HasIndex(e => e.InventoryItemId, "UQ__Inventor__3BB2ACA12217F40B").IsUnique();
 
             entity.Property(e => e.SellerId)
                 .HasMaxLength(15)
@@ -159,7 +159,7 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<InventoryItemPicture>(entity =>
         {
-            entity.HasKey(e => e.PictureId).HasName("PK__Inventor__8C2866F8BC274D1E");
+            entity.HasKey(e => e.PictureId).HasName("PK__Inventor__8C2866F8B22926EF");
 
             entity.Property(e => e.PictureId)
                 .HasMaxLength(15)
@@ -183,7 +183,7 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAFF12F7B41");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAFA398441F");
 
             entity.ToTable("Order");
 
@@ -228,7 +228,7 @@ public partial class EcommerceDbContext : DbContext
 
             entity.ToTable("OrderItem", tb => tb.HasTrigger("TRG_UpdateInventoryItemQuantityOnOrderByCustomer"));
 
-            entity.HasIndex(e => e.OrderItemId, "UQ__OrderIte__57ED06A0379D7D84").IsUnique();
+            entity.HasIndex(e => e.OrderItemId, "UQ__OrderIte__57ED06A0B8D23E13").IsUnique();
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(15)
@@ -265,7 +265,7 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6EDF3E3FF6D");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6EDD0F2DFD3");
 
             entity.ToTable("Product");
 
@@ -300,7 +300,7 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<ProductCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__ProductC__19093A2B14E76B7D");
+            entity.HasKey(e => e.CategoryId).HasName("PK__ProductC__19093A2B5AABB84C");
 
             entity.ToTable("ProductCategory");
 
@@ -324,7 +324,7 @@ public partial class EcommerceDbContext : DbContext
 
             entity.ToTable("ProductPromotion");
 
-            entity.HasIndex(e => e.ProductPromotionId, "UQ__ProductP__9E52FB229D63DF13").IsUnique();
+            entity.HasIndex(e => e.ProductPromotionId, "UQ__ProductP__9E52FB225C1299D4").IsUnique();
 
             entity.Property(e => e.PromotionId)
                 .HasMaxLength(15)
@@ -354,11 +354,11 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<ProductReturn>(entity =>
         {
-            entity.HasKey(e => e.OrderItemId).HasName("PK__ProductR__57ED06A13B12F17D");
+            entity.HasKey(e => e.OrderItemId).HasName("PK__ProductR__57ED06A12A272340");
 
             entity.ToTable("ProductReturn", tb => tb.HasTrigger("TRG_ProcessProductReturn"));
 
-            entity.HasIndex(e => e.ReturnId, "UQ__ProductR__F445E98981F7FAA7").IsUnique();
+            entity.HasIndex(e => e.ReturnId, "UQ__ProductR__F445E989B27EDADC").IsUnique();
 
             entity.Property(e => e.OrderItemId)
                 .HasMaxLength(15)
@@ -387,11 +387,11 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<ProductReview>(entity =>
         {
-            entity.HasKey(e => e.OrderItemId).HasName("PK__ProductR__57ED06A1445D80CA");
+            entity.HasKey(e => e.OrderItemId).HasName("PK__ProductR__57ED06A1DC1DA3F5");
 
             entity.ToTable(tb => tb.HasTrigger("TRG_UpdateSellerRatingOnReview"));
 
-            entity.HasIndex(e => e.ReviewId, "UQ__ProductR__74BC79AF584834E5").IsUnique();
+            entity.HasIndex(e => e.ReviewId, "UQ__ProductR__74BC79AF1C380187").IsUnique();
 
             entity.Property(e => e.OrderItemId)
                 .HasMaxLength(15)
@@ -417,7 +417,7 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2F2BC7A878");
+            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42F2F9FAF0B49");
 
             entity.ToTable("Promotion");
 
@@ -436,11 +436,11 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<Seller>(entity =>
         {
-            entity.HasKey(e => e.UserDetailId).HasName("PK__Seller__564F56D2C2A6CF9D");
+            entity.HasKey(e => e.UserDetailId).HasName("PK__Seller__564F56D2E6CA9819");
 
             entity.ToTable("Seller");
 
-            entity.HasIndex(e => e.SellerId, "UQ__Seller__7FE3DBA0609CD929").IsUnique();
+            entity.HasIndex(e => e.SellerId, "UQ__Seller__7FE3DBA069E57217").IsUnique();
 
             entity.Property(e => e.UserDetailId)
                 .HasMaxLength(15)
@@ -473,11 +473,11 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<Supplier>(entity =>
         {
-            entity.HasKey(e => e.UserDetailId).HasName("PK__Supplier__564F56D28C7D127B");
+            entity.HasKey(e => e.UserDetailId).HasName("PK__Supplier__564F56D23B1A4F2F");
 
             entity.ToTable("Supplier");
 
-            entity.HasIndex(e => e.SupplierId, "UQ__Supplier__4BE666951C1EE6B1").IsUnique();
+            entity.HasIndex(e => e.SupplierId, "UQ__Supplier__4BE66695038CB4A5").IsUnique();
 
             entity.Property(e => e.UserDetailId)
                 .HasMaxLength(15)
@@ -506,11 +506,11 @@ public partial class EcommerceDbContext : DbContext
 
         modelBuilder.Entity<UserDetail>(entity =>
         {
-            entity.HasKey(e => e.UserDetailId).HasName("PK__UserDeta__564F56D22613580E");
+            entity.HasKey(e => e.UserDetailId).HasName("PK__UserDeta__564F56D2D3134961");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__UserDeta__85FB4E38DE3F02AC").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__UserDeta__85FB4E38E6668AE2").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__UserDeta__A9D105341FC67E9A").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__UserDeta__A9D105347898D177").IsUnique();
 
             entity.Property(e => e.UserDetailId)
                 .HasMaxLength(15)

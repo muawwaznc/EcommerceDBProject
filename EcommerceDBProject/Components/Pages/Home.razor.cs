@@ -56,6 +56,7 @@ namespace EcommerceDBProject.Components.Pages
             CssForSignUpNav = "";
             isSignInActive = true;
             isSignUpActive = false;
+            SignIn();
         }
 
         public void OnSignUpTabClick()
@@ -64,6 +65,7 @@ namespace EcommerceDBProject.Components.Pages
             CssForSignUpNav = "active";
             isSignInActive = false;
             isSignUpActive = true;
+            SignUp();
         }
 
         #endregion

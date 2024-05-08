@@ -34,7 +34,7 @@ namespace EcommerceDBProject.Components.Pages.Admin
 
         #region OnClick Functions
 
-        protected void EditPromotion()
+        protected void UpdateSupplier()
         {
             ProductService.UpdateSupplier(InitialPageData.SelectedSupplier);
             InitialPageData.IsEditDialogBoxOpen = false;
@@ -43,11 +43,9 @@ namespace EcommerceDBProject.Components.Pages.Admin
             //InitialPageData = CommonService.GetInitialPageDataForUpdateDeletePromotion();
         }
 
-        protected void DeletePromotion(SupplierInfoViewModel promotion)
+        protected void DeleteSupplier(SupplierInfoViewModel supplier)
         {
-            //ProductService.DeletePromotion(promotion);
-            //ToastService.ShowSuccess("Promotion Deleted Successfully");
-            //InitialPageData = CommonService.GetInitialPageDataForUpdateDeletePromotion();
+            
         }
 
         #endregion

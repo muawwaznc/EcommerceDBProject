@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.DBContext;
+namespace EcommerceDBProject.DBContextFolder;
 
 public partial class Seller
 {
@@ -15,9 +15,9 @@ public partial class Seller
 
     public string Password { get; set; } = null!;
 
-    public DateTime? RegistrationDate { get; set; }
-
     public int? SellerRating { get; set; }
+
+    public DateTime? RegistrationDate { get; set; }
 
     public virtual ICollection<InventoryItem> InventoryItems { get; set; } = new List<InventoryItem>();
 

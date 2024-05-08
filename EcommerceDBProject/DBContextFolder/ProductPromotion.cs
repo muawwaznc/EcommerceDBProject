@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EcommerceDBProject.DBContext;
+namespace EcommerceDBProject.DBContextFolder;
 
 public partial class ProductPromotion
 {
