@@ -45,4 +45,4 @@ app.MapRazorComponents<App>()
 
 app.Run();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
-                "NzE3NDUyQDMyMzAyZTMyMmUzMFNuelhLb0dOVlgxMSsxMUdZMTJlaWdKTjJFV3ZvV2FvRHpGdmR6MjZ6Mms9");
+                "Ngo9BigBOggjHTQxAR8/V1NBaF5cWWFCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXpceHVRQ2dcUUJzW0s=");

@@ -155,5 +155,14 @@ namespace EcommerceDBProject.Components.Pages.Customer
         }
 
         #endregion
+
+        #region OnClick Functions
+
+        protected void ShowMoreProduct()
+        {
+            InitialPageData.IsShowMoreClicked = true;
+        }
+
+        #endregion
     }
 }

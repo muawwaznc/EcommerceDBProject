@@ -279,33 +279,44 @@
         <h3 style="font-family:sans-serif;text-align:center;color:#355c7d;font-weight:bold">All Products</h3>
     </div>
     <div class="col-12 mt-2 row">
-        @foreach (var inventoryItem in InventoryItemsList)
-        {
-            inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
-            inventoryItem.Seller = UserService.GetSellerFromSellerId(inventoryItem.SellerId);
-            var sellerName = UserService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
-            <div class="col-3">
-                <div class="product-card" style="border:1px solid grey">
-                    <div class="col-12">
-                        <input style="border:2px solid black;" @onchange="(e) => OnInventoryItemSelect(inventoryItem, e)" type="checkbox" class="product-card-checkbox">
-                    </div>
-                    <img src="Products.jpg" alt="Example Image" class="product-card-image" style="border:1px solid black">
-                    <h2 class="product-card-name m-1" style="font-weight:bold;">@inventoryItem.Product.ProductName</h2>
-                    <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
-                    <p class="product-card-description m-0 p-0" style="font-size:15px;color:black;font-family:sans-serif">Stock Amount: @inventoryItem.StockAmount</p>
-                    <p class="product-card-description m-0 p-0" style="font-size:15px;color:black;font-family:sans-serif">Seller: @sellerName</p>
-                    <div class="product-card-quantity-price">
-                        <span class="product-card-price">$@System.Math.Round(inventoryItem.SalePrice, 2)</span>
-                    </div>
-                    <div class="product-card-quantity-price">
-                        <label for="quantity">Quantity:</label>
-                        <input readonly="@(!IsInventoryItemCheckboxChecked(inventoryItem))"
-                               @onchange="(e) => OnSelectedInventoryItemQuantityChange(inventoryItem, e)"
-                               type="number" id="quantity" name="quantity" min="1"
-                               max="@inventoryItem.StockAmount" value="1">
+        @{
+            int i = 0;
+            foreach (var inventoryItem in InventoryItemsList)
+            {
+                inventoryItem.Product = ProductService.GetProductFromProductId(inventoryItem.ProductId);
+                inventoryItem.Seller = UserService.GetSellerFromSellerId(inventoryItem.SellerId);
+                var sellerName = UserService.GetSellerFullNameFromSellerId(inventoryItem.SellerId);
+                <div class="col-3">
+                    <div class="product-card" style="border:1px solid grey">
+                        <div class="col-12">
+                            <input style="border:2px solid black;" @onchange="(e) => OnInventoryItemSelect(inventoryItem, e)" type="checkbox" class="product-card-checkbox">
+                        </div>
+                        <img src="Products.jpg" alt="Example Image" class="product-card-image" style="border:1px solid black">
+                        <h2 class="product-card-name m-1" style="font-weight:bold;">@inventoryItem.Product.ProductName</h2>
+                        <p class="product-card-description">@inventoryItem.Product.ProductDescription</p>
+                        <p class="product-card-description m-0 p-0" style="font-size:15px;color:black;font-family:sans-serif">Stock Amount: @inventoryItem.StockAmount</p>
+                        <p class="product-card-description m-0 p-0" style="font-size:15px;color:black;font-family:sans-serif">Seller: @sellerName</p>
+                        <div class="product-card-quantity-price">
+                            <span class="product-card-price">$@System.Math.Round(inventoryItem.SalePrice, 2)</span>
+                        </div>
+                        <div class="product-card-quantity-price">
+                            <label for="quantity">Quantity:</label>
+                            <input readonly="@(!IsInventoryItemCheckboxChecked(inventoryItem))"
+                                   @onchange="(e) => OnSelectedInventoryItemQuantityChange(inventoryItem, e)"
+                                   type="number" id="quantity" name="quantity" min="1"
+                                   max="@inventoryItem.StockAmount" value="1">
+                        </div>
                     </div>
                 </div>
-            </div>
+                i++;
+                @if(i == 20 && InitialPageData.IsShowMoreClicked == false)
+                {
+                    <button type="button" class="button-style" @onclick="@ShowMoreProduct">
+                        Show More
+                    </button>
+                    break;
+                }
+            }
         }
     </div>
 </div>

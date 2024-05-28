@@ -10,6 +10,7 @@ namespace EcommerceDBProject.ViewModels
         public CustomerDetailViewModel CustomerDetailViewModel { get; set; } = new();
         public bool IsOrderModelShow { get; set; } = false;
         public bool IsOrderProcessing { get; set; } = false;
+        public bool IsShowMoreClicked { get; set; } = false;
     }
 
     public class CustomerDetailViewModel
